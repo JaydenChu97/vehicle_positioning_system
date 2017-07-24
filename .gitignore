@@ -1,3 +1,6 @@
+#Useless folder
+Debug/*
+
 # Object files
 *.o
 *.ko
