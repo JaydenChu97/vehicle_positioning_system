@@ -9,16 +9,20 @@
 #define LED3 P0_4
 
 //UART接受发送缓存区(单向循环队列)
-#define DATA_LEN 1000
+#define DATA_BUF_LEN 1000
+#define DATA_PART_LEN 73
 typedef struct
 {
-    uchar buf[DATA_LEN];
+    uchar buf[DATA_BUF_LEN];
     uchar* send;
     uchar* rec;
     uint len;
+    
+    uchar part[DATA_PART_LEN];
+    uchar* AIM;
 }Data;
 
-Data data = {{0}, data.buf, data.buf, 0};
+Data data = {{0}, data.buf, data.buf, 0, {0}, "GPGGA"};
 
 /****************************************************************
 数据缓存区初始化		
@@ -34,17 +38,18 @@ void dataBufInit(Data* data)
 /****************************************************************
 串口1发送字符串函数				
 ****************************************************************/
-void Uart0TX_Send_String(uchar *Data, uint len)
+void Uart0TX_Send_String(uchar* Data, uint len)
 {
-    uint j;
-    for(j = 0; j < len; j++)
+    uint i;
+    for(i = 0; i < len; i++)
     {
         U0DBUF = *Data++;
         while(UTX0IF == 0);           //等待发送完成
         UTX0IF = 0;                   //置零发送完成标志
-    }
-    
+    } 
 }
+
+
 
 /****************************************************************
 初始化串口0函数					
@@ -88,6 +93,61 @@ void initUART1(void)
     IEN0 |= 0x88;				//开总中断，U1接收中断  
 }
 
+void UART0TX_Send_All()
+{
+    uint tempLen = data.len;  //考虑到中断随时会产生, 必须要要
+                              //保证len参数在发送时不变, 就要事先存储下来
+    if(data.send + tempLen < data.buf + DATA_BUF_LEN)
+    {
+        Uart0TX_Send_String(data.send, tempLen);
+                
+        data.send += tempLen;  //发送指针始终指向下一次需要发送数据的首地址
+    }
+    else
+    {
+        //如果超出缓存池的长度则要拆分发送
+        Uart0TX_Send_String(data.send, data.buf + DATA_BUF_LEN - data.send);
+        Uart0TX_Send_String(data.buf, tempLen - (data.buf + DATA_BUF_LEN - data.send));
+        data.send = data.buf + tempLen - (data.buf + DATA_BUF_LEN - data.send);
+    }
+            
+    data.len -= tempLen; //减去已经发送完成的长度 
+}
+
+void UART0TX_Send_Part()
+{
+    uint j;
+    while(data.len--)
+    {
+        if(*data.send++ == '$')
+        {
+            for(j = 0; j < DATA_PART_LEN; j++)
+            {
+                data.part[j] = *data.send++;
+                data.len--;
+                if(data.send == data.buf + DATA_BUF_LEN)
+                {
+                    data.send = data.buf;
+                }
+                
+                if(j == 4 && strncmp(data.part, data.AIM, 5) != 0)
+                {
+                    break;
+                }
+            }
+            
+            if(j == DATA_PART_LEN)
+            {
+                Uart0TX_Send_String(data.part, j);
+            }        
+        }
+        
+        if(data.send == data.buf + DATA_BUF_LEN)
+        {
+            data.send = data.buf;
+        }
+    }
+}
 /****************************************************************
 主函数							
 ****************************************************************/
@@ -106,24 +166,11 @@ void main(void)
         
 	while(1)
 	{
-            uint tempLen = data.len;  //考虑到中断随时会产生, 必须要要
-                                      //保证len参数在发送时不变, 就要事先存储下来
-            if(data.send + tempLen < data.buf + DATA_LEN)
-            {
-                Uart0TX_Send_String(data.send, tempLen);
-                
-                data.send += tempLen;  //发送指针始终指向下一次需要发送数据的首地址
-            }
-            else
-            {
-                //如果超出缓存池的长度则要拆分发送
-                Uart0TX_Send_String(data.send, data.buf + DATA_LEN - data.send);
-                Uart0TX_Send_String(data.buf, tempLen - (data.buf + DATA_LEN - data.send));
-                data.send = data.buf + tempLen - (data.buf + DATA_LEN - data.send);
-            }
-            
-            data.len -= tempLen; //减去已经发送完成的长度
+            //UART0TX_Send_All();
 
+            UART0TX_Send_Part();
+            
+            
 	}
 }
 /****************************************************************
@@ -139,7 +186,7 @@ void main(void)
         data.len++;
         
         //接收指针在内存池中首尾循环
-        if(data.rec == data.buf + DATA_LEN)
+        if(data.rec == data.buf + DATA_BUF_LEN)
         {
             data.rec = data.buf;
         }

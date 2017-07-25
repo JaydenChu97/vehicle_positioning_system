@@ -8,14 +8,14 @@
     <outputs>
       <file>$PROJ_DIR$\test.c</file>
       <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
-      <file>$PROJ_DIR$\Debug\Exe\test.d51</file>
-      <file>$PROJ_DIR$\Debug\Obj\test.pbi</file>
-      <file>$PROJ_DIR$\Debug\Exe\test.hex</file>
-      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
-      <file>$TOOLKIT_DIR$\inc\ioCC2530.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
       <file>$PROJ_DIR$\Debug\Obj\test.r51</file>
+      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\test.hex</file>
+      <file>$PROJ_DIR$\Debug\Exe\test.d51</file>
+      <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
+      <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
+      <file>$TOOLKIT_DIR$\inc\ioCC2530.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\test.pbi</file>
       <file>$TOOLKIT_DIR$\config\devices\Texas Instruments\lnk51ew_cc2530F256_banked.xcl</file>
     </outputs>
     <file>
@@ -23,7 +23,7 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 3 5</file>
+          <file> 5 4</file>
         </tool>
       </outputs>
     </file>
@@ -32,21 +32,21 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 4</file>
+          <file> 9</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 9</file>
+          <file> 2</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 7 2 1</file>
+          <file> 8 3 1</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 7 2 1</file>
+          <file> 8 3 1</file>
         </tool>
       </inputs>
     </file>
@@ -55,13 +55,13 @@
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 5</file>
+          <file> 4</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 10 9 6</file>
+          <file> 10 2 6</file>
         </tool>
       </inputs>
     </file>
@@ -70,7 +70,7 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 4</file>
+          <file> 9</file>
         </tool>
       </inputs>
     </file>
