@@ -8,15 +8,17 @@
     <outputs>
       <file>$PROJ_DIR$\test.c</file>
       <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
       <file>$PROJ_DIR$\Debug\Obj\test.r51</file>
-      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
       <file>$PROJ_DIR$\Debug\Exe\test.hex</file>
       <file>$PROJ_DIR$\Debug\Exe\test.d51</file>
       <file>$TOOLKIT_DIR$\lib\clib\cl-pli-blxd-1e16x01.r51</file>
-      <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
       <file>$TOOLKIT_DIR$\inc\ioCC2530.h</file>
       <file>$PROJ_DIR$\Debug\Obj\test.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
       <file>$TOOLKIT_DIR$\config\devices\Texas Instruments\lnk51ew_cc2530F256_banked.xcl</file>
+      <file>$PROJ_DIR$\Init.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdlib.h</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
@@ -32,21 +34,30 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 9</file>
+          <file> 8</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 2</file>
+          <file> 3</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 8 3 1</file>
+          <file> 7 12 1 9 11</file>
         </tool>
         <tool>
           <name>ICC8051</name>
-          <file> 8 3 1</file>
+          <file> 7 12 1 9 11</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\test.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 8</file>
         </tool>
       </inputs>
     </file>
@@ -61,16 +72,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 10 2 6</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Obj\test.pbd</name>
-      <inputs>
-        <tool>
-          <name>BILINK</name>
-          <file> 9</file>
+          <file> 10 3 6</file>
         </tool>
       </inputs>
     </file>

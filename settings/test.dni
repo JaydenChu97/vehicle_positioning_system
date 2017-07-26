@@ -28,7 +28,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=-622219252
+Checksum=324800878
 [DisAssemblyWindow]
 NumStates=_ 0
 [InstructionProfiling]
@@ -38,7 +38,7 @@ Enabled=_ 0
 [Breakpoints]
 Count=0
 [ChipconEmu]
-Stop timers on halt=1
+Stop timers on halt=0
 Leave target running=1
 [Log file]
 LoggingEnabled=_ 0

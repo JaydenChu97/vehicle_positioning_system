@@ -1,177 +1,128 @@
 #include <iocc2530.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include "Init.h"
+
 #define uint unsigned int
 #define uchar unsigned char
 
-//定义控制灯的端口
-#define LED1 P1_0
-#define LED2 P1_1
-#define LED3 P0_4
-
-//UART接受发送缓存区(单向循环队列)
-#define DATA_BUF_LEN 1000
-#define DATA_PART_LEN 73
-typedef struct
+/****************************************************************
+缓冲池中的每一个有效数据帧, 存储GPS协议中要提取的信息, 
+并且构成一个链表				
+****************************************************************/
+typedef struct DataFrame
 {
-    uchar buf[DATA_BUF_LEN];
-    uchar* send;
-    uchar* rec;
-    uint len;
+    uint len;               //已经提取的数据长度
+    uchar data[80];         //数据内容
     
-    uchar part[DATA_PART_LEN];
-    uchar* AIM;
-}Data;
-
-Data data = {{0}, data.buf, data.buf, 0, {0}, "GPGGA"};
+    struct DataFrame* next; //指向下一个有效数据帧
+}DataFrame;
 
 /****************************************************************
-数据缓存区初始化		
+缓冲池结构体, 控制缓冲池状态
 ****************************************************************/
-void dataBufInit(Data* data)
+typedef struct
+{   
+    uint num;               //有效数据帧个数
+    DataFrame* head;        //数据帧头结点
+    DataFrame* send;        //指向下一个待处理的数据帧
+    DataFrame* rec;         //指向当前需要填充数据的数据帧
+    
+    uchar* AIM;             //目标提取信息关键词
+    uchar* checkByte;       //与目标关键词匹配成功的当前位置
+    uint mode;              //缓冲池模式, 0为检测模式(等待有效数据)
+                            //1为接收模式, 存储每一个接收到的数据  
+}Buf;
+
+Buf buf;
+
+/****************************************************************
+存储提取到的zigbee结点地理数据, 每一个zigbee结点只有唯一的地理数据,
+会根据接收到的GPS数据不断刷新, zigbee结点之间互相传递的也只有各个
+结点的地理数据, 及该结构体.
+****************************************************************/
+typedef struct
 {
-    memset(data->buf, 0, sizeof(data->buf));
-    data->send = data->buf;
-    data->rec = data->buf;
-    data->len = 0;
+    uchar time[9];           //实时时间
+    uchar latitude[11];      //纬度
+    uchar longitude[12];     //经度
+    uchar qualityFactor;     //质量因子
+    uchar satelliteNum[2];      //连接到的卫星数
+}GeoInfo;
+
+GeoInfo geoInfo;
+
+/****************************************************************
+从每一个有效数据帧中提取所需地理信息, 并且刷新geoInfo对象
+****************************************************************/
+void fetchInfo()
+{
+    uint i = 0, j = 0;
+    uchar* ptr = (void*)&geoInfo;        //将整个结构体视为一个由字节构成的整体处理
+    
+    while(i <= sizeof(GeoInfo))
+    {
+        if(buf.send->data[j] == ',')
+        {
+            j++;
+            continue;
+        }
+        
+        ptr[i++] = buf.send->data[j++];
+    }
+    
 }
 
 /****************************************************************
-串口1发送字符串函数				
+串口0发送字符串函数				
 ****************************************************************/
-void Uart0TX_Send_String(uchar* Data, uint len)
+void Uart0TX_Send_String(uchar* data, uint len)
 {
     uint i;
     for(i = 0; i < len; i++)
     {
-        U0DBUF = *Data++;
+        U0DBUF = *data++;
         while(UTX0IF == 0);           //等待发送完成
         UTX0IF = 0;                   //置零发送完成标志
     } 
 }
 
-
-
-/****************************************************************
-初始化串口0函数					
-****************************************************************/
-void initUART0(void)
-{
-    CLKCONCMD &= ~0x40;                         //设置系统时钟源为32MHZ晶振
-    while(CLKCONSTA & 0x40);                    //等待晶振稳定
-    CLKCONCMD &= ~0x47;                         //设置系统主时钟频率为32MHZ
-   
-    PERCFG = 0x00;				//UART0备用位置1 P0口 2:RX 3:TX
-    P0SEL = 0x0C;				//P0用作串口
-    P2DIR &= ~0XC0;                             //P0优先作为UART0, 在此设置下UART1会
-                                                //优先用4,5引脚    
-    
-    U0CSR |= 0x80;				//串口设置为UART方式
-    U0GCR |= 8;				
-    U0BAUD |= 59;				//波特率设为9600
-    
-    UTX0IF = 0;                                 //UART0 TX中断标志初始置位0
-                                                //由于不需要调用中断函数, 不需要开启对应
-                                                //的中断, 但是终端标志是始终都会产生的
-}
-
-/****************************************************************
-初始化串口1函数					
-****************************************************************/
-void initUART1(void)
-{
-   
-    PERCFG = 0x00;				//UART1备用位置1 P0口 4:TX 5:RX 
-    P0SEL |= 0x30;				//P0用作串口 
-    
-    U1CSR |= 0x80;				//串口设置为UART方式
-    U1GCR |= 8;				
-    U1BAUD |= 59;				//波特率设为9600 
-    
-    U1CSR |= 0X40;				//允许接收
-
-    URX1IF = 0;                                 //UART1 RX中断标志初始置位0
-    IEN0 |= 0x88;				//开总中断，U1接收中断  
-}
-
-void UART0TX_Send_All()
-{
-    uint tempLen = data.len;  //考虑到中断随时会产生, 必须要要
-                              //保证len参数在发送时不变, 就要事先存储下来
-    if(data.send + tempLen < data.buf + DATA_BUF_LEN)
-    {
-        Uart0TX_Send_String(data.send, tempLen);
-                
-        data.send += tempLen;  //发送指针始终指向下一次需要发送数据的首地址
-    }
-    else
-    {
-        //如果超出缓存池的长度则要拆分发送
-        Uart0TX_Send_String(data.send, data.buf + DATA_BUF_LEN - data.send);
-        Uart0TX_Send_String(data.buf, tempLen - (data.buf + DATA_BUF_LEN - data.send));
-        data.send = data.buf + tempLen - (data.buf + DATA_BUF_LEN - data.send);
-    }
-            
-    data.len -= tempLen; //减去已经发送完成的长度 
-}
-
-void UART0TX_Send_Part()
-{
-    uint j;
-    while(data.len--)
-    {
-        if(*data.send++ == '$')
-        {
-            for(j = 0; j < DATA_PART_LEN; j++)
-            {
-                data.part[j] = *data.send++;
-                data.len--;
-                if(data.send == data.buf + DATA_BUF_LEN)
-                {
-                    data.send = data.buf;
-                }
-                
-                if(j == 4 && strncmp(data.part, data.AIM, 5) != 0)
-                {
-                    break;
-                }
-            }
-            
-            if(j == DATA_PART_LEN)
-            {
-                Uart0TX_Send_String(data.part, j);
-            }        
-        }
-        
-        if(data.send == data.buf + DATA_BUF_LEN)
-        {
-            data.send = data.buf;
-        }
-    }
-}
 /****************************************************************
 主函数							
 ****************************************************************/
-void main(void)
+int main(void)
 {	
-	P1DIR = 0x03; 				//P1控制LED
-	LED1 = 1;
-	LED2 = 1;				//关LED
-        LED3 = 1;
-        
-	initUART0();
-        initUART1();
-        //dataBufInit(&data);
-        
-        Uart0TX_Send_String("Link Start!\n", 12);
-        
+    init();
+    
+    buf.head = (DataFrame*)malloc(sizeof(DataFrame));
+    memset(buf.head, 0, sizeof(DataFrame));
+    buf.send = buf.rec = buf.head;
+    buf.checkByte = buf.AIM = "$GPGGA";
+
+    Uart0TX_Send_String("Link Start!\n", 12);
+    
 	while(1)
 	{
-            //UART0TX_Send_All();
-
-            UART0TX_Send_Part();
+        //限制只有至少存在两个有效数据帧时再处理, 防止数据提取速率超过接受速率, 破坏链表结构
+        if(buf.num >= 2)  
+        {
+            fetchInfo();
             
+            Uart0TX_Send_String("\nConnect Success! ---- ", 23);
+            Uart0TX_Send_String((void*)&geoInfo, sizeof(geoInfo));
+            buf.num--;
             
+            buf.send = buf.send->next;
+            
+            free(buf.head);
+            buf.head = buf.send;   
+        }
+        
+                 
 	}
+    
+    return 0;
 }
 /****************************************************************
 串口接收一个字符:一旦有数据从串口传至CC2530,则进入中断，将接收到的数据赋值给变量temp.
@@ -182,12 +133,46 @@ void main(void)
  {
  	URX1IF = 0;				//清中断标志
         
-	*data.rec++ = U1DBUF;
-        data.len++;
-        
-        //接收指针在内存池中首尾循环
-        if(data.rec == data.buf + DATA_BUF_LEN)
+    if(buf.mode == 0)
+    {
+        if(U1DBUF == *buf.checkByte)
         {
-            data.rec = data.buf;
+            buf.checkByte++;
         }
+        else
+        {
+            buf.checkByte = buf.AIM;
+        }
+        
+        if(buf.checkByte == buf.AIM + 6)
+        {
+           buf.mode = 1;
+        }
+    }
+    else
+    {
+        if(U1DBUF == '$')
+        {
+            if(buf.rec->len >= 67)
+            {
+                buf.rec->next = (DataFrame*)malloc(sizeof(DataFrame));
+                buf.rec = buf.rec->next;
+                memset(buf.rec, 0, sizeof(DataFrame));
+                buf.num++;
+            }
+            else
+            {
+                Uart0TX_Send_String("Connect Fail! ---- ", 19);
+                Uart0TX_Send_String(buf.rec->data, buf.rec->len);
+                buf.rec->len = 0;
+            }
+            
+            buf.mode = 0;
+        }
+        else
+        {
+            buf.rec->data[buf.rec->len++] = U1DBUF;        
+        }
+    }
+   
  }
