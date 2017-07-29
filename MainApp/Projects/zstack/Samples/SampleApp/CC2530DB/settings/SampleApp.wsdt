@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>SampleApp/CoordinatorEB-Pro</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>362</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1078</ColumnWidth1><ColumnWidth2>275</ColumnWidth2><ColumnWidth3>68</ColumnWidth3></Build>
+      <TerminalIO/>
+    <Debug-Log><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1375</ColumnWidth1></Debug-Log><Find-in-Files><ColumnWidth0>440</ColumnWidth0><ColumnWidth1>62</ColumnWidth1><ColumnWidth2>754</ColumnWidth2></Find-in-Files></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-31324-17340</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>SampleApp</ExpandedNode><ExpandedNode>SampleApp/App</ExpandedNode><ExpandedNode>SampleApp/HAL</ExpandedNode><ExpandedNode>SampleApp/HAL/Common</ExpandedNode><ExpandedNode>SampleApp/HAL/Include</ExpandedNode><ExpandedNode>SampleApp/HAL/Target</ExpandedNode><ExpandedNode>SampleApp/HAL/Target/CC2530EB</ExpandedNode><ExpandedNode>SampleApp/HAL/Target/CC2530EB/Config</ExpandedNode><ExpandedNode>SampleApp/HAL/Target/CC2530EB/Drivers</ExpandedNode><ExpandedNode>SampleApp/MT</ExpandedNode><ExpandedNode>SampleApp/OSAL</ExpandedNode><ExpandedNode>SampleApp/Tools</ExpandedNode><ExpandedNode>SampleApp/ZMain</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-12044-18110</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-32598-19627</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab><Tab><Identity>TabID-12524-19227</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\SampleApp.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>800</SelStart><SelEnd>800</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\SampleApp.h</Filename><XPos>0</XPos><YPos>10</YPos><SelStart>686</SelStart><SelEnd>686</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\ZMain\TI2530DB\ZMain.c</Filename><XPos>0</XPos><YPos>105</YPos><SelStart>4047</SelStart><SelEnd>4047</SelEnd></Tab><ActiveTab>2</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\Components\hal\target\CC2530EB\hal_uart.c</Filename><XPos>0</XPos><YPos>148</YPos><SelStart>5263</SelStart><SelEnd>5277</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\Components\hal\target\CC2530EB\_hal_uart_dma.c</Filename><XPos>0</XPos><YPos>57</YPos><SelStart>3305</SelStart><SelEnd>3314</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\HAL\INCLUDE\hal_defs.h</Filename><XPos>0</XPos><YPos>72</YPos><SelStart>3532</SelStart><SelEnd>3532</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\OSAL_SampleApp.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\HAL\INCLUDE\hal_uart.h</Filename><XPos>0</XPos><YPos>97</YPos><SelStart>4466</SelStart><SelEnd>4466</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\HAL\TARGET\CC2530EB\hal_types.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>118</SelStart><SelEnd>129</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\osal\include\OSAL.h</Filename><XPos>0</XPos><YPos>203</YPos><SelStart>6169</SelStart><SelEnd>6180</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\STACK\AF\AF.h</Filename><XPos>0</XPos><YPos>232</YPos><SelStart>7773</SelStart><SelEnd>7773</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\COMPONENTS\OSAL\INCLUDE\ZComDef.h</Filename><XPos>0</XPos><YPos>320</YPos><SelStart>9126</SelStart><SelEnd>9126</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\Components\osal\common\OSAL.c</Filename><XPos>0</XPos><YPos>121</YPos><SelStart>4774</SelStart><SelEnd>4785</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\Components\osal\common\OSAL_Memory.c</Filename><XPos>0</XPos><YPos>20</YPos><SelStart>13633</SelStart><SelEnd>13633</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\..\..\..\Components\stack\af\AF.c</Filename><XPos>0</XPos><YPos>647</YPos><SelStart>14971</SelStart><SelEnd>14971</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01159860><key>iaridepm.enu1</key></Toolbar-01159860></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>736</Bottom><Right>457</Right><x>-2</x><y>-2</y><xscreen>560</xscreen><yscreen>447</yscreen><sizeHorzCX>291667</sizeHorzCX><sizeHorzCY>456122</sizeHorzCY><sizeVertCX>239063</sizeVertCX><sizeVertCY>753061</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>196</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>198</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>202041</sizeHorzCY><sizeVertCX>291667</sizeVertCX><sizeVertCY>456122</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
