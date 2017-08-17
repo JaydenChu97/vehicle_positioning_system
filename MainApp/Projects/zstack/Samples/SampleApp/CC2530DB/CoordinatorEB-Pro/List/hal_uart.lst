@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         29/Jul/2017  13:55:08 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  15:57:09 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -17,7 +17,7 @@
 #                          \zstack\Samples\SampleApp\CC2530DB\..\..\..\Tools\ #
 #                          CC2530DB\f8wCoord.cfg (-DCPU32MHZ                  #
 #                          -DROOT=__near_func -DMAC_CFG_APP_PENDING_QUEUE=TRU #
-#                          E -DZDO_COORDINATOR -DRTR_NWK -DBLINK_LEDS) -f     #
+#                          E -DZDO_COORDINATOR -DRTR_NWK) -f                  #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\..\..\..\Tools\CC2 #
@@ -41,19 +41,20 @@
 #                          -DMAC_MAX_FRAME_SIZE=116 "-DCONST=const __code"    #
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
-#                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440)   #
-#                          -DHAL_UART=TRUE C:\Users\Administrator\Desktop\Git #
-#                          -Local-Repositories\vehicle_positioning_system\Mai #
-#                          nApp\Components\hal\target\CC2530EB\hal_uart.c -D  #
-#                          ZIGBEEPRO -D xMT_TASK -D xMT_SYS_FUNC -D           #
-#                          xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC            #
+#                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
+#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Components\ #
+#                          hal\target\CC2530EB\hal_uart.c -D ZIGBEEPRO -D     #
+#                          xMT_TASK -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -D        #
+#                          LCD_SUPPORTED=DEBUG -lC C:\Users\Administrator\Des #
+#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
+#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
+#                          530DB\CoordinatorEB-Pro\List\ -lA                  #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\CoordinatorEB-Pro\ #
-#                          List\ -lA C:\Users\Administrator\Desktop\Git-Local #
-#                          -Repositories\vehicle_positioning_system\MainApp\P #
-#                          rojects\zstack\Samples\SampleApp\CC2530DB\Coordina #
-#                          torEB-Pro\List\ --diag_suppress Pe001,Pa010 -o     #
+#                          List\ --diag_suppress Pe001,Pa010 -o               #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\CoordinatorEB-Pro\ #
@@ -214,6 +215,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \                     ST0:
    \   000000                DS 1
 
+   \                                 In  segment SFR_AN, at 0x9a
+   \   unsigned char volatile __sfr IEN2
+   \                     IEN2:
+   \   000000                DS 1
+
    \                                 In  segment SFR_AN, at 0xa8
    \   union <unnamed> volatile __sfr _A_IEN0
    \                     _A_IEN0:
@@ -249,6 +255,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \                     DMAREQ:
    \   000000                DS 1
 
+   \                                 In  segment SFR_AN, at 0xe8
+   \   union <unnamed> volatile __sfr _A_IRCON2
+   \                     _A_IRCON2:
+   \   000000                DS 1
+
    \                                 In  segment SFR_AN, at 0xf1
    \   unsigned char volatile __sfr PERCFG
    \                     PERCFG:
@@ -262,6 +273,36 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \                                 In  segment SFR_AN, at 0xf3
    \   unsigned char volatile __sfr P0SEL
    \                     P0SEL:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xf4
+   \   unsigned char volatile __sfr P1SEL
+   \                     P1SEL:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xf8
+   \   union <unnamed> volatile __sfr _A_U1CSR
+   \                     _A_U1CSR:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xf9
+   \   unsigned char volatile __sfr U1DBUF
+   \                     U1DBUF:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xfa
+   \   unsigned char volatile __sfr U1BAUD
+   \                     U1BAUD:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xfb
+   \   unsigned char volatile __sfr U1UCR
+   \                     U1UCR:
+   \   000000                DS 1
+
+   \                                 In  segment SFR_AN, at 0xfc
+   \   unsigned char volatile __sfr U1GCR
+   \                     U1GCR:
    \   000000                DS 1
 
    \                                 In  segment SFR_AN, at 0xfd
@@ -392,11 +433,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
    \                     ?Subroutine0:
    \   000000   F0           MOVX    @DPTR,A
-   \   000001                REQUIRE ??Subroutine19_0
-   \   000001                ; // Fall through to label ??Subroutine19_0
+   \   000001                REQUIRE ??Subroutine26_0
+   \   000001                ; // Fall through to label ??Subroutine26_0
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine19_0:
+   \                     ??Subroutine26_0:
    \   000000   D083         POP     DPH
    \   000002   D082         POP     DPL
    \   000004   02....       LJMP    ?BRET
@@ -408,128 +449,138 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000002   C083         PUSH    DPH
    \   000004                ; Saved register size: 2
    \   000004                ; Auto size: 0
-   \   000004   EA           MOV     A,R2
-   \   000005   241B         ADD     A,#0x1b
-   \   000007   F582         MOV     DPL,A
-   \   000009   EB           MOV     A,R3
-   \   00000A   12....       LCALL   ??Subroutine18_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_26:
-   \   00000D   F8           MOV     R0,A
-   \   00000E   A3           INC     DPTR
-   \   00000F   E0           MOVX    A,@DPTR
-   \   000010   F9           MOV     R1,A
-   \   000011   90....       MOV     DPTR,#dmaCfg + 524
-   \   000014   E8           MOV     A,R0
-   \   000015   F0           MOVX    @DPTR,A
-   \   000016   A3           INC     DPTR
-   \   000017   E9           MOV     A,R1
-   \   000018   F0           MOVX    @DPTR,A
-   \   000019   8A82         MOV     DPL,R2
-   \   00001B   8B83         MOV     DPH,R3
-   \   00001D   A3           INC     DPTR
-   \   00001E   E0           MOVX    A,@DPTR
-   \   00001F   F8           MOV     R0,A
-   \   000020   7403         MOV     A,#0x3
-   \   000022   68           XRL     A,R0
-   \   000023   6005         JZ      ??HalUARTOpenDMA_0
-   \   000025   7404         MOV     A,#0x4
-   \   000027   68           XRL     A,R0
-   \   000028   7005         JNZ     ??HalUARTOpenDMA_1
+   \   000004   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_14:
+   \   000007   90....       MOV     DPTR,#dmaCfg + 524
+   \   00000A   12....       LCALL   ?Subroutine5 & 0xFFFF
+   \                     ??CrossCallReturnLabel_2:
+   \   00000D   6005         JZ      ??HalUARTOpenDMA_0
+   \   00000F   7404         MOV     A,#0x4
+   \   000011   68           XRL     A,R0
+   \   000012   7005         JNZ     ??HalUARTOpenDMA_1
    \                     ??HalUARTOpenDMA_0:
-   \   00002A   75C2D8       MOV     0xc2,#-0x28
-   \   00002D   8003         SJMP    ??HalUARTOpenDMA_2
+   \   000014   75C2D8       MOV     0xc2,#-0x28
+   \   000017   8003         SJMP    ??HalUARTOpenDMA_2
    \                     ??HalUARTOpenDMA_1:
-   \   00002F   75C23B       MOV     0xc2,#0x3b
+   \   000019   75C23B       MOV     0xc2,#0x3b
    \                     ??HalUARTOpenDMA_2:
-   \   000032   E0           MOVX    A,@DPTR
-   \   000033   600B         JZ      ??HalUARTOpenDMA_3
-   \   000035   14           DEC     A
-   \   000036   6012         JZ      ??HalUARTOpenDMA_4
-   \   000038   14           DEC     A
-   \   000039   6019         JZ      ??HalUARTOpenDMA_5
-   \   00003B   14           DEC     A
-   \   00003C   6020         JZ      ??HalUARTOpenDMA_6
-   \   00003E   8028         SJMP    ??HalUARTOpenDMA_7
+   \   00001C   E0           MOVX    A,@DPTR
+   \   00001D   600B         JZ      ??HalUARTOpenDMA_3
+   \   00001F   14           DEC     A
+   \   000020   6012         JZ      ??HalUARTOpenDMA_4
+   \   000022   14           DEC     A
+   \   000023   6019         JZ      ??HalUARTOpenDMA_5
+   \   000025   14           DEC     A
+   \   000026   6020         JZ      ??HalUARTOpenDMA_6
+   \   000028   8028         SJMP    ??HalUARTOpenDMA_7
    \                     ??HalUARTOpenDMA_3:
-   \   000040   75C508       MOV     0xc5,#0x8
-   \   000043   90....       MOV     DPTR,#dmaCfg + 520
-   \   000046   7423         MOV     A,#0x23
-   \   000048   8026         SJMP    ??HalUARTOpenDMA_8
+   \   00002A   75C508       MOV     0xc5,#0x8
+   \   00002D   90....       MOV     DPTR,#dmaCfg + 520
+   \   000030   7423         MOV     A,#0x23
+   \   000032   8026         SJMP    ??HalUARTOpenDMA_8
    \                     ??HalUARTOpenDMA_4:
-   \   00004A   75C509       MOV     0xc5,#0x9
-   \   00004D   90....       MOV     DPTR,#dmaCfg + 520
-   \   000050   7412         MOV     A,#0x12
-   \   000052   801C         SJMP    ??HalUARTOpenDMA_8
+   \   000034   75C509       MOV     0xc5,#0x9
+   \   000037   90....       MOV     DPTR,#dmaCfg + 520
+   \   00003A   7412         MOV     A,#0x12
+   \   00003C   801C         SJMP    ??HalUARTOpenDMA_8
    \                     ??HalUARTOpenDMA_5:
-   \   000054   75C50A       MOV     0xc5,#0xa
-   \   000057   90....       MOV     DPTR,#dmaCfg + 520
-   \   00005A   7409         MOV     A,#0x9
-   \   00005C   8012         SJMP    ??HalUARTOpenDMA_8
+   \   00003E   75C50A       MOV     0xc5,#0xa
+   \   000041   90....       MOV     DPTR,#dmaCfg + 520
+   \   000044   7409         MOV     A,#0x9
+   \   000046   8012         SJMP    ??HalUARTOpenDMA_8
    \                     ??HalUARTOpenDMA_6:
-   \   00005E   75C50A       MOV     0xc5,#0xa
-   \   000061   90....       MOV     DPTR,#dmaCfg + 520
-   \   000064   7406         MOV     A,#0x6
-   \   000066   8008         SJMP    ??HalUARTOpenDMA_8
+   \   000048   75C50A       MOV     0xc5,#0xa
+   \   00004B   90....       MOV     DPTR,#dmaCfg + 520
+   \   00004E   7406         MOV     A,#0x6
+   \   000050   8008         SJMP    ??HalUARTOpenDMA_8
    \                     ??HalUARTOpenDMA_7:
-   \   000068   75C50B       MOV     0xc5,#0xb
-   \   00006B   90....       MOV     DPTR,#dmaCfg + 520
-   \   00006E   7403         MOV     A,#0x3
+   \   000052   75C50B       MOV     0xc5,#0xb
+   \   000055   90....       MOV     DPTR,#dmaCfg + 520
+   \   000058   7403         MOV     A,#0x3
    \                     ??HalUARTOpenDMA_8:
-   \   000070   F0           MOVX    @DPTR,A
-   \   000071   8A82         MOV     DPL,R2
-   \   000073   8B83         MOV     DPH,R3
-   \   000075   A3           INC     DPTR
-   \   000076   A3           INC     DPTR
-   \   000077   E0           MOVX    A,@DPTR
-   \   000078   600D         JZ      ??HalUARTOpenDMA_9
-   \   00007A   75C442       MOV     0xc4,#0x42
-   \   00007D   43F310       ORL     0xf3,#0x10
-   \   000080   C285         CLR     0x80.5
-   \   000082   43FD20       ORL     0xfd,#0x20
-   \   000085   8003         SJMP    ??HalUARTOpenDMA_10
+   \   00005A   12....       LCALL   ?Subroutine22 & 0xFFFF
+   \                     ??CrossCallReturnLabel_35:
+   \   00005D   A3           INC     DPTR
+   \   00005E   E0           MOVX    A,@DPTR
+   \   00005F   600D         JZ      ??HalUARTOpenDMA_9
+   \   000061   75C442       MOV     0xc4,#0x42
+   \   000064   43F310       ORL     0xf3,#0x10
+   \   000067   C285         CLR     0x80.5
+   \   000069   43FD20       ORL     0xfd,#0x20
+   \   00006C   8003         SJMP    ??HalUARTOpenDMA_10
    \                     ??HalUARTOpenDMA_9:
-   \   000087   75C402       MOV     0xc4,#0x2
+   \   00006E   75C402       MOV     0xc4,#0x2
    \                     ??HalUARTOpenDMA_10:
-   \   00008A   9070C1       MOV     DPTR,#0x70c1
-   \   00008D   E0           MOVX    A,@DPTR
-   \   00008E   90....       MOV     DPTR,#dmaCfg
-   \   000091   F0           MOVX    @DPTR,A
-   \   000092   A3           INC     DPTR
-   \   000093   E4           CLR     A
-   \   000094   F0           MOVX    @DPTR,A
-   \   000095   53D1F7       ANL     0xd1,#0xf7
-   \   000098   75D608       MOV     0xd6,#0x8
-   \   00009B                ; Setup parameters for call to function osal_memset
-   \   00009B   FC           MOV     R4,A
-   \   00009C   7D01         MOV     R5,#0x1
-   \   00009E   E5C2         MOV     A,0xc2
-   \   0000A0   F4           CPL     A
-   \   0000A1   F9           MOV     R1,A
-   \   0000A2   7A..         MOV     R2,#dmaCfg & 0xff
-   \   0000A4   7B..         MOV     R3,#(dmaCfg >> 8) & 0xff
-   \   0000A6   12....       LCALL   ??osal_memset?relay
-   \   0000A9   438640       ORL     0x86,#0x40
-   \   0000AC   90....       MOV     DPTR,#dmaCfg + 523
-   \   0000AF   E4           CLR     A
-   \   0000B0   F0           MOVX    @DPTR,A
-   \   0000B1   90....       MOV     DPTR,#dmaCfg + 522
-   \   0000B4   02....       LJMP    ?Subroutine0 & 0xFFFF
-   \   0000B7                REQUIRE U0BAUD
-   \   0000B7                REQUIRE U0GCR
-   \   0000B7                REQUIRE U0UCR
-   \   0000B7                REQUIRE P0SEL
-   \   0000B7                REQUIRE _A_P0
-   \   0000B7                REQUIRE P0DIR
-   \   0000B7                REQUIRE DMAIRQ
-   \   0000B7                REQUIRE DMAARM
-   \   0000B7                REQUIRE U0CSR
+   \   000071   9070C1       MOV     DPTR,#0x70c1
+   \   000074   E0           MOVX    A,@DPTR
+   \   000075   90....       MOV     DPTR,#dmaCfg
+   \   000078   F0           MOVX    @DPTR,A
+   \   000079   A3           INC     DPTR
+   \   00007A   E4           CLR     A
+   \   00007B   F0           MOVX    @DPTR,A
+   \   00007C   53D1F7       ANL     0xd1,#0xf7
+   \   00007F   75D608       MOV     0xd6,#0x8
+   \   000082                ; Setup parameters for call to function osal_memset
+   \   000082   FC           MOV     R4,A
+   \   000083   7D01         MOV     R5,#0x1
+   \   000085   E5C2         MOV     A,0xc2
+   \   000087   F4           CPL     A
+   \   000088   F9           MOV     R1,A
+   \   000089   7A..         MOV     R2,#dmaCfg & 0xff
+   \   00008B   7B..         MOV     R3,#(dmaCfg >> 8) & 0xff
+   \   00008D   12....       LCALL   ??osal_memset?relay
+   \   000090   438640       ORL     0x86,#0x40
+   \   000093   90....       MOV     DPTR,#dmaCfg + 523
+   \   000096   E4           CLR     A
+   \   000097   F0           MOVX    @DPTR,A
+   \   000098   90....       MOV     DPTR,#dmaCfg + 522
+   \   00009B   02....       LJMP    ?Subroutine0 & 0xFFFF
+   \   00009E                REQUIRE U0BAUD
+   \   00009E                REQUIRE U0GCR
+   \   00009E                REQUIRE U0UCR
+   \   00009E                REQUIRE P0SEL
+   \   00009E                REQUIRE _A_P0
+   \   00009E                REQUIRE P0DIR
+   \   00009E                REQUIRE DMAIRQ
+   \   00009E                REQUIRE DMAARM
+   \   00009E                REQUIRE U0CSR
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine18_0:
-   \   000000   3400         ADDC    A,#0x0
-   \   000002   F583         MOV     DPH,A
-   \   000004   E0           MOVX    A,@DPTR
-   \   000005   22           RET
+   \                     ?Subroutine11:
+   \   000000   EA           MOV     A,R2
+   \   000001   241B         ADD     A,#0x1b
+   \   000003   F582         MOV     DPL,A
+   \   000005   EB           MOV     A,R3
+   \   000006   3400         ADDC    A,#0x0
+   \   000008   F583         MOV     DPH,A
+   \   00000A   E0           MOVX    A,@DPTR
+   \   00000B   F8           MOV     R0,A
+   \   00000C   A3           INC     DPTR
+   \   00000D   E0           MOVX    A,@DPTR
+   \   00000E   F9           MOV     R1,A
+   \   00000F   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine5:
+   \   000000   E8           MOV     A,R0
+   \   000001   F0           MOVX    @DPTR,A
+   \   000002   A3           INC     DPTR
+   \   000003   E9           MOV     A,R1
+   \   000004   12....       LCALL   ?Subroutine22 & 0xFFFF
+   \                     ??CrossCallReturnLabel_36:
+   \   000007   E0           MOVX    A,@DPTR
+   \   000008   F8           MOV     R0,A
+   \   000009   7403         MOV     A,#0x3
+   \   00000B   68           XRL     A,R0
+   \   00000C   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine22:
+   \   000000   F0           MOVX    @DPTR,A
+   \   000001   8A82         MOV     DPL,R2
+   \   000003   8B83         MOV     DPH,R3
+   \   000005   A3           INC     DPTR
+   \   000006   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
    \   static __banked_func __xdata_reentrant uint16 HalUARTReadDMA(unsigned char *, uint16)
@@ -540,8 +591,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005                ; Auto size: 0
    \   000005   7800         MOV     R0,#0x0
    \   000007   7900         MOV     R1,#0x0
-   \   000009   802F         SJMP    ??HalUARTReadDMA_0
-   \                     ??HalUARTReadDMA_1:
+   \   000009   802A         SJMP    ??CrossCallReturnLabel_28
+   \                     ??HalUARTReadDMA_0:
    \   00000B   8A82         MOV     DPL,R2
    \   00000D   8B83         MOV     DPH,R3
    \   00000F   E5..         MOV     A,?V0 + 0
@@ -552,8 +603,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000017   E5C2         MOV     A,0xc2
    \   000019   F4           CPL     A
    \   00001A   F5..         MOV     ?V0 + 1,A
-   \   00001C   12....       LCALL   ?Subroutine6 & 0xFFFF
-   \                     ??CrossCallReturnLabel_6:
+   \   00001C   12....       LCALL   ?Subroutine9 & 0xFFFF
+   \                     ??CrossCallReturnLabel_10:
    \   00001F   E4           CLR     A
    \   000020   F0           MOVX    @DPTR,A
    \   000021   A3           INC     DPTR
@@ -565,41 +616,36 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00002A   F0           MOVX    @DPTR,A
    \   00002B   C3           CLR     C
    \   00002C   9480         SUBB    A,#-0x80
-   \   00002E   4002         JC      ??HalUARTReadDMA_2
+   \   00002E   4002         JC      ??HalUARTReadDMA_1
    \   000030   E4           CLR     A
    \   000031   F0           MOVX    @DPTR,A
+   \                     ??HalUARTReadDMA_1:
+   \   000032   12....       LCALL   ?Subroutine19 & 0xFFFF
+   \                     ??CrossCallReturnLabel_28:
+   \   000035   C3           CLR     C
+   \   000036   E8           MOV     A,R0
+   \   000037   9C           SUBB    A,R4
+   \   000038   E9           MOV     A,R1
+   \   000039   9D           SUBB    A,R5
+   \   00003A   500C         JNC     ??HalUARTReadDMA_2
+   \   00003C   12....       LCALL   ?Subroutine9 & 0xFFFF
+   \                     ??CrossCallReturnLabel_11:
+   \   00003F   E0           MOVX    A,@DPTR
+   \   000040   F5..         MOV     ?V0 + 0,A
+   \   000042   A3           INC     DPTR
+   \   000043   E0           MOVX    A,@DPTR
+   \   000044   65C2         XRL     A,0xc2
+   \   000046   60C3         JZ      ??HalUARTReadDMA_0
    \                     ??HalUARTReadDMA_2:
-   \   000032   E8           MOV     A,R0
-   \   000033   2401         ADD     A,#0x1
-   \   000035   08           INC     R0
-   \   000036   E9           MOV     A,R1
-   \   000037   3400         ADDC    A,#0x0
-   \   000039   F9           MOV     R1,A
-   \                     ??HalUARTReadDMA_0:
-   \   00003A   C3           CLR     C
-   \   00003B   E8           MOV     A,R0
-   \   00003C   9C           SUBB    A,R4
-   \   00003D   E9           MOV     A,R1
-   \   00003E   9D           SUBB    A,R5
-   \   00003F   500C         JNC     ??HalUARTReadDMA_3
-   \   000041   12....       LCALL   ?Subroutine6 & 0xFFFF
-   \                     ??CrossCallReturnLabel_7:
-   \   000044   E0           MOVX    A,@DPTR
-   \   000045   F5..         MOV     ?V0 + 0,A
-   \   000047   A3           INC     DPTR
-   \   000048   E0           MOVX    A,@DPTR
-   \   000049   65C2         XRL     A,0xc2
-   \   00004B   60BE         JZ      ??HalUARTReadDMA_1
-   \                     ??HalUARTReadDMA_3:
-   \   00004D   C285         CLR     0x80.5
-   \   00004F   E8           MOV     A,R0
-   \   000050   FA           MOV     R2,A
-   \   000051   E9           MOV     A,R1
-   \   000052   FB           MOV     R3,A
-   \   000053                REQUIRE ?Subroutine1
-   \   000053                REQUIRE U0BAUD
-   \   000053                REQUIRE _A_P0
-   \   000053                ; // Fall through to label ?Subroutine1
+   \   000048   C285         CLR     0x80.5
+   \   00004A   E8           MOV     A,R0
+   \   00004B   FA           MOV     R2,A
+   \   00004C   E9           MOV     A,R1
+   \   00004D   FB           MOV     R3,A
+   \   00004E                REQUIRE ?Subroutine1
+   \   00004E                REQUIRE U0BAUD
+   \   00004E                REQUIRE _A_P0
+   \   00004E                ; // Fall through to label ?Subroutine1
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
    \                     ?Subroutine1:
@@ -607,7 +653,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000002   02....       LJMP    ?BANKED_LEAVE_XDATA
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine6:
+   \                     ?Subroutine9:
    \   000000   90....       MOV     DPTR,#dmaCfg + 256
    \   000003   E0           MOVX    A,@DPTR
    \   000004   C3           CLR     C
@@ -625,6 +671,16 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000014   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine19:
+   \   000000   E8           MOV     A,R0
+   \   000001   2401         ADD     A,#0x1
+   \   000003   08           INC     R0
+   \   000004   E9           MOV     A,R1
+   \   000005   3400         ADDC    A,#0x0
+   \   000007   F9           MOV     R1,A
+   \   000008   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
    \   static __banked_func __xdata_reentrant uint16 HalUARTWriteDMA(unsigned char *, uint16)
    \                     HalUARTWriteDMA:
    \   000000   74F0         MOV     A,#-0x10
@@ -635,8 +691,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000006   FE           MOV     R6,A
    \   000007   EB           MOV     A,R3
    \   000008   FF           MOV     R7,A
-   \   000009   12....       LCALL   ?Subroutine7 & 0xFFFF
-   \                     ??CrossCallReturnLabel_8:
+   \   000009   12....       LCALL   ?Subroutine10 & 0xFFFF
+   \                     ??CrossCallReturnLabel_12:
    \   00000C   F8           MOV     R0,A
    \   00000D   EC           MOV     A,R4
    \   00000E   28           ADD     A,R0
@@ -658,112 +714,107 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000026   F8           MOV     R0,A
    \   000027   C2AF         CLR     0xa8.7
    \   000029   90....       MOV     DPTR,#dmaCfg + 518
-   \   00002C   12....       LCALL   ?Subroutine11 & 0xFFFF
-   \                     ??CrossCallReturnLabel_14:
-   \   00002F   75..00       MOV     ?V0 + 1,#0x0
-   \   000032   12....       LCALL   ?Subroutine10 & 0xFFFF
-   \                     ??CrossCallReturnLabel_28:
-   \   000035   F5..         MOV     ?V0 + 6,A
-   \   000037   E8           MOV     A,R0
-   \   000038   A2E7         MOV     C,0xE0 /* A   */.7
-   \   00003A   92AF         MOV     0xa8.7,C
-   \   00003C   7A00         MOV     R2,#0x0
-   \   00003E   7B00         MOV     R3,#0x0
-   \   000040   801A         SJMP    ??CrossCallReturnLabel_4
-   \                     ??HalUARTWriteDMA_2:
-   \   000042   12....       LCALL   ?Subroutine14 & 0xFFFF
-   \                     ??CrossCallReturnLabel_20:
-   \   000045   C0E0         PUSH    A
-   \   000047   85....       MOV     ?V0 + 2,?V0 + 0
-   \   00004A   85....       MOV     ?V0 + 3,?V0 + 1
-   \   00004D   7407         MOV     A,#0x7
-   \   00004F   78..         MOV     R0,#?V0 + 2
-   \   000051   12....       LCALL   ?S_SHL
-   \   000054   12....       LCALL   ?Subroutine9 & 0xFFFF
-   \                     ??CrossCallReturnLabel_12:
-   \   000057   D0E0         POP     A
-   \   000059   12....       LCALL   ?Subroutine5 & 0xFFFF
-   \                     ??CrossCallReturnLabel_4:
-   \   00005C   C3           CLR     C
-   \   00005D   EA           MOV     A,R2
-   \   00005E   9C           SUBB    A,R4
-   \   00005F   EB           MOV     A,R3
-   \   000060   9D           SUBB    A,R5
-   \   000061   40DF         JC      ??HalUARTWriteDMA_2
-   \   000063   A2AF         MOV     C,0xa8.7
-   \   000065   E4           CLR     A
-   \   000066   33           RLC     A
-   \   000067   F5..         MOV     ?V0 + 0,A
-   \   000069   C2AF         CLR     0xa8.7
-   \   00006B   90....       MOV     DPTR,#dmaCfg + 518
-   \   00006E   E0           MOVX    A,@DPTR
-   \   00006F   65..         XRL     A,?V0 + 7
-   \   000071   603D         JZ      ??HalUARTWriteDMA_3
-   \   000073   E5..         MOV     A,?V0 + 0
-   \   000075   A2E0         MOV     C,0xE0 /* A   */.0
-   \   000077   92AF         MOV     0xa8.7,C
-   \   000079   12....       LCALL   ?Subroutine11 & 0xFFFF
-   \                     ??CrossCallReturnLabel_15:
-   \   00007C   12....       LCALL   ?Subroutine10 & 0xFFFF
-   \                     ??CrossCallReturnLabel_29:
-   \   00007F   F5..         MOV     ?V0 + 6,A
-   \   000081   7A00         MOV     R2,#0x0
-   \   000083   7B00         MOV     R3,#0x0
-   \   000085   801A         SJMP    ??CrossCallReturnLabel_5
-   \                     ??HalUARTWriteDMA_4:
-   \   000087   12....       LCALL   ?Subroutine14 & 0xFFFF
-   \                     ??CrossCallReturnLabel_21:
-   \   00008A   C0E0         PUSH    A
-   \   00008C   85....       MOV     ?V0 + 2,?V0 + 0
-   \   00008F   85....       MOV     ?V0 + 3,?V0 + 1
-   \   000092   7407         MOV     A,#0x7
-   \   000094   78..         MOV     R0,#?V0 + 2
-   \   000096   12....       LCALL   ?S_SHL
-   \   000099   12....       LCALL   ?Subroutine9 & 0xFFFF
-   \                     ??CrossCallReturnLabel_13:
-   \   00009C   D0E0         POP     A
-   \   00009E   12....       LCALL   ?Subroutine5 & 0xFFFF
-   \                     ??CrossCallReturnLabel_5:
-   \   0000A1   C3           CLR     C
-   \   0000A2   EA           MOV     A,R2
-   \   0000A3   9C           SUBB    A,R4
-   \   0000A4   EB           MOV     A,R3
-   \   0000A5   9D           SUBB    A,R5
-   \   0000A6   40DF         JC      ??HalUARTWriteDMA_4
-   \   0000A8   A2AF         MOV     C,0xa8.7
-   \   0000AA   E4           CLR     A
-   \   0000AB   33           RLC     A
-   \   0000AC   F5..         MOV     ?V0 + 0,A
-   \   0000AE   C2AF         CLR     0xa8.7
-   \                     ??HalUARTWriteDMA_3:
-   \   0000B0   85..82       MOV     DPL,?V0 + 7
-   \   0000B3   A882         MOV     R0,DPL
-   \   0000B5   12....       LCALL   ?Subroutine13 & 0xFFFF
+   \   00002C   12....       LCALL   ?Subroutine13 & 0xFFFF
    \                     ??CrossCallReturnLabel_18:
-   \   0000B8   E5..         MOV     A,?V0 + 6
-   \   0000BA   F0           MOVX    @DPTR,A
-   \   0000BB   E8           MOV     A,R0
-   \   0000BC   6401         XRL     A,#0x1
-   \   0000BE   F8           MOV     R0,A
-   \   0000BF   74..         MOV     A,#(dmaCfg + 4) & 0xff
-   \   0000C1   28           ADD     A,R0
-   \   0000C2   12....       LCALL   ??Subroutine17_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_27:
-   \   0000C5   7006         JNZ     ??HalUARTWriteDMA_5
-   \   0000C7   90....       MOV     DPTR,#dmaCfg + 523
-   \   0000CA   7401         MOV     A,#0x1
-   \   0000CC   F0           MOVX    @DPTR,A
+   \   00002F   75..00       MOV     ?V0 + 1,#0x0
+   \   000032   12....       LCALL   ?Subroutine17 & 0xFFFF
+   \                     ??CrossCallReturnLabel_24:
+   \   000035   E8           MOV     A,R0
+   \   000036   A2E7         MOV     C,0xE0 /* A   */.7
+   \   000038   92AF         MOV     0xa8.7,C
+   \   00003A   7A00         MOV     R2,#0x0
+   \   00003C   7B00         MOV     R3,#0x0
+   \   00003E   801A         SJMP    ??CrossCallReturnLabel_6
+   \                     ??HalUARTWriteDMA_2:
+   \   000040   12....       LCALL   ?Subroutine20 & 0xFFFF
+   \                     ??CrossCallReturnLabel_31:
+   \   000043   C0E0         PUSH    A
+   \   000045   85....       MOV     ?V0 + 2,?V0 + 0
+   \   000048   85....       MOV     ?V0 + 3,?V0 + 1
+   \   00004B   7407         MOV     A,#0x7
+   \   00004D   78..         MOV     R0,#?V0 + 2
+   \   00004F   12....       LCALL   ?S_SHL
+   \   000052   12....       LCALL   ?Subroutine16 & 0xFFFF
+   \                     ??CrossCallReturnLabel_22:
+   \   000055   D0E0         POP     A
+   \   000057   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_6:
+   \   00005A   C3           CLR     C
+   \   00005B   EA           MOV     A,R2
+   \   00005C   9C           SUBB    A,R4
+   \   00005D   EB           MOV     A,R3
+   \   00005E   9D           SUBB    A,R5
+   \   00005F   40DF         JC      ??HalUARTWriteDMA_2
+   \   000061   A2AF         MOV     C,0xa8.7
+   \   000063   E4           CLR     A
+   \   000064   33           RLC     A
+   \   000065   F5..         MOV     ?V0 + 0,A
+   \   000067   C2AF         CLR     0xa8.7
+   \   000069   90....       MOV     DPTR,#dmaCfg + 518
+   \   00006C   E0           MOVX    A,@DPTR
+   \   00006D   65..         XRL     A,?V0 + 7
+   \   00006F   603B         JZ      ??HalUARTWriteDMA_3
+   \   000071   E5..         MOV     A,?V0 + 0
+   \   000073   A2E0         MOV     C,0xE0 /* A   */.0
+   \   000075   92AF         MOV     0xa8.7,C
+   \   000077   12....       LCALL   ?Subroutine13 & 0xFFFF
+   \                     ??CrossCallReturnLabel_19:
+   \   00007A   12....       LCALL   ?Subroutine17 & 0xFFFF
+   \                     ??CrossCallReturnLabel_25:
+   \   00007D   7A00         MOV     R2,#0x0
+   \   00007F   7B00         MOV     R3,#0x0
+   \   000081   801A         SJMP    ??CrossCallReturnLabel_7
+   \                     ??HalUARTWriteDMA_4:
+   \   000083   12....       LCALL   ?Subroutine20 & 0xFFFF
+   \                     ??CrossCallReturnLabel_32:
+   \   000086   C0E0         PUSH    A
+   \   000088   85....       MOV     ?V0 + 2,?V0 + 0
+   \   00008B   85....       MOV     ?V0 + 3,?V0 + 1
+   \   00008E   7407         MOV     A,#0x7
+   \   000090   78..         MOV     R0,#?V0 + 2
+   \   000092   12....       LCALL   ?S_SHL
+   \   000095   12....       LCALL   ?Subroutine16 & 0xFFFF
+   \                     ??CrossCallReturnLabel_23:
+   \   000098   D0E0         POP     A
+   \   00009A   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_7:
+   \   00009D   C3           CLR     C
+   \   00009E   EA           MOV     A,R2
+   \   00009F   9C           SUBB    A,R4
+   \   0000A0   EB           MOV     A,R3
+   \   0000A1   9D           SUBB    A,R5
+   \   0000A2   40DF         JC      ??HalUARTWriteDMA_4
+   \   0000A4   A2AF         MOV     C,0xa8.7
+   \   0000A6   E4           CLR     A
+   \   0000A7   33           RLC     A
+   \   0000A8   F5..         MOV     ?V0 + 0,A
+   \   0000AA   C2AF         CLR     0xa8.7
+   \                     ??HalUARTWriteDMA_3:
+   \   0000AC   85..82       MOV     DPL,?V0 + 7
+   \   0000AF   A882         MOV     R0,DPL
+   \   0000B1   12....       LCALL   ??Subroutine25_0 & 0xFFFF
+   \                     ??CrossCallReturnLabel_40:
+   \   0000B4   E5..         MOV     A,?V0 + 6
+   \   0000B6   F0           MOVX    @DPTR,A
+   \   0000B7   E8           MOV     A,R0
+   \   0000B8   12....       LCALL   ?Subroutine14 & 0xFFFF
+   \                     ??CrossCallReturnLabel_41:
+   \   0000BB   E0           MOVX    A,@DPTR
+   \   0000BC   7006         JNZ     ??HalUARTWriteDMA_5
+   \   0000BE   90....       MOV     DPTR,#dmaCfg + 523
+   \   0000C1   7401         MOV     A,#0x1
+   \   0000C3   F0           MOVX    @DPTR,A
    \                     ??HalUARTWriteDMA_5:
-   \   0000CD   E5..         MOV     A,?V0 + 0
-   \   0000CF   A2E0         MOV     C,0xE0 /* A   */.0
-   \   0000D1   92AF         MOV     0xa8.7,C
+   \   0000C4   E5..         MOV     A,?V0 + 0
+   \   0000C6   A2E0         MOV     C,0xE0 /* A   */.0
+   \   0000C8   92AF         MOV     0xa8.7,C
    \                     ??HalUARTWriteDMA_1:
-   \   0000D3   7F08         MOV     R7,#0x8
-   \   0000D5   02....       LJMP    ?BANKED_LEAVE_XDATA
-   \   0000D8                REQUIRE _A_IEN0
+   \   0000CA   7F08         MOV     R7,#0x8
+   \   0000CC   02....       LJMP    ?BANKED_LEAVE_XDATA
+   \   0000CF                REQUIRE _A_IEN0
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine14:
+   \                     ?Subroutine20:
    \   000000   EE           MOV     A,R6
    \   000001   2A           ADD     A,R2
    \   000002   F582         MOV     DPL,A
@@ -774,29 +825,19 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000009   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine11:
-   \   000000   E0           MOVX    A,@DPTR
-   \   000001   F5..         MOV     ?V0 + 7,A
-   \   000003   F582         MOV     DPL,A
-   \   000005   8582..       MOV     ?V0 + 0,DPL
-   \   000008   22           RET
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine10:
+   \                     ?Subroutine17:
    \   000000   74..         MOV     A,#(dmaCfg + 4) & 0xff
    \   000002   25..         ADD     A,?V0 + 0
-   \   000004                REQUIRE ??Subroutine17_0
-   \   000004                ; // Fall through to label ??Subroutine17_0
+   \   000004   F582         MOV     DPL,A
+   \   000006   74..         MOV     A,#((dmaCfg + 516) >> 8) & 0xff
+   \   000008   3400         ADDC    A,#0x0
+   \   00000A   F583         MOV     DPH,A
+   \   00000C   E0           MOVX    A,@DPTR
+   \   00000D   F5..         MOV     ?V0 + 6,A
+   \   00000F   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine17_0:
-   \   000000   F582         MOV     DPL,A
-   \   000002   74..         MOV     A,#((dmaCfg + 516) >> 8) & 0xff
-   \   000004                REQUIRE ??Subroutine18_0
-   \   000004                ; // Fall through to label ??Subroutine18_0
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine9:
+   \                     ?Subroutine16:
    \   000000   85....       MOV     ?V0 + 4,?V0 + 6
    \   000003   74..         MOV     A,#(dmaCfg + 4) & 0xff
    \   000005   25..         ADD     A,?V0 + 4
@@ -813,7 +854,15 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000017   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine5:
+   \                     ?Subroutine13:
+   \   000000   E0           MOVX    A,@DPTR
+   \   000001   F5..         MOV     ?V0 + 7,A
+   \   000003   F582         MOV     DPL,A
+   \   000005   8582..       MOV     ?V0 + 0,DPL
+   \   000008   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine7:
    \   000000   F0           MOVX    @DPTR,A
    \   000001   05..         INC     ?V0 + 6
    \   000003   EA           MOV     A,R2
@@ -825,19 +874,26 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000B   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine7:
-   \   000000   12....       LCALL   ?Subroutine15 & 0xFFFF
-   \                     ??CrossCallReturnLabel_23:
+   \                     ?Subroutine10:
+   \   000000   12....       LCALL   ?Subroutine23 & 0xFFFF
+   \                     ??CrossCallReturnLabel_39:
    \   000003   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine13:
-   \   000000   12....       LCALL   ?Subroutine16 & 0xFFFF
-   \                     ??CrossCallReturnLabel_24:
+   \                     ?Subroutine14:
+   \   000000   6401         XRL     A,#0x1
+   \   000002   F8           MOV     R0,A
+   \   000003                REQUIRE ??Subroutine25_0
+   \   000003                ; // Fall through to label ??Subroutine25_0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ??Subroutine25_0:
+   \   000000   12....       LCALL   ?Subroutine24 & 0xFFFF
+   \                     ??CrossCallReturnLabel_44:
    \   000003   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine16:
+   \                     ?Subroutine24:
    \   000000   74..         MOV     A,#(dmaCfg + 4) & 0xff
    \   000002   28           ADD     A,R0
    \   000003   F582         MOV     DPL,A
@@ -847,12 +903,12 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000B   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine15:
+   \                     ?Subroutine23:
    \   000000   90....       MOV     DPTR,#dmaCfg + 518
    \   000003   E0           MOVX    A,@DPTR
    \   000004   F8           MOV     R0,A
-   \   000005   12....       LCALL   ?Subroutine16 & 0xFFFF
-   \                     ??CrossCallReturnLabel_25:
+   \   000005   12....       LCALL   ?Subroutine24 & 0xFFFF
+   \                     ??CrossCallReturnLabel_43:
    \   000008   E0           MOVX    A,@DPTR
    \   000009   22           RET
 
@@ -867,8 +923,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000007   90....       MOV     DPTR,#dmaCfg + 256
    \   00000A   E0           MOVX    A,@DPTR
    \   00000B   FA           MOV     R2,A
-   \   00000C   12....       LCALL   ?Subroutine12 & 0xFFFF
-   \                     ??CrossCallReturnLabel_16:
+   \   00000C   12....       LCALL   ?Subroutine18 & 0xFFFF
+   \                     ??CrossCallReturnLabel_26:
    \   00000F   6003         JZ      $+5
    \   000011   02....       LJMP    ??HalUARTPollDMA_0 & 0xFFFF
    \   000014   8A82         MOV     DPL,R2
@@ -898,8 +954,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000032   E0           MOVX    A,@DPTR
    \   000033   65C2         XRL     A,0xc2
    \   000035   7010         JNZ     ??HalUARTPollDMA_2
-   \   000037   12....       LCALL   ?Subroutine8 & 0xFFFF
-   \                     ??CrossCallReturnLabel_11:
+   \   000037   12....       LCALL   ?Subroutine15 & 0xFFFF
+   \                     ??CrossCallReturnLabel_21:
    \   00003A   4004         JC      ??HalUARTPollDMA_3
    \   00003C   7800         MOV     R0,#0x0
    \   00003E   7900         MOV     R1,#0x0
@@ -1037,21 +1093,21 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   0000F1   7050         JNZ     ??HalUARTPollDMA_16
    \   0000F3   A3           INC     DPTR
    \   0000F4   E4           CLR     A
-   \   0000F5   12....       LCALL   ?Subroutine4 & 0xFFFF
-   \                     ??CrossCallReturnLabel_2:
+   \   0000F5   12....       LCALL   ?Subroutine6 & 0xFFFF
+   \                     ??CrossCallReturnLabel_4:
    \   0000F8   12....       LCALL   ?S_SHL
    \   0000FB   74..         MOV     A,#(dmaCfg + 4) & 0xff
    \   0000FD   25..         ADD     A,?V0 + 0
    \   0000FF   74..         MOV     A,#((dmaCfg + 260) >> 8) & 0xff
    \   000101   35..         ADDC    A,?V0 + 1
    \   000103   90....       MOV     DPTR,#dmaCh1234 + 24
-   \   000106   12....       LCALL   ?Subroutine4 & 0xFFFF
-   \                     ??CrossCallReturnLabel_3:
+   \   000106   12....       LCALL   ?Subroutine6 & 0xFFFF
+   \                     ??CrossCallReturnLabel_5:
    \   000109   12....       LCALL   ?S_SHL
    \   00010C   74..         MOV     A,#(dmaCfg + 4) & 0xff
    \   00010E   25..         ADD     A,?V0 + 0
    \   000110   90....       MOV     DPTR,#dmaCh1234 + 25
-   \   000113   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \   000113   12....       LCALL   ?Subroutine4 & 0xFFFF
    \                     ??CrossCallReturnLabel_0:
    \   000116   90....       MOV     DPTR,#dmaCh1234 + 29
    \   000119   F0           MOVX    @DPTR,A
@@ -1085,8 +1141,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000146   33           RLC     A
    \   000147   FA           MOV     R2,A
    \   000148   C2AF         CLR     0xa8.7
-   \   00014A   12....       LCALL   ?Subroutine7 & 0xFFFF
-   \                     ??CrossCallReturnLabel_9:
+   \   00014A   12....       LCALL   ?Subroutine10 & 0xFFFF
+   \                     ??CrossCallReturnLabel_13:
    \   00014D   6016         JZ      ??HalUARTPollDMA_19
    \   00014F   E5D6         MOV     A,0xd6
    \   000151   A2E4         MOV     C,0xE0 /* A   */.4
@@ -1135,7 +1191,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000189                REQUIRE DMAREQ
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine4:
+   \                     ?Subroutine6:
    \   000000   F0           MOVX    @DPTR,A
    \   000001   90....       MOV     DPTR,#dmaCfg + 518
    \   000004   E0           MOVX    A,@DPTR
@@ -1146,7 +1202,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000E   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine12:
+   \                     ?Subroutine18:
    \   000000   C3           CLR     C
    \   000001   33           RLC     A
    \   000002   F8           MOV     R0,A
@@ -1165,10 +1221,10 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000014   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine3:
+   \                     ?Subroutine4:
    \   000000   F0           MOVX    @DPTR,A
-   \   000001   12....       LCALL   ?Subroutine15 & 0xFFFF
-   \                     ??CrossCallReturnLabel_22:
+   \   000001   12....       LCALL   ?Subroutine23 & 0xFFFF
+   \                     ??CrossCallReturnLabel_38:
    \   000004   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
@@ -1182,8 +1238,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000006   7B00         MOV     R3,#0x0
    \   000008   90....       MOV     DPTR,#dmaCfg + 256
    \   00000B   E0           MOVX    A,@DPTR
-   \   00000C   12....       LCALL   ?Subroutine12 & 0xFFFF
-   \                     ??CrossCallReturnLabel_17:
+   \   00000C   12....       LCALL   ?Subroutine18 & 0xFFFF
+   \                     ??CrossCallReturnLabel_27:
    \   00000F   702C         JNZ     ??HalUARTRxAvailDMA_0
    \   000011   7800         MOV     R0,#0x0
    \   000013   7900         MOV     R1,#0x0
@@ -1216,15 +1272,15 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000035   3400         ADDC    A,#0x0
    \   000037   FB           MOV     R3,A
    \                     ??HalUARTRxAvailDMA_2:
-   \   000038   12....       LCALL   ?Subroutine8 & 0xFFFF
-   \                     ??CrossCallReturnLabel_10:
+   \   000038   12....       LCALL   ?Subroutine15 & 0xFFFF
+   \                     ??CrossCallReturnLabel_20:
    \   00003B   40D8         JC      ??HalUARTRxAvailDMA_1
    \                     ??HalUARTRxAvailDMA_0:
-   \   00003D   80..         SJMP    ??Subroutine19_0
+   \   00003D   80..         SJMP    ??Subroutine26_0
    \   00003F                REQUIRE U0BAUD
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine8:
+   \                     ?Subroutine15:
    \   000000   E8           MOV     A,R0
    \   000001   2401         ADD     A,#0x1
    \   000003   08           INC     R0
@@ -1248,33 +1304,453 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000004   53D1EF       ANL     0xd1,#0xef
    \   000007   90....       MOV     DPTR,#dmaCfg + 518
    \   00000A   E0           MOVX    A,@DPTR
-   \   00000B   6401         XRL     A,#0x1
-   \   00000D   F8           MOV     R0,A
-   \   00000E   12....       LCALL   ?Subroutine13 & 0xFFFF
-   \                     ??CrossCallReturnLabel_19:
-   \   000011   E4           CLR     A
-   \   000012   F0           MOVX    @DPTR,A
-   \   000013   90....       MOV     DPTR,#dmaCfg + 519
-   \   000016   04           INC     A
-   \   000017   F0           MOVX    @DPTR,A
-   \   000018   E595         MOV     A,0x95
-   \   00001A   90....       MOV     DPTR,#dmaCfg + 521
-   \   00001D   F0           MOVX    @DPTR,A
-   \   00001E   A3           INC     DPTR
-   \   00001F   7401         MOV     A,#0x1
-   \   000021   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \   00000B   12....       LCALL   ?Subroutine14 & 0xFFFF
+   \                     ??CrossCallReturnLabel_42:
+   \   00000E   E4           CLR     A
+   \   00000F   F0           MOVX    @DPTR,A
+   \   000010   90....       MOV     DPTR,#dmaCfg + 519
+   \   000013   04           INC     A
+   \   000014   F0           MOVX    @DPTR,A
+   \   000015   E595         MOV     A,0x95
+   \   000017   90....       MOV     DPTR,#dmaCfg + 521
+   \   00001A   F0           MOVX    @DPTR,A
+   \   00001B   A3           INC     DPTR
+   \   00001C   7401         MOV     A,#0x1
+   \   00001E   12....       LCALL   ?Subroutine4 & 0xFFFF
    \                     ??CrossCallReturnLabel_1:
-   \   000024   6006         JZ      ??HalUARTIsrDMA_0
-   \   000026   90....       MOV     DPTR,#dmaCfg + 523
-   \   000029   7401         MOV     A,#0x1
-   \   00002B   F0           MOVX    @DPTR,A
+   \   000021   6006         JZ      ??HalUARTIsrDMA_0
+   \   000023   90....       MOV     DPTR,#dmaCfg + 523
+   \   000026   7401         MOV     A,#0x1
+   \   000028   F0           MOVX    @DPTR,A
    \                     ??HalUARTIsrDMA_0:
-   \   00002C   80..         SJMP    ??Subroutine19_0
-   \   00002E                REQUIRE DMAIRQ
-   \   00002E                REQUIRE ST0
+   \   000029   80..         SJMP    ??Subroutine26_0
+   \   00002B                REQUIRE DMAIRQ
+   \   00002B                REQUIRE ST0
      79          #endif
      80          #if HAL_UART_ISR
      81          #include "_hal_uart_isr.c"
+
+  #define PxOUT                      P1
+          ^
+"C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_isr.c",124  Warning[Pe047]: 
+          incompatible redefinition of macro "PxOUT" (declared at line 114 of
+          "C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positi
+          oning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_dma.c")
+
+  #define PxDIR                      P1DIR
+          ^
+"C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_isr.c",125  Warning[Pe047]: 
+          incompatible redefinition of macro "PxDIR" (declared at line 115 of
+          "C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positi
+          oning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_dma.c")
+
+  #define HAL_UART_PERCFG_BIT        0x02         // USART1 on P1, Alt-2; so set this bit.
+          ^
+"C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_isr.c",143  Warning[Pe047]: 
+          incompatible redefinition of macro "HAL_UART_PERCFG_BIT" (declared
+          at line 140 of
+          "C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positi
+          oning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_dma.c")
+
+  #define HAL_UART_Px_RX_TX          0xC0         // Peripheral I/O Select for Rx/Tx.
+          ^
+"C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_isr.c",146  Warning[Pe047]: 
+          incompatible redefinition of macro "HAL_UART_Px_RX_TX" (declared at
+          line 141 of
+          "C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positi
+          oning_system\MainApp\Components\hal\target\CC2530EB\_hal_uart_dma.c")
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+   \   static uartISRCfg_t isrCfg
+   \                     isrCfg:
+   \   000000                DS 265
+   \   000109                REQUIRE __INIT_XDATA_Z
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \   static __banked_func __xdata_reentrant uint16 HalUARTWriteISR(unsigned char *, uint16)
+   \                     HalUARTWriteISR:
+   \   000000   74F7         MOV     A,#-0x9
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 9
+   \   000005                ; Auto size: 0
+   \   000005   90....       MOV     DPTR,#isrCfg + 261
+   \   000008   E0           MOVX    A,@DPTR
+   \   000009   FF           MOV     R7,A
+   \   00000A   8F82         MOV     DPL,R7
+   \   00000C   A882         MOV     R0,DPL
+   \   00000E   90....       MOV     DPTR,#isrCfg + 260
+   \   000011   E0           MOVX    A,@DPTR
+   \   000012   FE           MOV     R6,A
+   \   000013   EF           MOV     A,R7
+   \   000014   C3           CLR     C
+   \   000015   9E           SUBB    A,R6
+   \   000016   E0           MOVX    A,@DPTR
+   \   000017   5018         JNC     ??HalUARTWriteISR_0
+   \   000019   C3           CLR     C
+   \   00001A   98           SUBB    A,R0
+   \   00001B   F8           MOV     R0,A
+   \   00001C   95E0         SUBB    A,0xE0 /* A   */
+   \   00001E   F9           MOV     R1,A
+   \   00001F   E8           MOV     A,R0
+   \   000020   24FF         ADD     A,#-0x1
+   \   000022   18           DEC     R0
+   \   000023   E9           MOV     A,R1
+   \   000024   34FF         ADDC    A,#-0x1
+   \   000026   F9           MOV     R1,A
+   \   000027   E8           MOV     A,R0
+   \   000028   49           ORL     A,R1
+   \   000029   701B         JNZ     ??HalUARTWriteISR_1
+   \                     ??HalUARTWriteISR_2:
+   \   00002B   7800         MOV     R0,#0x0
+   \   00002D   7900         MOV     R1,#0x0
+   \   00002F   8024         SJMP    ??CrossCallReturnLabel_29
+   \                     ??HalUARTWriteISR_0:
+   \   000031   C3           CLR     C
+   \   000032   98           SUBB    A,R0
+   \   000033   F8           MOV     R0,A
+   \   000034   95E0         SUBB    A,0xE0 /* A   */
+   \   000036   F9           MOV     R1,A
+   \   000037   E8           MOV     A,R0
+   \   000038   247F         ADD     A,#0x7f
+   \   00003A   F8           MOV     R0,A
+   \   00003B   E9           MOV     A,R1
+   \   00003C   3400         ADDC    A,#0x0
+   \   00003E   F9           MOV     R1,A
+   \   00003F   C3           CLR     C
+   \   000040   E8           MOV     A,R0
+   \   000041   9C           SUBB    A,R4
+   \   000042   E9           MOV     A,R1
+   \   000043   9D           SUBB    A,R5
+   \   000044   50E5         JNC     ??HalUARTWriteISR_2
+   \                     ??HalUARTWriteISR_1:
+   \   000046   7A00         MOV     R2,#0x0
+   \   000048   7B00         MOV     R3,#0x0
+   \   00004A   8041         SJMP    ??HalUARTWriteISR_3
+   \                     ??HalUARTWriteISR_4:
+   \   00004C   E0           MOVX    A,@DPTR
+   \   00004D   04           INC     A
+   \                     ??HalUARTWriteISR_5:
+   \   00004E   F0           MOVX    @DPTR,A
+   \   00004F   439A08       ORL     0x9a,#0x8
+   \   000052   12....       LCALL   ?Subroutine19 & 0xFFFF
+   \                     ??CrossCallReturnLabel_29:
+   \   000055   C3           CLR     C
+   \   000056   E8           MOV     A,R0
+   \   000057   9C           SUBB    A,R4
+   \   000058   E9           MOV     A,R1
+   \   000059   9D           SUBB    A,R5
+   \   00005A   502D         JNC     ??HalUARTWriteISR_6
+   \   00005C   8A82         MOV     DPL,R2
+   \   00005E   8B83         MOV     DPH,R3
+   \   000060   E0           MOVX    A,@DPTR
+   \   000061   C0E0         PUSH    A
+   \   000063   90....       MOV     DPTR,#isrCfg + 261
+   \   000066   E0           MOVX    A,@DPTR
+   \   000067   FE           MOV     R6,A
+   \   000068   74..         MOV     A,#(isrCfg + 132) & 0xff
+   \   00006A   2E           ADD     A,R6
+   \   00006B   F582         MOV     DPL,A
+   \   00006D   74..         MOV     A,#((isrCfg + 132) >> 8) & 0xff
+   \   00006F   3400         ADDC    A,#0x0
+   \   000071   F583         MOV     DPH,A
+   \   000073   D0E0         POP     A
+   \   000075   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_8:
+   \   000078   90....       MOV     DPTR,#isrCfg + 262
+   \   00007B   E4           CLR     A
+   \   00007C   F0           MOVX    @DPTR,A
+   \   00007D   90....       MOV     DPTR,#isrCfg + 261
+   \   000080   E0           MOVX    A,@DPTR
+   \   000081   C3           CLR     C
+   \   000082   947F         SUBB    A,#0x7f
+   \   000084   40C6         JC      ??HalUARTWriteISR_4
+   \   000086   E4           CLR     A
+   \   000087   80C5         SJMP    ??HalUARTWriteISR_5
+   \                     ??HalUARTWriteISR_6:
+   \   000089   E8           MOV     A,R0
+   \   00008A   FA           MOV     R2,A
+   \   00008B   E9           MOV     A,R1
+   \   00008C   FB           MOV     R3,A
+   \                     ??HalUARTWriteISR_3:
+   \   00008D   02....       LJMP    ?Subroutine2 & 0xFFFF
+   \   000090                REQUIRE IEN2
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine2:
+   \   000000   7F01         MOV     R7,#0x1
+   \   000002   02....       LJMP    ?BANKED_LEAVE_XDATA
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine8:
+   \   000000   12....       LCALL   ?Subroutine22 & 0xFFFF
+   \                     ??CrossCallReturnLabel_37:
+   \   000003   AA82         MOV     R2,DPL
+   \   000005   AB83         MOV     R3,DPH
+   \   000007   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \   static __banked_func __xdata_reentrant void HalUARTPollISR(void)
+   \                     HalUARTPollISR:
+   \   000000   74F7         MOV     A,#-0x9
+   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
+   \   000005                ; Saved register size: 9
+   \   000005                ; Auto size: 0
+   \   000005   90....       MOV     DPTR,#isrCfg + 263
+   \   000008   E0           MOVX    A,@DPTR
+   \   000009   F8           MOV     R0,A
+   \   00000A   A3           INC     DPTR
+   \   00000B   E0           MOVX    A,@DPTR
+   \   00000C   F9           MOV     R1,A
+   \   00000D   E8           MOV     A,R0
+   \   00000E   FC           MOV     R4,A
+   \   00000F   E9           MOV     A,R1
+   \   000010   FD           MOV     R5,A
+   \   000011   EC           MOV     A,R4
+   \   000012   4D           ORL     A,R5
+   \   000013   6072         JZ      ??HalUARTPollISR_0
+   \   000015   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_16:
+   \   000018   4008         JC      ??HalUARTPollISR_1
+   \   00001A   E0           MOVX    A,@DPTR
+   \   00001B   C3           CLR     C
+   \   00001C   98           SUBB    A,R0
+   \   00001D   F8           MOV     R0,A
+   \   00001E   95E0         SUBB    A,0xE0 /* A   */
+   \   000020   8007         SJMP    ??HalUARTPollISR_2
+   \                     ??HalUARTPollISR_1:
+   \   000022   12....       LCALL   ?Subroutine21 & 0xFFFF
+   \                     ??CrossCallReturnLabel_33:
+   \   000025   F8           MOV     R0,A
+   \   000026   E9           MOV     A,R1
+   \   000027   3400         ADDC    A,#0x0
+   \                     ??HalUARTPollISR_2:
+   \   000029   F9           MOV     R1,A
+   \   00002A   7A00         MOV     R2,#0x0
+   \   00002C   A3           INC     DPTR
+   \   00002D   E0           MOVX    A,@DPTR
+   \   00002E   FE           MOV     R6,A
+   \   00002F   6016         JZ      ??HalUARTPollISR_3
+   \   000031   A3           INC     DPTR
+   \   000032   E0           MOVX    A,@DPTR
+   \   000033   FB           MOV     R3,A
+   \   000034   E595         MOV     A,0x95
+   \   000036   C3           CLR     C
+   \   000037   9B           SUBB    A,R3
+   \   000038   FB           MOV     R3,A
+   \   000039   C3           CLR     C
+   \   00003A   9E           SUBB    A,R6
+   \   00003B   90....       MOV     DPTR,#isrCfg + 130
+   \   00003E   5005         JNC     ??HalUARTPollISR_4
+   \   000040   E0           MOVX    A,@DPTR
+   \   000041   C3           CLR     C
+   \   000042   9B           SUBB    A,R3
+   \   000043   8001         SJMP    ??HalUARTPollISR_5
+   \                     ??HalUARTPollISR_4:
+   \   000045   E4           CLR     A
+   \                     ??HalUARTPollISR_5:
+   \   000046   F0           MOVX    @DPTR,A
+   \                     ??HalUARTPollISR_3:
+   \   000047   E595         MOV     A,0x95
+   \   000049   A3           INC     DPTR
+   \   00004A   F0           MOVX    @DPTR,A
+   \   00004B   C3           CLR     C
+   \   00004C   E8           MOV     A,R0
+   \   00004D   947F         SUBB    A,#0x7f
+   \   00004F   E9           MOV     A,R1
+   \   000050   9400         SUBB    A,#0x0
+   \   000052   4003         JC      ??HalUARTPollISR_6
+   \                     ??HalUARTPollISR_7:
+   \   000054   0A           INC     R2
+   \   000055   8018         SJMP    ??HalUARTPollISR_8
+   \                     ??HalUARTPollISR_6:
+   \   000057   C3           CLR     C
+   \   000058   E8           MOV     A,R0
+   \   000059   9430         SUBB    A,#0x30
+   \   00005B   E9           MOV     A,R1
+   \   00005C   9400         SUBB    A,#0x0
+   \   00005E   4003         JC      ??HalUARTPollISR_9
+   \   000060   0A           INC     R2
+   \   000061   80F1         SJMP    ??HalUARTPollISR_7
+   \                     ??HalUARTPollISR_9:
+   \   000063   E8           MOV     A,R0
+   \   000064   49           ORL     A,R1
+   \   000065   6008         JZ      ??HalUARTPollISR_8
+   \   000067   90....       MOV     DPTR,#isrCfg + 130
+   \   00006A   E0           MOVX    A,@DPTR
+   \   00006B   7002         JNZ     ??HalUARTPollISR_8
+   \   00006D   7A04         MOV     R2,#0x4
+   \                     ??HalUARTPollISR_8:
+   \   00006F   90....       MOV     DPTR,#isrCfg + 262
+   \   000072   E0           MOVX    A,@DPTR
+   \   000073   6006         JZ      ??HalUARTPollISR_10
+   \   000075   E4           CLR     A
+   \   000076   F0           MOVX    @DPTR,A
+   \   000077   EA           MOV     A,R2
+   \   000078   D2E4         SETB    0xE0 /* A   */.4
+   \   00007A   FA           MOV     R2,A
+   \                     ??HalUARTPollISR_10:
+   \   00007B   EA           MOV     A,R2
+   \   00007C   6009         JZ      ??HalUARTPollISR_0
+   \   00007E                ; Setup parameters for indirect call
+   \   00007E   7901         MOV     R1,#0x1
+   \   000080   8C82         MOV     DPL,R4
+   \   000082   8D83         MOV     DPH,R5
+   \   000084   12....       LCALL   ?CALL_IND
+   \                     ??HalUARTPollISR_0:
+   \   000087   02....       LJMP    ?Subroutine2 & 0xFFFF
+   \   00008A                REQUIRE ST0
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine21:
+   \   000000   7480         MOV     A,#-0x80
+   \   000002   C3           CLR     C
+   \   000003   98           SUBB    A,R0
+   \   000004   F8           MOV     R0,A
+   \   000005   95E0         SUBB    A,0xE0 /* A   */
+   \   000007   F9           MOV     R1,A
+   \   000008   E0           MOVX    A,@DPTR
+   \   000009   FA           MOV     R2,A
+   \   00000A   E8           MOV     A,R0
+   \   00000B   2A           ADD     A,R2
+   \   00000C   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine12:
+   \   000000   90....       MOV     DPTR,#isrCfg + 128
+   \   000003   E0           MOVX    A,@DPTR
+   \   000004   FA           MOV     R2,A
+   \   000005   8A82         MOV     DPL,R2
+   \   000007   A882         MOV     R0,DPL
+   \   000009   90....       MOV     DPTR,#isrCfg + 129
+   \   00000C   E0           MOVX    A,@DPTR
+   \   00000D   C3           CLR     C
+   \   00000E   9A           SUBB    A,R2
+   \   00000F   22           RET
+
+   \                                 In  segment NEAR_CODE, align 1, keep-with-next
+   \   __near_func __xdata_reentrant __interrupt void halUart1RxIsr(void)
+   \                     halUart1RxIsr:
+   \   000000   C0E0         PUSH    A
+   \   000002   C0D0         PUSH    PSW
+   \   000004   E8           MOV     A,R0
+   \   000005   C0E0         PUSH    A
+   \   000007   E9           MOV     A,R1
+   \   000008   C0E0         PUSH    A
+   \   00000A   C082         PUSH    DPL
+   \   00000C   C083         PUSH    DPH
+   \   00000E                ; Saved register size: 6
+   \   00000E                ; Auto size: 0
+   \   00000E   E5F9         MOV     A,0xf9
+   \   000010   C0E0         PUSH    A
+   \   000012   90....       MOV     DPTR,#isrCfg + 129
+   \   000015   E0           MOVX    A,@DPTR
+   \   000016   F8           MOV     R0,A
+   \   000017   74..         MOV     A,#isrCfg & 0xff
+   \   000019   28           ADD     A,R0
+   \   00001A   F582         MOV     DPL,A
+   \   00001C   74..         MOV     A,#(isrCfg >> 8) & 0xff
+   \   00001E   3400         ADDC    A,#0x0
+   \   000020   F583         MOV     DPH,A
+   \   000022   D0E0         POP     A
+   \   000024   F0           MOVX    @DPTR,A
+   \   000025   90....       MOV     DPTR,#isrCfg + 128
+   \   000028   E0           MOVX    A,@DPTR
+   \   000029   F8           MOV     R0,A
+   \   00002A   A3           INC     DPTR
+   \   00002B   E0           MOVX    A,@DPTR
+   \   00002C   68           XRL     A,R0
+   \   00002D   7006         JNZ     ??halUart1RxIsr_0
+   \   00002F   E595         MOV     A,0x95
+   \   000031   90....       MOV     DPTR,#isrCfg + 131
+   \   000034   F0           MOVX    @DPTR,A
+   \                     ??halUart1RxIsr_0:
+   \   000035   90....       MOV     DPTR,#isrCfg + 129
+   \   000038   E0           MOVX    A,@DPTR
+   \   000039   04           INC     A
+   \   00003A   F0           MOVX    @DPTR,A
+   \   00003B   C3           CLR     C
+   \   00003C   9480         SUBB    A,#-0x80
+   \   00003E   4002         JC      ??halUart1RxIsr_1
+   \   000040   E4           CLR     A
+   \   000041   F0           MOVX    @DPTR,A
+   \                     ??halUart1RxIsr_1:
+   \   000042   A3           INC     DPTR
+   \   000043   74C6         MOV     A,#-0x3a
+   \   000045   F0           MOVX    @DPTR,A
+   \   000046   D083         POP     DPH
+   \   000048   D082         POP     DPL
+   \   00004A   D0E0         POP     A
+   \   00004C   F9           MOV     R1,A
+   \   00004D                REQUIRE ?Subroutine3
+   \   00004D                REQUIRE U1DBUF
+   \   00004D                REQUIRE ST0
+   \   00004D                ; // Fall through to label ?Subroutine3
+
+   \                                 In  segment NEAR_CODE, align 1, keep-with-next
+   \                     ?Subroutine3:
+   \   000000   D0E0         POP     A
+   \   000002   F8           MOV     R0,A
+   \   000003   D0D0         POP     PSW
+   \   000005   D0E0         POP     A
+   \   000007   32           RETI
+
+   \                                 In  segment NEAR_CODE, align 1, keep-with-next
+   \   __near_func __xdata_reentrant __interrupt void halUart1TxIsr(void)
+   \                     halUart1TxIsr:
+   \   000000   C0E0         PUSH    A
+   \   000002   C0D0         PUSH    PSW
+   \   000004   E8           MOV     A,R0
+   \   000005   C0E0         PUSH    A
+   \   000007   C0..         PUSH    ?V0 + 0
+   \   000009   C0..         PUSH    ?V0 + 1
+   \   00000B   C082         PUSH    DPL
+   \   00000D   C083         PUSH    DPH
+   \   00000F                ; Saved register size: 7
+   \   00000F                ; Auto size: 0
+   \   00000F   90....       MOV     DPTR,#isrCfg + 260
+   \   000012   E0           MOVX    A,@DPTR
+   \   000013   F8           MOV     R0,A
+   \   000014   A3           INC     DPTR
+   \   000015   E0           MOVX    A,@DPTR
+   \   000016   68           XRL     A,R0
+   \   000017   7008         JNZ     ??halUart1TxIsr_0
+   \   000019   539AF7       ANL     0x9a,#0xf7
+   \   00001C   A3           INC     DPTR
+   \   00001D   7401         MOV     A,#0x1
+   \   00001F   8026         SJMP    ??halUart1TxIsr_1
+   \                     ??halUart1TxIsr_0:
+   \   000021   C2EA         CLR     0xe8.2
+   \   000023   90....       MOV     DPTR,#isrCfg + 260
+   \   000026   E0           MOVX    A,@DPTR
+   \   000027   F5..         MOV     ?V0 + 0,A
+   \   000029   7401         MOV     A,#0x1
+   \   00002B   25..         ADD     A,?V0 + 0
+   \   00002D   F0           MOVX    @DPTR,A
+   \   00002E   74..         MOV     A,#(isrCfg + 132) & 0xff
+   \   000030   25..         ADD     A,?V0 + 0
+   \   000032   F582         MOV     DPL,A
+   \   000034   74..         MOV     A,#((isrCfg + 132) >> 8) & 0xff
+   \   000036   3400         ADDC    A,#0x0
+   \   000038   F583         MOV     DPH,A
+   \   00003A   E0           MOVX    A,@DPTR
+   \   00003B   F5F9         MOV     0xf9,A
+   \   00003D   90....       MOV     DPTR,#isrCfg + 260
+   \   000040   E0           MOVX    A,@DPTR
+   \   000041   C3           CLR     C
+   \   000042   9480         SUBB    A,#-0x80
+   \   000044   4002         JC      ??halUart1TxIsr_2
+   \   000046   E4           CLR     A
+   \                     ??halUart1TxIsr_1:
+   \   000047   F0           MOVX    @DPTR,A
+   \                     ??halUart1TxIsr_2:
+   \   000048   D083         POP     DPH
+   \   00004A   D082         POP     DPL
+   \   00004C   D0..         POP     ?V0 + 1
+   \   00004E   D0..         POP     ?V0 + 0
+   \   000050   80..         SJMP    ?Subroutine3
+   \   000052                REQUIRE IEN2
+   \   000052                REQUIRE _A_IRCON2
+   \   000052                REQUIRE U1DBUF
      82          #endif
      83          #if HAL_UART_USB
      84          #include "_hal_uart_usb.c"
@@ -1305,12 +1781,25 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     100          #endif
     101          #if HAL_UART_ISR
     102            HalUARTInitISR();
+   \   000007   53FF3F       ANL     0xff,#0x3f
+   \   00000A   85FFFF       MOV     0xff,0xff
+   \   00000D   43F102       ORL     0xf1,#0x2
+   \   000010   43F4C0       ORL     0xf4,#0xc0
+   \   000013   53F23F       ANL     0xf2,#0x3f
+   \   000016   75F880       MOV     0xf8,#-0x80
+   \   000019   75FB80       MOV     0xfb,#-0x80
     103          #endif
     104          #if HAL_UART_USB
     105            HalUARTInitUSB();
     106          #endif
     107          }
-   \   000007   80..         SJMP    ??Subroutine19_0
+   \   00001C   02....       LJMP    ??Subroutine26_0 & 0xFFFF
+   \   00001F                REQUIRE P2DIR
+   \   00001F                REQUIRE PERCFG
+   \   00001F                REQUIRE P1SEL
+   \   00001F                REQUIRE ADCCFG
+   \   00001F                REQUIRE _A_U1CSR
+   \   00001F                REQUIRE U1UCR
     108          
     109          /******************************************************************************
     110           * @fn      HalUARTOpen
@@ -1332,14 +1821,16 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005                ; Saved register size: 9
    \   000005                ; Auto size: 0
    \   000005   E9           MOV     A,R1
+   \   000006   FE           MOV     R6,A
     121            (void)port;
     122            (void)config;
     123          
     124          #if (HAL_UART_DMA == 1)
     125            if (port == HAL_UART_PORT_0)  HalUARTOpenDMA(config);
-   \   000006   7003         JNZ     ??HalUARTOpen_0
-   \   000008                ; Setup parameters for call to function HalUARTOpenDMA
-   \   000008   12....       LCALL   ??HalUARTOpenDMA?relay
+   \   000007   7005         JNZ     ??HalUARTOpen_0
+   \   000009                ; Setup parameters for call to function HalUARTOpenDMA
+   \   000009   12....       LCALL   ??HalUARTOpenDMA?relay
+   \   00000C   8055         SJMP    ??HalUARTOpen_1
     126          #endif
     127          #if (HAL_UART_DMA == 2)
     128            if (port == HAL_UART_PORT_1)  HalUARTOpenDMA(config);
@@ -1349,21 +1840,77 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     132          #endif
     133          #if (HAL_UART_ISR == 2)
     134            if (port == HAL_UART_PORT_1)  HalUARTOpenISR(config);
+   \                     ??HalUARTOpen_0:
+   \   00000E   7401         MOV     A,#0x1
+   \   000010   6E           XRL     A,R6
+   \   000011   7050         JNZ     ??HalUARTOpen_1
+   \   000013   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_15:
+   \   000016   90....       MOV     DPTR,#isrCfg + 263
+   \   000019   12....       LCALL   ?Subroutine5 & 0xFFFF
+   \                     ??CrossCallReturnLabel_3:
+   \   00001C   600A         JZ      ??HalUARTOpen_2
+   \   00001E   7404         MOV     A,#0x4
+   \   000020   68           XRL     A,R0
+   \   000021   6005         JZ      ??HalUARTOpen_2
+   \   000023   75FA3B       MOV     0xfa,#0x3b
+   \   000026   8003         SJMP    ??HalUARTOpen_3
+   \                     ??HalUARTOpen_2:
+   \   000028   75FAD8       MOV     0xfa,#-0x28
+   \                     ??HalUARTOpen_3:
+   \   00002B   E0           MOVX    A,@DPTR
+   \   00002C   6013         JZ      ??HalUARTOpen_4
+   \   00002E   14           DEC     A
+   \   00002F   600B         JZ      ??HalUARTOpen_5
+   \   000031   14           DEC     A
+   \   000032   6003         JZ      ??HalUARTOpen_6
+   \   000034   14           DEC     A
+   \   000035   700F         JNZ     ??HalUARTOpen_7
+   \                     ??HalUARTOpen_6:
+   \   000037   75FC0A       MOV     0xfc,#0xa
+   \   00003A   800D         SJMP    ??HalUARTOpen_8
+   \                     ??HalUARTOpen_5:
+   \   00003C   75FC09       MOV     0xfc,#0x9
+   \   00003F   8008         SJMP    ??HalUARTOpen_8
+   \                     ??HalUARTOpen_4:
+   \   000041   75FC08       MOV     0xfc,#0x8
+   \   000044   8003         SJMP    ??HalUARTOpen_8
+   \                     ??HalUARTOpen_7:
+   \   000046   75FC0B       MOV     0xfc,#0xb
+   \                     ??HalUARTOpen_8:
+   \   000049   8A82         MOV     DPL,R2
+   \   00004B   8B83         MOV     DPH,R3
+   \   00004D   A3           INC     DPTR
+   \   00004E   A3           INC     DPTR
+   \   00004F   E0           MOVX    A,@DPTR
+   \   000050   6008         JZ      ??HalUARTOpen_9
+   \   000052   75FB42       MOV     0xfb,#0x42
+   \   000055   43F430       ORL     0xf4,#0x30
+   \   000058   8003         SJMP    ??HalUARTOpen_10
+   \                     ??HalUARTOpen_9:
+   \   00005A   75FB02       MOV     0xfb,#0x2
+   \                     ??HalUARTOpen_10:
+   \   00005D   D2FE         SETB    0xf8.6
+   \   00005F   D2AB         SETB    0xa8.3
+   \   000061   D2EA         SETB    0xe8.2
     135          #endif
     136          #if (HAL_UART_USB)
     137            HalUARTOpenUSB(config);
     138          #endif
     139            
     140            return HAL_UART_SUCCESS;
-   \                     ??HalUARTOpen_0:
-   \   00000B   7900         MOV     R1,#0x0
-   \   00000D   80..         SJMP    ?Subroutine2
+   \                     ??HalUARTOpen_1:
+   \   000063   7900         MOV     R1,#0x0
+   \   000065                REQUIRE ?Subroutine2
+   \   000065                REQUIRE U1BAUD
+   \   000065                REQUIRE U1GCR
+   \   000065                REQUIRE U1UCR
+   \   000065                REQUIRE P1SEL
+   \   000065                REQUIRE _A_U1CSR
+   \   000065                REQUIRE _A_IEN0
+   \   000065                REQUIRE _A_IRCON2
+   \   000065                ; // Fall through to label ?Subroutine2
     141          }
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine2:
-   \   000000   7F01         MOV     R7,#0x1
-   \   000002   02....       LJMP    ?BANKED_LEAVE_XDATA
     142          
     143          /*****************************************************************************
     144           * @fn      HalUARTRead
@@ -1381,21 +1928,22 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     154          uint16 HalUARTRead(uint8 port, uint8 *buf, uint16 len)
    \                     HalUARTRead:
     155          {
-   \   000000   74F7         MOV     A,#-0x9
+   \   000000   74F6         MOV     A,#-0xa
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
-   \   000005                ; Saved register size: 9
+   \   000005                ; Saved register size: 10
    \   000005                ; Auto size: 0
    \   000005   E9           MOV     A,R1
+   \   000006   FE           MOV     R6,A
     156            (void)port;
     157            (void)buf;
     158            (void)len;
     159          
     160          #if (HAL_UART_DMA == 1)
     161            if (port == HAL_UART_PORT_0)  return HalUARTReadDMA(buf, len);
-   \   000006   7005         JNZ     ??HalUARTRead_0
-   \   000008                ; Setup parameters for call to function HalUARTReadDMA
-   \   000008   12....       LCALL   ??HalUARTReadDMA?relay
-   \   00000B   8004         SJMP    ??HalUARTRead_1
+   \   000007   7005         JNZ     ??HalUARTRead_0
+   \   000009                ; Setup parameters for call to function HalUARTReadDMA
+   \   000009   12....       LCALL   ??HalUARTReadDMA?relay
+   \   00000C   804F         SJMP    ??HalUARTRead_1
     162          #endif
     163          #if (HAL_UART_DMA == 2)
     164            if (port == HAL_UART_PORT_1)  return HalUARTReadDMA(buf, len);
@@ -1405,17 +1953,68 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     168          #endif
     169          #if (HAL_UART_ISR == 2)
     170            if (port == HAL_UART_PORT_1)  return HalUARTReadISR(buf, len);
+   \                     ??HalUARTRead_0:
+   \   00000E   7401         MOV     A,#0x1
+   \   000010   6E           XRL     A,R6
+   \   000011   7046         JNZ     ??HalUARTRead_2
+   \   000013   7800         MOV     R0,#0x0
+   \   000015   7900         MOV     R1,#0x0
+   \   000017   8027         SJMP    ??CrossCallReturnLabel_30
+   \                     ??HalUARTRead_3:
+   \   000019   74..         MOV     A,#isrCfg & 0xff
+   \   00001B   25..         ADD     A,?V0 + 0
+   \   00001D   F582         MOV     DPL,A
+   \   00001F   74..         MOV     A,#(isrCfg >> 8) & 0xff
+   \   000021   3400         ADDC    A,#0x0
+   \   000023   F583         MOV     DPH,A
+   \   000025   E0           MOVX    A,@DPTR
+   \   000026   8A82         MOV     DPL,R2
+   \   000028   8B83         MOV     DPH,R3
+   \   00002A   F0           MOVX    @DPTR,A
+   \   00002B   90....       MOV     DPTR,#isrCfg + 128
+   \   00002E   E0           MOVX    A,@DPTR
+   \   00002F   04           INC     A
+   \   000030   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_9:
+   \   000033   C3           CLR     C
+   \   000034   9480         SUBB    A,#-0x80
+   \   000036   4005         JC      ??HalUARTRead_4
+   \   000038   90....       MOV     DPTR,#isrCfg + 128
+   \   00003B   E4           CLR     A
+   \   00003C   F0           MOVX    @DPTR,A
+   \                     ??HalUARTRead_4:
+   \   00003D   12....       LCALL   ?Subroutine19 & 0xFFFF
+   \                     ??CrossCallReturnLabel_30:
+   \   000040   90....       MOV     DPTR,#isrCfg + 128
+   \   000043   E0           MOVX    A,@DPTR
+   \   000044   F5..         MOV     ?V0 + 0,A
+   \   000046   A3           INC     DPTR
+   \   000047   E0           MOVX    A,@DPTR
+   \   000048   65..         XRL     A,?V0 + 0
+   \   00004A   6007         JZ      ??HalUARTRead_5
+   \   00004C   C3           CLR     C
+   \   00004D   E8           MOV     A,R0
+   \   00004E   9C           SUBB    A,R4
+   \   00004F   E9           MOV     A,R1
+   \   000050   9D           SUBB    A,R5
+   \   000051   40C6         JC      ??HalUARTRead_3
+   \                     ??HalUARTRead_5:
+   \   000053   E8           MOV     A,R0
+   \   000054   FA           MOV     R2,A
+   \   000055   E9           MOV     A,R1
+   \   000056   FB           MOV     R3,A
+   \   000057   8004         SJMP    ??HalUARTRead_1
     171          #endif
     172          
     173          #if HAL_UART_USB
     174            return HalUARTRx(buf, len);
     175          #else
     176            return 0;
-   \                     ??HalUARTRead_0:
-   \   00000D   7A00         MOV     R2,#0x0
-   \   00000F   7B00         MOV     R3,#0x0
+   \                     ??HalUARTRead_2:
+   \   000059   7A00         MOV     R2,#0x0
+   \   00005B   7B00         MOV     R3,#0x0
    \                     ??HalUARTRead_1:
-   \   000011   80..         SJMP    ?Subroutine2
+   \   00005D   02....       LJMP    ?Subroutine1 & 0xFFFF
     177          #endif
     178          }
     179          
@@ -1440,16 +2039,17 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005                ; Saved register size: 9
    \   000005                ; Auto size: 0
    \   000005   E9           MOV     A,R1
+   \   000006   FE           MOV     R6,A
     193            (void)port;
     194            (void)buf;
     195            (void)len;
     196          
     197          #if (HAL_UART_DMA == 1)
     198            if (port == HAL_UART_PORT_0)  return HalUARTWriteDMA(buf, len);
-   \   000006   7005         JNZ     ??HalUARTWrite_0
-   \   000008                ; Setup parameters for call to function HalUARTWriteDMA
-   \   000008   12....       LCALL   ??HalUARTWriteDMA?relay
-   \   00000B   8004         SJMP    ??HalUARTWrite_1
+   \   000007   7005         JNZ     ??HalUARTWrite_0
+   \   000009                ; Setup parameters for call to function HalUARTWriteDMA
+   \   000009   12....       LCALL   ??HalUARTWriteDMA?relay
+   \   00000C   800E         SJMP    ??HalUARTWrite_1
     199          #endif
     200          #if (HAL_UART_DMA == 2)
     201            if (port == HAL_UART_PORT_1)  return HalUARTWriteDMA(buf, len);
@@ -1459,6 +2059,13 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     205          #endif
     206          #if (HAL_UART_ISR == 2)
     207            if (port == HAL_UART_PORT_1)  return HalUARTWriteISR(buf, len);
+   \                     ??HalUARTWrite_0:
+   \   00000E   7401         MOV     A,#0x1
+   \   000010   6E           XRL     A,R6
+   \   000011   7005         JNZ     ??HalUARTWrite_2
+   \   000013                ; Setup parameters for call to function HalUARTWriteISR
+   \   000013   12....       LCALL   ??HalUARTWriteISR?relay
+   \   000016   8004         SJMP    ??HalUARTWrite_1
     208          #endif
     209          
     210          #if HAL_UART_USB
@@ -1466,12 +2073,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     212            return len;
     213          #else
     214            return 0;
-   \                     ??HalUARTWrite_0:
-   \   00000D   7A00         MOV     R2,#0x0
-   \   00000F   7B00         MOV     R3,#0x0
+   \                     ??HalUARTWrite_2:
+   \   000018   7A00         MOV     R2,#0x0
+   \   00001A   7B00         MOV     R3,#0x0
    \                     ??HalUARTWrite_1:
-   \   000011                REQUIRE ?Subroutine2
-   \   000011                ; // Fall through to label ?Subroutine2
+   \   00001C   02....       LJMP    ?Subroutine2 & 0xFFFF
     215          #endif
     216          }
     217          
@@ -1497,10 +2103,12 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     231          #endif
     232          #if HAL_UART_ISR
     233            HalUARTSuspendISR();
+   \   000003   C2FE         CLR     0xf8.6
     234          #endif
     235          }
-   \   000003   02....       LJMP    ?BRET
-   \   000006                REQUIRE U0CSR
+   \   000005   02....       LJMP    ?BRET
+   \   000008                REQUIRE _A_U1CSR
+   \   000008                REQUIRE U0CSR
     236          
     237          /******************************************************************************
     238           * @fn      HalUARTResume
@@ -1525,11 +2133,15 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     250          #endif
     251          #if HAL_UART_ISR
     252            HalUARTResumeISR();
+   \   000006   43FB80       ORL     0xfb,#0x80
+   \   000009   D2FE         SETB    0xf8.6
     253          #endif
     254          }
-   \   000006   02....       LJMP    ?BRET
-   \   000009                REQUIRE U0UCR
-   \   000009                REQUIRE U0CSR
+   \   00000B   02....       LJMP    ?BRET
+   \   00000E                REQUIRE U1UCR
+   \   00000E                REQUIRE _A_U1CSR
+   \   00000E                REQUIRE U0UCR
+   \   00000E                REQUIRE U0CSR
     255          
     256          /***************************************************************************************************
     257           * @fn      HalUARTPoll
@@ -1556,12 +2168,14 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     269          #endif
     270          #if HAL_UART_ISR
     271            HalUARTPollISR();
+   \   000007                ; Setup parameters for call to function HalUARTPollISR
+   \   000007   12....       LCALL   ??HalUARTPollISR?relay
     272          #endif
     273          #if HAL_UART_USB
     274            HalUARTPollUSB();
     275          #endif
     276          }
-   \   000007   80..         SJMP    ??Subroutine19_0
+   \   00000A   02....       LJMP    ??Subroutine26_0 & 0xFFFF
     277          
     278          /**************************************************************************************************
     279           * @fn      Hal_UART_RxBufLen()
@@ -1582,14 +2196,15 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005                ; Saved register size: 9
    \   000005                ; Auto size: 0
    \   000005   E9           MOV     A,R1
+   \   000006   FE           MOV     R6,A
     289            (void)port;
     290          
     291          #if (HAL_UART_DMA == 1)
     292            if (port == HAL_UART_PORT_0)  return HalUARTRxAvailDMA();
-   \   000006   7005         JNZ     ??Hal_UART_RxBufLen_0
-   \   000008                ; Setup parameters for call to function HalUARTRxAvailDMA
-   \   000008   12....       LCALL   ??HalUARTRxAvailDMA?relay
-   \   00000B   8004         SJMP    ??Hal_UART_RxBufLen_1
+   \   000007   7005         JNZ     ??Hal_UART_RxBufLen_0
+   \   000009                ; Setup parameters for call to function HalUARTRxAvailDMA
+   \   000009   12....       LCALL   ??HalUARTRxAvailDMA?relay
+   \   00000C   8020         SJMP    ??Hal_UART_RxBufLen_1
     293          #endif
     294          #if (HAL_UART_DMA == 2)
     295            if (port == HAL_UART_PORT_1)  return HalUARTRxAvailDMA();
@@ -1599,18 +2214,48 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     299          #endif
     300          #if (HAL_UART_ISR == 2)
     301            if (port == HAL_UART_PORT_1)  return HalUARTRxAvailISR();
+   \                     ??Hal_UART_RxBufLen_0:
+   \   00000E   7401         MOV     A,#0x1
+   \   000010   6E           XRL     A,R6
+   \   000011   7017         JNZ     ??Hal_UART_RxBufLen_2
+   \   000013   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_17:
+   \   000016   4009         JC      ??Hal_UART_RxBufLen_3
+   \   000018   E0           MOVX    A,@DPTR
+   \   000019   C3           CLR     C
+   \   00001A   98           SUBB    A,R0
+   \   00001B   FA           MOV     R2,A
+   \   00001C   95E0         SUBB    A,0xE0 /* A   */
+   \                     ??Hal_UART_RxBufLen_4:
+   \   00001E   FB           MOV     R3,A
+   \   00001F   800D         SJMP    ??Hal_UART_RxBufLen_1
+   \                     ??Hal_UART_RxBufLen_3:
+   \   000021   12....       LCALL   ?Subroutine21 & 0xFFFF
+   \                     ??CrossCallReturnLabel_34:
+   \   000024   FA           MOV     R2,A
+   \   000025   E9           MOV     A,R1
+   \   000026   3400         ADDC    A,#0x0
+   \   000028   80F4         SJMP    ??Hal_UART_RxBufLen_4
     302          #endif
     303          #if HAL_UART_USB
     304            return HalUARTRxAvailUSB();
     305          #else
     306            return 0;
-   \                     ??Hal_UART_RxBufLen_0:
-   \   00000D   7A00         MOV     R2,#0x0
-   \   00000F   7B00         MOV     R3,#0x0
+   \                     ??Hal_UART_RxBufLen_2:
+   \   00002A   7A00         MOV     R2,#0x0
+   \   00002C   7B00         MOV     R3,#0x0
    \                     ??Hal_UART_RxBufLen_1:
-   \   000011   80..         SJMP    ?Subroutine2
+   \   00002E   02....       LJMP    ?Subroutine2 & 0xFFFF
     307          #endif
     308          }
+
+   \                                 In  segment INTVEC, offset 0x1b, root
+   \                     `??halUart1RxIsr??INTVEC 27`:
+   \   00001B   02....       LJMP       (halUart1RxIsr)
+
+   \                                 In  segment INTVEC, offset 0x73, root
+   \                     `??halUart1TxIsr??INTVEC 115`:
+   \   000073   02....       LJMP       (halUart1TxIsr)
 
    \                                 In  segment BANK_RELAYS, align 1
    \                     ??HalUARTInitDMA?relay:
@@ -1646,6 +2291,16 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \                     ??HalUARTIsrDMA?relay:
    \   000000   12....       LCALL   ?BDISPATCH
    \   000003   ......       DC24    HalUARTIsrDMA
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??HalUARTWriteISR?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    HalUARTWriteISR
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??HalUARTPollISR?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    HalUARTPollISR
 
    \                                 In  segment BANK_RELAYS, align 1
    \                     ??HalUARTInit?relay:
@@ -1704,102 +2359,134 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
        -> osal_memset           4      0      0
      HalUARTPoll                2      0      0
        -> HalUARTPollDMA        4      0      0
+       -> HalUARTPollISR        4      0      0
      HalUARTPollDMA             0      0     10
        -> HalUARTRxAvailDMA     0      0     20
        -> HalUARTIsrDMA         0      0     20
-     HalUARTRead                0      0      9
-       -> HalUARTReadDMA        0      0     18
-     HalUARTReadDMA             1      0     19
+     HalUARTPollISR             0      0      9
+     HalUARTRead                1      0     10
+       -> HalUARTReadDMA        0      0     20
+     HalUARTReadDMA             1      0     20
      HalUARTResume              0      0      0
      HalUARTRxAvailDMA          2      0     10
      HalUARTSuspend             0      0      0
      HalUARTWrite               0      0      9
        -> HalUARTWriteDMA       0      0     18
+       -> HalUARTWriteISR       0      0     18
      HalUARTWriteDMA            1      0     25
+     HalUARTWriteISR            1      0     18
      Hal_UART_RxBufLen          0      0      9
        -> HalUARTRxAvailDMA     0      0     18
+     halUart1RxIsr              7      0      0
+     halUart1TxIsr              7      0      0
 
 
    Segment part sizes:
 
-     Function/Label            Bytes
-     --------------            -----
-     _A_P0                        1
-     U0CSR                        1
-     ST0                          1
-     _A_IEN0                      1
-     U0BAUD                       1
-     U0UCR                        1
-     U0GCR                        1
-     DMAIRQ                       1
-     DMAARM                       1
-     DMAREQ                       1
-     PERCFG                       1
-     ADCCFG                       1
-     P0SEL                        1
-     P0DIR                        1
-     P2DIR                        1
-     dmaCfg                     526
-     HalUARTInitDMA             109
-     ?Subroutine0                 1
-     ??Subroutine19_0             7
-     HalUARTOpenDMA             183
-     ??Subroutine18_0             6
-     HalUARTReadDMA              83
-     ?Subroutine1                 5
-     ?Subroutine6                21
-     HalUARTWriteDMA            216
-     ?Subroutine14               10
-     ?Subroutine11                9
-     ?Subroutine10                4
-     ??Subroutine17_0             4
-     ?Subroutine9                24
-     ?Subroutine5                12
-     ?Subroutine7                 4
-     ?Subroutine13                4
-     ?Subroutine16               12
-     ?Subroutine15               10
-     HalUARTPollDMA             393
-     ?Subroutine4                15
-     ?Subroutine12               21
-     ?Subroutine3                 5
-     HalUARTRxAvailDMA           63
-     ?Subroutine8                16
-     HalUARTIsrDMA               46
-     HalUARTInit                  9
-     HalUARTOpen                 15
-     ?Subroutine2                 5
-     HalUARTRead                 19
-     HalUARTWrite                17
-     HalUARTSuspend               6
-     HalUARTResume                9
-     HalUARTPoll                  9
-     Hal_UART_RxBufLen           19
-     ??HalUARTInitDMA?relay       6
-     ??HalUARTOpenDMA?relay       6
-     ??HalUARTReadDMA?relay       6
-     ??HalUARTWriteDMA?relay      6
-     ??HalUARTPollDMA?relay       6
-     ??HalUARTRxAvailDMA?relay    6
-     ??HalUARTIsrDMA?relay        6
-     ??HalUARTInit?relay          6
-     ??HalUARTOpen?relay          6
-     ??HalUARTRead?relay          6
-     ??HalUARTWrite?relay         6
-     ??HalUARTSuspend?relay       6
-     ??HalUARTResume?relay        6
-     ??HalUARTPoll?relay          6
-     ??Hal_UART_RxBufLen?relay    6
+     Function/Label              Bytes
+     --------------              -----
+     _A_P0                          1
+     U0CSR                          1
+     ST0                            1
+     IEN2                           1
+     _A_IEN0                        1
+     U0BAUD                         1
+     U0UCR                          1
+     U0GCR                          1
+     DMAIRQ                         1
+     DMAARM                         1
+     DMAREQ                         1
+     _A_IRCON2                      1
+     PERCFG                         1
+     ADCCFG                         1
+     P0SEL                          1
+     P1SEL                          1
+     _A_U1CSR                       1
+     U1DBUF                         1
+     U1BAUD                         1
+     U1UCR                          1
+     U1GCR                          1
+     P0DIR                          1
+     P2DIR                          1
+     dmaCfg                       526
+     HalUARTInitDMA               109
+     ?Subroutine0                   1
+     ??Subroutine26_0               7
+     HalUARTOpenDMA               158
+     ?Subroutine11                 16
+     ?Subroutine5                  13
+     ?Subroutine22                  7
+     HalUARTReadDMA                78
+     ?Subroutine1                   5
+     ?Subroutine9                  21
+     ?Subroutine19                  9
+     HalUARTWriteDMA              207
+     ?Subroutine20                 10
+     ?Subroutine17                 16
+     ?Subroutine16                 24
+     ?Subroutine13                  9
+     ?Subroutine7                  12
+     ?Subroutine10                  4
+     ?Subroutine14                  3
+     ??Subroutine25_0               4
+     ?Subroutine24                 12
+     ?Subroutine23                 10
+     HalUARTPollDMA               393
+     ?Subroutine6                  15
+     ?Subroutine18                 21
+     ?Subroutine4                   5
+     HalUARTRxAvailDMA             63
+     ?Subroutine15                 16
+     HalUARTIsrDMA                 43
+     isrCfg                       265
+     HalUARTWriteISR              144
+     ?Subroutine2                   5
+     ?Subroutine8                   8
+     HalUARTPollISR               138
+     ?Subroutine21                 13
+     ?Subroutine12                 16
+     halUart1RxIsr                 77
+     ?Subroutine3                   8
+     halUart1TxIsr                 82
+     HalUARTInit                   31
+     HalUARTOpen                  101
+     HalUARTRead                   96
+     HalUARTWrite                  31
+     HalUARTSuspend                 8
+     HalUARTResume                 14
+     HalUARTPoll                   13
+     Hal_UART_RxBufLen             49
+     ??halUart1RxIsr??INTVEC 27     3
+     ??halUart1TxIsr??INTVEC 115    3
+     ??HalUARTInitDMA?relay         6
+     ??HalUARTOpenDMA?relay         6
+     ??HalUARTReadDMA?relay         6
+     ??HalUARTWriteDMA?relay        6
+     ??HalUARTPollDMA?relay         6
+     ??HalUARTRxAvailDMA?relay      6
+     ??HalUARTIsrDMA?relay          6
+     ??HalUARTWriteISR?relay        6
+     ??HalUARTPollISR?relay         6
+     ??HalUARTInit?relay            6
+     ??HalUARTOpen?relay            6
+     ??HalUARTRead?relay            6
+     ??HalUARTWrite?relay           6
+     ??HalUARTSuspend?relay         6
+     ??HalUARTResume?relay          6
+     ??HalUARTPoll?relay            6
+     ??Hal_UART_RxBufLen?relay      6
 
  
- 1 391 bytes in segment BANKED_CODE
-    90 bytes in segment BANK_RELAYS
-    15 bytes in segment SFR_AN
-   526 bytes in segment XDATA_Z
+ 1 958 bytes in segment BANKED_CODE
+   102 bytes in segment BANK_RELAYS
+     6 bytes in segment INTVEC
+   167 bytes in segment NEAR_CODE
+    23 bytes in segment SFR_AN
+   791 bytes in segment XDATA_Z
  
- 1 481 bytes of CODE  memory
-     0 bytes of DATA  memory (+ 15 bytes shared)
-   526 bytes of XDATA memory
+ 2 227 bytes of CODE  memory (+  6 bytes shared)
+     0 bytes of DATA  memory (+ 23 bytes shared)
+   791 bytes of XDATA memory
 
 Errors: none
-Warnings: 1
+Warnings: 5

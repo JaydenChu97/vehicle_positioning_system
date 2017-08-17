@@ -97,6 +97,11 @@ typedef struct
 extern void MT_UartInit (void);
 
 /*
+ * 初始化串口1, 以支持两串口同时通信
+ */
+extern void MT_Uart1Init (void);
+
+/*
  * Process ZTool Rx Data
  */
 void MT_UartProcessZToolData ( uint8 port, uint8 taskId );

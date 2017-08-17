@@ -1,12 +1,5 @@
 #Useless folder
-Debug/*
-settings/*
-
-#Project files
-*.dep
-*.ewd
-*.ewp
-*.eww
+*/Debug/
 
 # Object files
 *.o

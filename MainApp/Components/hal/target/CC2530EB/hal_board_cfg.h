@@ -433,30 +433,33 @@ st( \
 #endif
 #endif
 
+/*
+此处对协议做了修改, 原协议只能同时只有一个串口通信, 现在可以支持两个同时通信
+串口0为DMA模式, 串口1为ISR模式
+*/
 #if HAL_UART
-// Always prefer to use DMA over ISR.
 #if HAL_DMA
-#ifndef HAL_UART_DMA
-#if (defined ZAPP_P1) || (defined ZTOOL_P1)
-#define HAL_UART_DMA  1
-#elif (defined ZAPP_P2) || (defined ZTOOL_P2)
-#define HAL_UART_DMA  2
+  #ifndef HAL_UART_DMA
+    #if (defined ZAPP_P1)||(defined ZTOOL_P1)
+      #define HAL_UART_DMA 1
+    #elif(defined ZAPP_P2)||(defined ZTOOL_P2)
+      #define HAL_UART_DMA 2
+    #else 
+      #define HAL_UART_DMA 1
+    #endif
+  #endif
+  #define HAL_UART_ISR 2
 #else
-#define HAL_UART_DMA  1
-#endif
-#endif
-#define HAL_UART_ISR  0
-#else
-#ifndef HAL_UART_ISR
-#if (defined ZAPP_P1) || (defined ZTOOL_P1)
-#define HAL_UART_ISR  1
-#elif (defined ZAPP_P2) || (defined ZTOOL_P2)
-#define HAL_UART_ISR  2
-#else
-#define HAL_UART_ISR  1
-#endif
-#endif
-#define HAL_UART_DMA  0
+  #ifndef HAL_UART_ISR
+    #if(defined ZAPP_P1)||(defined ZTOOL_P1)
+      #define HAL_UART_ISR 1
+    #elif(defined ZAPP_P2)||(defined ZTOOL_P2)
+      #define HAL_UART_ISR 2
+    #else
+      #define HAL_UART_ISR 1
+    #endif
+  #endif
+  #define HAL_UART_DMA 0
 #endif
 
 // Used to set P2 priority - USART0 over USART1 if both are defined.

@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         29/Jul/2017  13:54:57 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  20:17:12 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -17,7 +17,7 @@
 #                          \zstack\Samples\SampleApp\CC2530DB\..\..\..\Tools\ #
 #                          CC2530DB\f8wCoord.cfg (-DCPU32MHZ                  #
 #                          -DROOT=__near_func -DMAC_CFG_APP_PENDING_QUEUE=TRU #
-#                          E -DZDO_COORDINATOR -DRTR_NWK -DBLINK_LEDS) -f     #
+#                          E -DZDO_COORDINATOR -DRTR_NWK) -f                  #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\..\..\..\Tools\CC2 #
@@ -41,12 +41,13 @@
 #                          -DMAC_MAX_FRAME_SIZE=116 "-DCONST=const __code"    #
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
-#                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440)   #
-#                          -DHAL_UART=TRUE C:\Users\Administrator\Desktop\Git #
-#                          -Local-Repositories\vehicle_positioning_system\Mai #
-#                          nApp\Projects\zstack\Samples\SampleApp\Source\Samp #
-#                          leApp.c -D ZIGBEEPRO -D xMT_TASK -D xMT_SYS_FUNC   #
-#                          -D xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC         #
+#                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
+#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\Source\SampleApp.c -D       #
+#                          ZIGBEEPRO -D xMT_TASK -D xMT_SYS_FUNC -D           #
+#                          xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC            #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\CoordinatorEB-Pro\ #
@@ -239,171 +240,170 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      49              (cId_t *)SampleApp_ClusterList   //  uint8 *pAppInClusterList;
      50          };
      51          
-     52          // This is the Endpoint/Interface description.  It is defined here, but
-     53          // filled-in in SampleApp_Init().  Another way to go would be to fill
-     54          // in the structure here and make it a "const" (in code space).  The
-     55          // way it's defined in this sample app it is define in RAM.
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     56          endPointDesc_t SampleApp_epDesc;
+     52          endPointDesc_t SampleApp_epDesc;
    \                     SampleApp_epDesc:
    \   000000                DS 6
    \   000006                REQUIRE __INIT_XDATA_Z
-     57          
-     58          /*********************************************************************
-     59           * LOCAL VARIABLES
-     60           */
+     53          
+     54          /*********************************************************************
+     55           * LOCAL VARIABLES
+     56           */
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     61          uint8 SampleApp_TaskID;   // 任务号, 任务号越小优先级越高, 在SampleApp_Init()被调用时初始化
+     57          uint8 SampleApp_TaskID;   // 任务号, 任务号越小优先级越高, 在SampleApp_Init()被调用时初始化
    \                     SampleApp_TaskID:
    \   000000                DS 1
    \   000001                REQUIRE __INIT_XDATA_Z
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     62          devStates_t SampleApp_NwkState;
+     58          devStates_t SampleApp_NwkState;
    \                     SampleApp_NwkState:
    \   000000                DS 1
    \   000001                REQUIRE __INIT_XDATA_Z
+     59          
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+     60          uint8 SampleApp_TransID;  // 消息标识码
+   \                     SampleApp_TransID:
+   \   000000                DS 1
+   \   000001                REQUIRE __INIT_XDATA_Z
+     61          
+
+   \                                 In  segment XDATA_Z, align 1, keep-with-next
+     62          afAddrType_t SampleApp_Periodic_DstAddr;
+   \                     SampleApp_Periodic_DstAddr:
+   \   000000                DS 12
+   \   00000C                REQUIRE __INIT_XDATA_Z
      63          
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     64          uint8 SampleApp_TransID;  // This is the unique message ID (counter)
-   \                     SampleApp_TransID:
+     64          uint8 SampleAppPeriodicCounter = 0;
+   \                     SampleAppPeriodicCounter:
    \   000000                DS 1
    \   000001                REQUIRE __INIT_XDATA_Z
      65          
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     66          afAddrType_t SampleApp_Periodic_DstAddr;
-   \                     SampleApp_Periodic_DstAddr:
-   \   000000                DS 12
-   \   00000C                REQUIRE __INIT_XDATA_Z
-     67          
-
-   \                                 In  segment XDATA_Z, align 1, keep-with-next
-     68          uint8 SampleAppPeriodicCounter = 0;
-   \                     SampleAppPeriodicCounter:
-   \   000000                DS 1
-   \   000001                REQUIRE __INIT_XDATA_Z
-     69          
-
-   \                                 In  segment XDATA_Z, align 1, keep-with-next
-     70          GeoBuf geoBuf;
+     66          GeoBuf geoBuf;
    \                     geoBuf:
    \   000000                DS 14
    \   00000E                REQUIRE __INIT_XDATA_Z
 
    \                                 In  segment XDATA_Z, align 1, keep-with-next
-     71          GeoInfo geoInfo;
+     67          GeoInfo geoInfo;
    \                     geoInfo:
    \   000000                DS 35
    \   000023                REQUIRE __INIT_XDATA_Z
-     72          //uint8 geoInfoData[GEO_INFO_NUM][20];
-     73          /*********************************************************************
-     74           * LOCAL FUNCTIONS
-     75           */
-     76          void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
-     77          void SampleApp_SendPeriodicMessage( uint8 *data, uint16 len );
-     78          
-     79          void initUart(void);
-     80          void initGeoBuf(void);
-     81          
-     82          void recGPSData(uint8 port, uint8 event);
-     83          void fetchGPSInfo(void);
+     68          //uint8 geoInfoData[GEO_INFO_NUM][20];
+     69          /*********************************************************************
+     70           * LOCAL FUNCTIONS
+     71           */
+     72          void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
+     73          void SampleApp_SendPeriodicMessage( uint8 *data, uint16 len );
+     74          
+     75          void initUart(int port, void (*callBack)(uint8, uint8));
+     76          void initGeoBuf(void);
+     77          
+     78          void recGPSData(uint8 port, uint8 event);
+     79          //void fetchGPSInfo(void);
+     80          
+     81          /*********************************************************************
+     82           * NETWORK LAYER CALLBACKS
+     83           */
      84          
      85          /*********************************************************************
-     86           * NETWORK LAYER CALLBACKS
+     86           * 初始化函数
      87           */
-     88          
-     89          /*********************************************************************
-     90           * 初始化函数
-     91           */
-     92          //串口初始化(DMA传送模式)
+     88          //串口初始化(DMA传送模式和ISR模式)
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-     93          void initUart(void)
+     89          void initUart(int port, void (*callBack)(uint8, uint8))
    \                     initUart:
-     94          {
+     90          {
    \   000000   C082         PUSH    DPL
    \   000002   C083         PUSH    DPH
    \   000004                ; Saved register size: 2
    \   000004                ; Auto size: 29
    \   000004   74E3         MOV     A,#-0x1d
    \   000006   12....       LCALL   ?ALLOC_XSTACK8
-     95              //UART configuration
-     96              halUARTCfg_t uartConfig;
-     97              uartConfig.configured           = TRUE;             //设置有效标志
-   \   000009   85..82       MOV     DPL,?XSP + 0
-   \   00000C   85..83       MOV     DPH,?XSP + 1
-   \   00000F   7401         MOV     A,#0x1
-   \   000011   F0           MOVX    @DPTR,A
-     98              uartConfig.baudRate             = HAL_UART_BR_9600;//波特率设置
-   \   000012   12....       LCALL   ?XSTACK_DISP0_8
-   \   000015   E4           CLR     A
-   \   000016   F0           MOVX    @DPTR,A
-     99              uartConfig.flowControl          = FALSE;           //关闭流控制(流控制需要四线传输,加上CTS,RTS)
-   \   000017   7402         MOV     A,#0x2
-   \   000019   12....       LCALL   ?XSTACK_DISP0_8
-   \   00001C   E4           CLR     A
-   \   00001D   F0           MOVX    @DPTR,A
-    100              uartConfig.rx.maxBufSize        = 512;            //rx缓冲区的长度
-   \   00001E   740A         MOV     A,#0xa
-   \   000020   12....       LCALL   ?XSTACK_DISP0_8
-   \   000023   E4           CLR     A
-   \   000024   F0           MOVX    @DPTR,A
-   \   000025   A3           INC     DPTR
-   \   000026   7402         MOV     A,#0x2
-   \   000028   F0           MOVX    @DPTR,A
-    101              uartConfig.tx.maxBufSize        = 512;            //tx缓冲区的长度
-   \   000029   7412         MOV     A,#0x12
-   \   00002B   12....       LCALL   ?XSTACK_DISP0_8
-   \   00002E   E4           CLR     A
-   \   00002F   F0           MOVX    @DPTR,A
-   \   000030   A3           INC     DPTR
-   \   000031   7402         MOV     A,#0x2
-   \   000033   F0           MOVX    @DPTR,A
-    102              uartConfig.idleTimeout          = 6;              //RX为空的允许时间
-   \   000034   7405         MOV     A,#0x5
-   \   000036   12....       LCALL   ?XSTACK_DISP0_8
-   \   000039   7406         MOV     A,#0x6
-   \   00003B   F0           MOVX    @DPTR,A
-    103              uartConfig.intEnable            = TRUE;           //中断允许
-   \   00003C   7416         MOV     A,#0x16
-   \   00003E   12....       LCALL   ?XSTACK_DISP0_8
-   \   000041   7401         MOV     A,#0x1
-   \   000043   F0           MOVX    @DPTR,A
-    104              uartConfig.callBackFunc         = recGPSData;     //当出现回调事件时的回调函数
-   \   000044   741B         MOV     A,#0x1b
-   \   000046   12....       LCALL   ?XSTACK_DISP0_8
-   \   000049   74..         MOV     A,#??recGPSData?relay & 0xff
-   \   00004B   F0           MOVX    @DPTR,A
-   \   00004C   A3           INC     DPTR
-   \   00004D   74..         MOV     A,#(??recGPSData?relay >> 8) & 0xff
+   \   000009   EA           MOV     A,R2
+   \   00000A   F8           MOV     R0,A
+     91              //UART设置
+     92              halUARTCfg_t uartConfig;
+     93              uartConfig.configured           = TRUE;             //设置有效标志
+   \   00000B   85..82       MOV     DPL,?XSP + 0
+   \   00000E   85..83       MOV     DPH,?XSP + 1
+   \   000011   7401         MOV     A,#0x1
+   \   000013   F0           MOVX    @DPTR,A
+     94              uartConfig.baudRate             = HAL_UART_BR_9600;//波特率设置
+   \   000014   12....       LCALL   ?XSTACK_DISP0_8
+   \   000017   E4           CLR     A
+   \   000018   F0           MOVX    @DPTR,A
+     95              uartConfig.flowControl          = FALSE;           //关闭流控制(流控制需要四线传输,加上CTS,RTS)
+   \   000019   7402         MOV     A,#0x2
+   \   00001B   12....       LCALL   ?XSTACK_DISP0_8
+   \   00001E   E4           CLR     A
+   \   00001F   F0           MOVX    @DPTR,A
+     96              uartConfig.rx.maxBufSize        = 512;            //rx缓冲区的长度
+   \   000020   740A         MOV     A,#0xa
+   \   000022   12....       LCALL   ?XSTACK_DISP0_8
+   \   000025   E4           CLR     A
+   \   000026   F0           MOVX    @DPTR,A
+   \   000027   A3           INC     DPTR
+   \   000028   7402         MOV     A,#0x2
+   \   00002A   F0           MOVX    @DPTR,A
+     97              uartConfig.tx.maxBufSize        = 512;            //tx缓冲区的长度
+   \   00002B   7412         MOV     A,#0x12
+   \   00002D   12....       LCALL   ?XSTACK_DISP0_8
+   \   000030   E4           CLR     A
+   \   000031   F0           MOVX    @DPTR,A
+   \   000032   A3           INC     DPTR
+   \   000033   7402         MOV     A,#0x2
+   \   000035   F0           MOVX    @DPTR,A
+     98              uartConfig.idleTimeout          = 6;              //RX为空的允许时间
+   \   000036   7405         MOV     A,#0x5
+   \   000038   12....       LCALL   ?XSTACK_DISP0_8
+   \   00003B   7406         MOV     A,#0x6
+   \   00003D   F0           MOVX    @DPTR,A
+     99              uartConfig.intEnable            = TRUE;           //中断允许
+   \   00003E   7416         MOV     A,#0x16
+   \   000040   12....       LCALL   ?XSTACK_DISP0_8
+   \   000043   7401         MOV     A,#0x1
+   \   000045   F0           MOVX    @DPTR,A
+    100              uartConfig.callBackFunc         = callBack;     //当出现回调事件时的回调函数
+   \   000046   741B         MOV     A,#0x1b
+   \   000048   12....       LCALL   ?XSTACK_DISP0_8
+   \   00004B   EC           MOV     A,R4
+   \   00004C   F0           MOVX    @DPTR,A
+   \   00004D   A3           INC     DPTR
+   \   00004E   ED           MOV     A,R5
    \   00004F   F0           MOVX    @DPTR,A
-    105                                                                //回调事件列表:
-    106                                                                //HAL_UART_RX_FULL        RX满
-    107                                                                //HAL_UART_RX_ABOUT_FULL  RX超过流量控制阀值
-    108                                                                //HAL_UART_RX_TIMEOUT     RX为空的时间超过限制
-    109                                                                //HAL_UART_TX_FULL        TX满
-    110              
-    111              HalUARTOpen (0, &uartConfig);
+    101                                                                //回调事件列表:
+    102                                                                //HAL_UART_RX_FULL        RX满
+    103                                                                //HAL_UART_RX_ABOUT_FULL  RX超过流量控制阀值
+    104                                                                //HAL_UART_RX_TIMEOUT     RX为空的时间超过限制
+    105                                                                //HAL_UART_TX_FULL        TX满
+    106              
+    107              HalUARTOpen (port, &uartConfig);
    \   000050                ; Setup parameters for call to function HalUARTOpen
    \   000050   85..82       MOV     DPL,?XSP + 0
    \   000053   85..83       MOV     DPH,?XSP + 1
    \   000056   AA82         MOV     R2,DPL
    \   000058   AB83         MOV     R3,DPH
-   \   00005A   7900         MOV     R1,#0x0
+   \   00005A   E8           MOV     A,R0
+   \   00005B   F9           MOV     R1,A
    \   00005C   12....       LCALL   ??HalUARTOpen?relay
-    112              HalUARTWrite(0,"Link Start!\n", sizeof("Link Start!\n"));//连接上位机成功提示信息
+    108              HalUARTWrite(0,"Link Start!\n", sizeof("Link Start!\n")-1);//连接上位机成功提示信息
    \   00005F                ; Setup parameters for call to function HalUARTWrite
-   \   00005F   7C0D         MOV     R4,#0xd
+   \   00005F   7C0C         MOV     R4,#0xc
    \   000061   7D00         MOV     R5,#0x0
    \   000063   7A..         MOV     R2,#`?<Constant "Link Start!\\n">` & 0xff
    \   000065   7B..         MOV     R3,#(`?<Constant "Link Start!\\n">` >> 8) & 0xff
    \   000067   7900         MOV     R1,#0x0
    \   000069   12....       LCALL   ??HalUARTWrite?relay
-    113          }
+    109          }
    \   00006C   741D         MOV     A,#0x1d
    \   00006E   12....       LCALL   ?DEALLOC_XSTACK8
    \   000071                REQUIRE ?Subroutine0
@@ -414,49 +414,49 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000000   D083         POP     DPH
    \   000002   D082         POP     DPL
    \   000004   02....       LJMP    ?BRET
-    114          
-    115          //GPS缓冲池初始化
+    110          
+    111          //GPS缓冲池初始化
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    116          void initGeoBuf(void)
+    112          void initGeoBuf(void)
    \                     initGeoBuf:
-    117          {
+    113          {
    \   000000   C082         PUSH    DPL
    \   000002   C083         PUSH    DPH
    \   000004                ; Saved register size: 2
    \   000004                ; Auto size: 0
-    118              geoBuf.head = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
+    114              geoBuf.head = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
    \   000004                ; Setup parameters for call to function osal_mem_alloc
    \   000004   7A54         MOV     R2,#0x54
    \   000006   7B00         MOV     R3,#0x0
    \   000008   12....       LCALL   ??osal_mem_alloc?relay
    \   00000B   90....       MOV     DPTR,#geoBuf + 2
-   \   00000E   12....       LCALL   ?Subroutine2 & 0xFFFF
-    119              osal_memset(geoBuf.head, 0, sizeof(DataFrame));
-    120              geoBuf.send = geoBuf.rec = geoBuf.head;
-   \                     ??CrossCallReturnLabel_0:
+   \   00000E   12....       LCALL   ?Subroutine4 & 0xFFFF
+    115              osal_memset(geoBuf.head, 0, sizeof(DataFrame));
+    116              geoBuf.send = geoBuf.rec = geoBuf.head;
+   \                     ??CrossCallReturnLabel_4:
    \   000011   90....       MOV     DPTR,#geoBuf + 2
-   \   000014   12....       LCALL   ??Subroutine9_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_8:
+   \   000014   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_10:
    \   000017   90....       MOV     DPTR,#geoBuf + 6
-   \   00001A   12....       LCALL   ??Subroutine12_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_23:
-   \   00001D   12....       LCALL   ?Subroutine3 & 0xFFFF
-    121              geoBuf.checkByte = geoBuf.AIM = "$GPGGA";               //目标提取信息前缀为$GPGGA
-   \                     ??CrossCallReturnLabel_27:
+   \   00001A   12....       LCALL   ??Subroutine13_0 & 0xFFFF
+   \                     ??CrossCallReturnLabel_25:
+   \   00001D   12....       LCALL   ?Subroutine5 & 0xFFFF
+    117              geoBuf.checkByte = geoBuf.AIM = "$GPGGA";               //目标提取信息前缀为$GPGGA
+   \                     ??CrossCallReturnLabel_29:
    \   000020   78..         MOV     R0,#`?<Constant "$GPGGA">` & 0xff
    \   000022   79..         MOV     R1,#(`?<Constant "$GPGGA">` >> 8) & 0xff
    \   000024   90....       MOV     DPTR,#geoBuf + 8
-   \   000027   12....       LCALL   ??Subroutine12_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_24:
+   \   000027   12....       LCALL   ??Subroutine13_0 & 0xFFFF
+   \                     ??CrossCallReturnLabel_26:
    \   00002A   A3           INC     DPTR
-   \   00002B   12....       LCALL   ??Subroutine12_0 & 0xFFFF
-    122          }
-   \                     ??CrossCallReturnLabel_25:
+   \   00002B   12....       LCALL   ??Subroutine13_0 & 0xFFFF
+    118          }
+   \                     ??CrossCallReturnLabel_27:
    \   00002E   80..         SJMP    ?Subroutine0
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine9_0:
+   \                     ?Subroutine8:
    \   000000   E0           MOVX    A,@DPTR
    \   000001   F8           MOV     R0,A
    \   000002   A3           INC     DPTR
@@ -465,7 +465,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine2:
+   \                     ?Subroutine4:
    \   000000   EA           MOV     A,R2
    \   000001   F0           MOVX    @DPTR,A
    \   000002   A3           INC     DPTR
@@ -480,30 +480,30 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000E   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine3:
+   \                     ?Subroutine5:
    \   000000   90....       MOV     DPTR,#geoBuf + 4
-   \   000003                REQUIRE ??Subroutine12_0
-   \   000003                ; // Fall through to label ??Subroutine12_0
+   \   000003                REQUIRE ??Subroutine13_0
+   \   000003                ; // Fall through to label ??Subroutine13_0
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine12_0:
+   \                     ??Subroutine13_0:
    \   000000   E8           MOV     A,R0
    \   000001   F0           MOVX    @DPTR,A
    \   000002   A3           INC     DPTR
    \   000003   E9           MOV     A,R1
    \   000004   F0           MOVX    @DPTR,A
    \   000005   22           RET
-    123          
-    124          
-    125          /*********************************************************************
-    126           * 数据处理函数
-    127           */
-    128          //回调函数, 当RX缓冲区满后会调用, 将目标GPS数据粗提取并存入缓冲池中, 留待处理
+    119          
+    120          
+    121          /*********************************************************************
+    122           * 数据处理函数
+    123           */
+    124          //回调函数, 当RX缓冲区满后会调用, 将目标GPS数据粗提取并存入缓冲池中, 留待处理
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    129          void recGPSData(uint8 port, uint8 event)
+    125          void recGPSData(uint8 port, uint8 event)
    \                     recGPSData:
-    130          {
+    126          {
    \   000000   74F6         MOV     A,#-0xa
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
    \   000005                ; Saved register size: 10
@@ -513,21 +513,21 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000A   E9           MOV     A,R1
    \   00000B   FE           MOV     R6,A
    \   00000C   8025         SJMP    ??recGPSData_0
-    131              uint8  ch;
-    132          
-    133              while (Hal_UART_RxBufLen(port))
-    134              {
-    135                  HalUARTRead (port, &ch, 1);
-    136                  
-    137                  if(geoBuf.mode == 0)
-    138                  {
-    139                      if(ch == *geoBuf.checkByte)
+    127              uint8  ch;
+    128          
+    129              while (Hal_UART_RxBufLen(port))
+    130              {
+    131                  HalUARTRead (port, &ch, 1);
+    132                  
+    133                  if(geoBuf.mode == 0)
+    134                  {
+    135                      if(ch == *geoBuf.checkByte)
+    136                      {
+    137                          geoBuf.checkByte++;
+    138                      }
+    139                      else
     140                      {
-    141                          geoBuf.checkByte++;
-    142                      }
-    143                      else
-    144                      {
-    145                          geoBuf.checkByte = geoBuf.AIM;
+    141                          geoBuf.checkByte = geoBuf.AIM;
    \                     ??recGPSData_1:
    \   00000E   90....       MOV     DPTR,#geoBuf + 10
    \   000011   E8           MOV     A,R0
@@ -536,9 +536,9 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000014   E9           MOV     A,R1
    \                     ??recGPSData_2:
    \   000015   F0           MOVX    @DPTR,A
-    146                      }
-    147                      
-    148                      if(geoBuf.checkByte == geoBuf.AIM + 6)
+    142                      }
+    143                      
+    144                      if(geoBuf.checkByte == geoBuf.AIM + 6)
    \   000016   90....       MOV     DPTR,#geoBuf + 10
    \   000019   E8           MOV     A,R0
    \   00001A   2406         ADD     A,#0x6
@@ -554,8 +554,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000027   69           XRL     A,R1
    \                     ??recGPSData_3:
    \   000028   7009         JNZ     ??recGPSData_0
-    149                      {
-    150                          geoBuf.mode = 1;
+    145                      {
+    146                          geoBuf.mode = 1;
    \   00002A   90....       MOV     DPTR,#geoBuf + 12
    \   00002D   7401         MOV     A,#0x1
    \   00002F   F0           MOVX    @DPTR,A
@@ -563,7 +563,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000031   E4           CLR     A
    \                     ??recGPSData_4:
    \   000032   F0           MOVX    @DPTR,A
-    151                      }
+    147                      }
    \                     ??recGPSData_0:
    \   000033                ; Setup parameters for call to function Hal_UART_RxBufLen
    \   000033   EE           MOV     A,R6
@@ -585,16 +585,16 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000051   F9           MOV     R1,A
    \   000052   12....       LCALL   ??HalUARTRead?relay
    \   000055   90....       MOV     DPTR,#geoBuf + 12
-   \   000058   12....       LCALL   ??Subroutine9_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_9:
+   \   000058   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_11:
    \   00005B   E8           MOV     A,R0
    \   00005C   49           ORL     A,R1
    \   00005D   7028         JNZ     ??recGPSData_6
    \   00005F   90....       MOV     DPTR,#geoBuf + 8
-   \   000062   12....       LCALL   ??Subroutine9_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_10:
+   \   000062   12....       LCALL   ?Subroutine8 & 0xFFFF
+   \                     ??CrossCallReturnLabel_12:
    \   000065   A3           INC     DPTR
-   \   000066   12....       LCALL   ??Subroutine11_0 & 0xFFFF
+   \   000066   12....       LCALL   ?Subroutine9 & 0xFFFF
    \                     ??CrossCallReturnLabel_15:
    \   000069   85..82       MOV     DPL,?XSP + 0
    \   00006C   85..83       MOV     DPH,?XSP + 1
@@ -614,144 +614,130 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000083   A3           INC     DPTR
    \   000084   EB           MOV     A,R3
    \   000085   808E         SJMP    ??recGPSData_2
-    152                  }
-    153                  else
-    154                  {
-    155                      if(ch == '$')
+    148                  }
+    149                  else
+    150                  {
+    151                      if(ch == '$')
    \                     ??recGPSData_6:
-   \   000087   12....       LCALL   ?Subroutine5 & 0xFFFF
+   \   000087   90....       MOV     DPTR,#geoBuf + 6
+   \   00008A   12....       LCALL   ?Subroutine8 & 0xFFFF
    \                     ??CrossCallReturnLabel_13:
-   \   00008A   85..82       MOV     DPL,?XSP + 0
-   \   00008D   85..83       MOV     DPH,?XSP + 1
-   \   000090   E0           MOVX    A,@DPTR
-   \   000091   6424         XRL     A,#0x24
-   \   000093   7079         JNZ     ??recGPSData_7
-    156                      {
-    157                          if(geoBuf.rec->len >= 64)           //通过两个$符号之间的数据长度确定数据的有效性
-   \   000095   8882         MOV     DPL,R0
-   \   000097   8983         MOV     DPH,R1
-   \   000099   C3           CLR     C
-   \   00009A   E0           MOVX    A,@DPTR
-   \   00009B   9440         SUBB    A,#0x40
-   \   00009D   A3           INC     DPTR
-   \   00009E   E0           MOVX    A,@DPTR
-   \   00009F   9400         SUBB    A,#0x0
-   \   0000A1   4039         JC      ??recGPSData_8
-    158                          {
-    159                              geoBuf.rec->next = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
-   \   0000A3                ; Setup parameters for call to function osal_mem_alloc
-   \   0000A3   7A54         MOV     R2,#0x54
-   \   0000A5   7B00         MOV     R3,#0x0
-   \   0000A7   12....       LCALL   ??osal_mem_alloc?relay
-   \   0000AA   8A..         MOV     ?V0 + 0,R2
-   \   0000AC   8B..         MOV     ?V0 + 1,R3
-   \   0000AE   90....       MOV     DPTR,#geoBuf + 6
-   \   0000B1   E0           MOVX    A,@DPTR
-   \   0000B2   2452         ADD     A,#0x52
-   \   0000B4   FA           MOV     R2,A
-   \   0000B5   A3           INC     DPTR
-   \   0000B6   E0           MOVX    A,@DPTR
-   \   0000B7   3400         ADDC    A,#0x0
-   \   0000B9   FB           MOV     R3,A
-   \   0000BA   8A82         MOV     DPL,R2
-   \   0000BC   8B83         MOV     DPH,R3
-   \   0000BE   E5..         MOV     A,?V0 + 0
-   \   0000C0   F0           MOVX    @DPTR,A
-   \   0000C1   A3           INC     DPTR
-   \   0000C2   E5..         MOV     A,?V0 + 1
-   \   0000C4   F0           MOVX    @DPTR,A
-    160                              geoBuf.rec = geoBuf.rec->next;
-   \   0000C5   90....       MOV     DPTR,#geoBuf + 6
-   \   0000C8   12....       LCALL   ?Subroutine6 & 0xFFFF
-   \                     ??CrossCallReturnLabel_2:
-   \   0000CB   12....       LCALL   ?Subroutine4 & 0xFFFF
-   \                     ??CrossCallReturnLabel_21:
-   \   0000CE   90....       MOV     DPTR,#geoBuf + 6
-   \   0000D1   12....       LCALL   ?Subroutine2 & 0xFFFF
-    161                              osal_memset(geoBuf.rec, 0, sizeof(DataFrame));
-    162                              geoBuf.num++;
-   \                     ??CrossCallReturnLabel_1:
-   \   0000D4   90....       MOV     DPTR,#geoBuf
-   \   0000D7   12....       LCALL   ?Subroutine7 & 0xFFFF
-    163                          }
-   \                     ??CrossCallReturnLabel_4:
-   \   0000DA   8028         SJMP    ??recGPSData_9
-    164                          else
-    165                          {
-    166                              SampleApp_SendPeriodicMessage("Connect Fail! ---- ", 19);          //无效GPS数据
-   \                     ??recGPSData_8:
-   \   0000DC                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
-   \   0000DC   7C13         MOV     R4,#0x13
-   \   0000DE   7D00         MOV     R5,#0x0
-   \   0000E0   7A..         MOV     R2,#`?<Constant "Connect Fail! ---- ">` & 0xff
-   \   0000E2   7B..         MOV     R3,#(`?<Constant "Connect Fail! ---- ">` >> 8) & 0xff
-   \   0000E4   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
-    167                              SampleApp_SendPeriodicMessage(geoBuf.rec->data, geoBuf.rec->len);
-   \   0000E7   12....       LCALL   ?Subroutine5 & 0xFFFF
-   \                     ??CrossCallReturnLabel_14:
-   \   0000EA                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
-   \   0000EA   8882         MOV     DPL,R0
-   \   0000EC   8983         MOV     DPH,R1
-   \   0000EE   E0           MOVX    A,@DPTR
-   \   0000EF   FC           MOV     R4,A
-   \   0000F0   A3           INC     DPTR
-   \   0000F1   E0           MOVX    A,@DPTR
-   \   0000F2   FD           MOV     R5,A
-   \   0000F3   E8           MOV     A,R0
-   \   0000F4   2402         ADD     A,#0x2
-   \   0000F6   FA           MOV     R2,A
-   \   0000F7   E9           MOV     A,R1
-   \   0000F8   3400         ADDC    A,#0x0
-   \   0000FA   FB           MOV     R3,A
-   \   0000FB   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
-    168                              geoBuf.rec->len = 0;
-   \   0000FE   12....       LCALL   ?Subroutine8 & 0xFFFF
-    169                          }
-   \                     ??CrossCallReturnLabel_6:
-   \   000101   E4           CLR     A
-   \   000102   F0           MOVX    @DPTR,A
-   \   000103   A3           INC     DPTR
-   \                     ??recGPSData_9:
-   \   000104   F0           MOVX    @DPTR,A
-    170                          
-    171                          geoBuf.mode = 0;
-   \   000105   90....       MOV     DPTR,#geoBuf + 12
-   \   000108   E4           CLR     A
-   \   000109   F0           MOVX    @DPTR,A
-   \   00010A   A3           INC     DPTR
-   \   00010B   02....       LJMP    ??recGPSData_4 & 0xFFFF
-    172                      }
-    173                      else
-    174                      {
-    175                          geoBuf.rec->data[geoBuf.rec->len++] = ch;        
-   \                     ??recGPSData_7:
-   \   00010E   E0           MOVX    A,@DPTR
-   \   00010F   C0E0         PUSH    A
-   \   000111   12....       LCALL   ??Subroutine10_0 & 0xFFFF
-    176                      }
-    177                  }  
-    178              }
-   \                     ??CrossCallReturnLabel_20:
-   \   000114   E8           MOV     A,R0
-   \   000115   2A           ADD     A,R2
-   \   000116   F582         MOV     DPL,A
-   \   000118   E9           MOV     A,R1
-   \   000119   3B           ADDC    A,R3
-   \   00011A   F583         MOV     DPH,A
-   \   00011C   A3           INC     DPTR
-   \   00011D   A3           INC     DPTR
-   \   00011E   D0E0         POP     A
-   \   000120   F0           MOVX    @DPTR,A
-   \   000121   12....       LCALL   ?Subroutine8 & 0xFFFF
-   \                     ??CrossCallReturnLabel_7:
-   \   000124   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \   00008D   85..82       MOV     DPL,?XSP + 0
+   \   000090   85..83       MOV     DPH,?XSP + 1
+   \   000093   E0           MOVX    A,@DPTR
+   \   000094   6424         XRL     A,#0x24
+   \   000096   705E         JNZ     ??recGPSData_7
+    152                      {
+    153                          if(geoBuf.rec->len >= 64)           //通过两个$符号之间的数据长度确定数据的有效性
+   \   000098   8882         MOV     DPL,R0
+   \   00009A   8983         MOV     DPH,R1
+   \   00009C   C3           CLR     C
+   \   00009D   E0           MOVX    A,@DPTR
+   \   00009E   9440         SUBB    A,#0x40
+   \   0000A0   A3           INC     DPTR
+   \   0000A1   E0           MOVX    A,@DPTR
+   \   0000A2   9400         SUBB    A,#0x0
+   \   0000A4   403A         JC      ??recGPSData_8
+    154                          {
+    155                              geoBuf.rec->next = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
+   \   0000A6                ; Setup parameters for call to function osal_mem_alloc
+   \   0000A6   7A54         MOV     R2,#0x54
+   \   0000A8   7B00         MOV     R3,#0x0
+   \   0000AA   12....       LCALL   ??osal_mem_alloc?relay
+   \   0000AD   8A..         MOV     ?V0 + 0,R2
+   \   0000AF   8B..         MOV     ?V0 + 1,R3
+   \   0000B1   90....       MOV     DPTR,#geoBuf + 6
+   \   0000B4   E0           MOVX    A,@DPTR
+   \   0000B5   2452         ADD     A,#0x52
+   \   0000B7   FA           MOV     R2,A
+   \   0000B8   A3           INC     DPTR
+   \   0000B9   E0           MOVX    A,@DPTR
+   \   0000BA   3400         ADDC    A,#0x0
+   \   0000BC   FB           MOV     R3,A
+   \   0000BD   8A82         MOV     DPL,R2
+   \   0000BF   8B83         MOV     DPH,R3
+   \   0000C1   E5..         MOV     A,?V0 + 0
+   \   0000C3   F0           MOVX    @DPTR,A
+   \   0000C4   A3           INC     DPTR
+   \   0000C5   E5..         MOV     A,?V0 + 1
+   \   0000C7   F0           MOVX    @DPTR,A
+    156                              geoBuf.rec = geoBuf.rec->next;
+   \   0000C8   90....       MOV     DPTR,#geoBuf + 6
+   \   0000CB   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_8:
+   \   0000CE   FA           MOV     R2,A
+   \   0000CF   A3           INC     DPTR
+   \   0000D0   E0           MOVX    A,@DPTR
+   \   0000D1   FB           MOV     R3,A
+   \   0000D2   90....       MOV     DPTR,#geoBuf + 6
+   \   0000D5   12....       LCALL   ?Subroutine4 & 0xFFFF
+    157                              osal_memset(geoBuf.rec, 0, sizeof(DataFrame));
+    158                              geoBuf.num++;
    \                     ??CrossCallReturnLabel_5:
-   \   000127   02....       LJMP    ??recGPSData_4 & 0xFFFF
-    179          } 
+   \   0000D8   90....       MOV     DPTR,#geoBuf
+   \   0000DB   12....       LCALL   ?Subroutine10 & 0xFFFF
+    159                          }
+   \                     ??CrossCallReturnLabel_19:
+   \   0000DE   800C         SJMP    ??recGPSData_9
+    160                          else
+    161                          {
+    162                              //SampleApp_SendPeriodicMessage("Connect Fail! ---- ", 19);          //无效GPS数据
+    163                              SampleApp_SendPeriodicMessage(geoBuf.rec->data, geoBuf.rec->len);
+   \                     ??recGPSData_8:
+   \   0000E0                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
+   \   0000E0   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_23:
+   \   0000E3   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
+    164                              geoBuf.rec->len = 0;
+   \   0000E6   12....       LCALL   ?Subroutine11 & 0xFFFF
+    165                          }
+   \                     ??CrossCallReturnLabel_21:
+   \   0000E9   E4           CLR     A
+   \   0000EA   F0           MOVX    @DPTR,A
+   \   0000EB   A3           INC     DPTR
+   \                     ??recGPSData_9:
+   \   0000EC   F0           MOVX    @DPTR,A
+    166                          
+    167                          geoBuf.mode = 0;
+   \   0000ED   90....       MOV     DPTR,#geoBuf + 12
+   \   0000F0   E4           CLR     A
+   \   0000F1   F0           MOVX    @DPTR,A
+   \   0000F2   A3           INC     DPTR
+   \   0000F3   02....       LJMP    ??recGPSData_4 & 0xFFFF
+    168                      }
+    169                      else
+    170                      {
+    171                          geoBuf.rec->data[geoBuf.rec->len++] = ch;        
+   \                     ??recGPSData_7:
+   \   0000F6   E0           MOVX    A,@DPTR
+   \   0000F7   C0E0         PUSH    A
+   \   0000F9   8882         MOV     DPL,R0
+   \   0000FB   8983         MOV     DPH,R1
+   \   0000FD   12....       LCALL   ?Subroutine9 & 0xFFFF
+    172                      }
+    173                  }  
+    174              }
+   \                     ??CrossCallReturnLabel_16:
+   \   000100   E8           MOV     A,R0
+   \   000101   2A           ADD     A,R2
+   \   000102   F582         MOV     DPL,A
+   \   000104   E9           MOV     A,R1
+   \   000105   3B           ADDC    A,R3
+   \   000106   F583         MOV     DPH,A
+   \   000108   A3           INC     DPTR
+   \   000109   A3           INC     DPTR
+   \   00010A   D0E0         POP     A
+   \   00010C   F0           MOVX    @DPTR,A
+   \   00010D   12....       LCALL   ?Subroutine11 & 0xFFFF
+   \                     ??CrossCallReturnLabel_22:
+   \   000110   12....       LCALL   ?Subroutine10 & 0xFFFF
+   \                     ??CrossCallReturnLabel_20:
+   \   000113   02....       LJMP    ??recGPSData_4 & 0xFFFF
+    175          } 
    \                     ??recGPSData_5:
-   \   00012A   7401         MOV     A,#0x1
-   \   00012C                REQUIRE ?Subroutine1
-   \   00012C                ; // Fall through to label ?Subroutine1
+   \   000116   7401         MOV     A,#0x1
+   \   000118                REQUIRE ?Subroutine1
+   \   000118                ; // Fall through to label ?Subroutine1
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
    \                     ?Subroutine1:
@@ -760,7 +746,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000005   02....       LJMP    ?BANKED_LEAVE_XDATA
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine8:
+   \                     ?Subroutine11:
    \   000000   90....       MOV     DPTR,#geoBuf + 6
    \   000003   E0           MOVX    A,@DPTR
    \   000004   F8           MOV     R0,A
@@ -771,7 +757,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000B   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine7:
+   \                     ?Subroutine10:
    \   000000   E0           MOVX    A,@DPTR
    \   000001   2401         ADD     A,#0x1
    \   000003   F0           MOVX    @DPTR,A
@@ -781,261 +767,195 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   000008   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine5:
-   \   000000   90....       MOV     DPTR,#geoBuf + 6
-   \   000003                REQUIRE ??Subroutine9_0
-   \   000003                ; // Fall through to label ??Subroutine9_0
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine6:
-   \   000000   E0           MOVX    A,@DPTR
-   \   000001   2452         ADD     A,#0x52
-   \   000003   F8           MOV     R0,A
-   \   000004   A3           INC     DPTR
-   \   000005   E0           MOVX    A,@DPTR
-   \   000006   3400         ADDC    A,#0x0
-   \   000008   22           RET
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine4:
-   \   000000   F9           MOV     R1,A
-   \   000001                REQUIRE ??Subroutine10_0
-   \   000001                ; // Fall through to label ??Subroutine10_0
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine10_0:
-   \   000000   8882         MOV     DPL,R0
-   \   000002   8983         MOV     DPH,R1
-   \   000004                REQUIRE ??Subroutine11_0
-   \   000004                ; // Fall through to label ??Subroutine11_0
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ??Subroutine11_0:
+   \                     ?Subroutine9:
    \   000000   E0           MOVX    A,@DPTR
    \   000001   FA           MOV     R2,A
    \   000002   A3           INC     DPTR
    \   000003   E0           MOVX    A,@DPTR
    \   000004   FB           MOV     R3,A
    \   000005   22           RET
-    180           
-    181          //从每一个有效数据帧中提取所需地理信息, 并且刷新geoInfoData对象, 同时将数据封装到一个包中用于发送
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    182          void fetchGPSInfo(void)
-   \                     fetchGPSInfo:
-    183          {
-   \   000000   C082         PUSH    DPL
-   \   000002   C083         PUSH    DPH
-   \   000004                ; Saved register size: 2
-   \   000004                ; Auto size: 0
-    184              uint16 i = 0, j = 0, k = 0;
-                                          ^
-Warning[Pe177]: variable "k" was declared but never referenced
-   \   000004   7A00         MOV     R2,#0x0
-   \   000006   7B00         MOV     R3,#0x0
-   \   000008   7800         MOV     R0,#0x0
-   \   00000A   7900         MOV     R1,#0x0
-    185              
-    186              uint8* ptr = (void*)&geoInfo;        //将整个结构体视为一个由字节构成的整体处理
-   \   00000C   8008         SJMP    ??fetchGPSInfo_0
-    187              
-    188              while(i <= sizeof(geoInfo))
-    189              {
-    190                  if(geoBuf.send->data[j] == ',')
-    191                  {
-    192                      j++;
-   \                     ??fetchGPSInfo_1:
-   \   00000E   E8           MOV     A,R0
-   \   00000F   2401         ADD     A,#0x1
-   \   000011   08           INC     R0
-   \   000012   E9           MOV     A,R1
-   \   000013   3400         ADDC    A,#0x0
-   \   000015   F9           MOV     R1,A
-    193                      continue;
-    194                  }
-   \                     ??fetchGPSInfo_0:
-   \   000016   90....       MOV     DPTR,#geoBuf + 4
-   \   000019   E0           MOVX    A,@DPTR
-   \   00001A   28           ADD     A,R0
-   \   00001B   FC           MOV     R4,A
-   \   00001C   A3           INC     DPTR
-   \   00001D   E0           MOVX    A,@DPTR
-   \   00001E   39           ADDC    A,R1
-   \   00001F   8C82         MOV     DPL,R4
-   \   000021   F583         MOV     DPH,A
-   \   000023   A3           INC     DPTR
-   \   000024   A3           INC     DPTR
-   \   000025   E0           MOVX    A,@DPTR
-   \   000026   642C         XRL     A,#0x2c
-   \   000028   60E4         JZ      ??fetchGPSInfo_1
-    195                  
-    196                  ptr[i++] = geoBuf.send->data[j++];
-   \   00002A   E0           MOVX    A,@DPTR
-   \   00002B   C0E0         PUSH    A
-   \   00002D   74..         MOV     A,#geoInfo & 0xff
-   \   00002F   2A           ADD     A,R2
-   \   000030   F582         MOV     DPL,A
-   \   000032   74..         MOV     A,#(geoInfo >> 8) & 0xff
-   \   000034   3B           ADDC    A,R3
-   \   000035   F583         MOV     DPH,A
-   \   000037   D0E0         POP     A
-   \   000039   F0           MOVX    @DPTR,A
-   \   00003A   E8           MOV     A,R0
-   \   00003B   2401         ADD     A,#0x1
-   \   00003D   08           INC     R0
-   \   00003E   E9           MOV     A,R1
-   \   00003F   3400         ADDC    A,#0x0
-   \   000041   F9           MOV     R1,A
-   \   000042   EA           MOV     A,R2
-   \   000043   2401         ADD     A,#0x1
-   \   000045   0A           INC     R2
-   \   000046   EB           MOV     A,R3
-   \   000047   3400         ADDC    A,#0x0
-   \   000049   FB           MOV     R3,A
-    197              }
-   \   00004A   C3           CLR     C
-   \   00004B   EA           MOV     A,R2
-   \   00004C   9424         SUBB    A,#0x24
-   \   00004E   EB           MOV     A,R3
-   \   00004F   9400         SUBB    A,#0x0
-   \   000051   40C3         JC      ??fetchGPSInfo_0
-    198              
-    199              
-    200              // while(i < GEO_INFO_NUM)
-    201              // {
-    202                  // if(geoBuf.send->data[j] == ',')
-    203                  // {
-    204                      // j++;
-    205                      // geoInfoData[i][k] = '\0';
-    206                      // i++;
-    207                      // k = 0;
-    208                      // continue;
-    209                  // }
-    210                  
-    211                  // geoInfoData[i][k++] = geoBuf.send->data[j++];
-    212              // }
-    213          }
-   \   000053   02....       LJMP    ?Subroutine0 & 0xFFFF
-    214          /*********************************************************************
-    215           * @fn      SampleApp_Init
-    216           *
-    217           * @brief   Initialization function for the Generic App Task.
-    218           *          This is called during initialization and should contain
-    219           *          any application specific initialization (ie. hardware
-    220           *          initialization/setup, table initialization, power up
-    221           *          notificaiton ... ).
-    222           *
-    223           * @param   task_id - the ID assigned by OSAL.  This ID should be
-    224           *                    used to send messages and set timers.
-    225           *
-    226           * @return  none
-    227           */
+   \                     ?Subroutine7:
+   \   000000   E0           MOVX    A,@DPTR
+   \   000001   2452         ADD     A,#0x52
+   \   000003   F8           MOV     R0,A
+   \   000004   A3           INC     DPTR
+   \   000005   E0           MOVX    A,@DPTR
+   \   000006   3400         ADDC    A,#0x0
+   \   000008   F9           MOV     R1,A
+   \   000009   8882         MOV     DPL,R0
+   \   00000B   8983         MOV     DPH,R1
+   \   00000D   E0           MOVX    A,@DPTR
+   \   00000E   22           RET
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    228          void SampleApp_Init( uint8 task_id )
+   \                     ?Subroutine12:
+   \   000000   8882         MOV     DPL,R0
+   \   000002   8983         MOV     DPH,R1
+   \   000004   E0           MOVX    A,@DPTR
+   \   000005   FC           MOV     R4,A
+   \   000006   A3           INC     DPTR
+   \   000007   E0           MOVX    A,@DPTR
+   \   000008   FD           MOV     R5,A
+   \   000009   E8           MOV     A,R0
+   \   00000A   2402         ADD     A,#0x2
+   \   00000C   FA           MOV     R2,A
+   \   00000D   E9           MOV     A,R1
+   \   00000E   3400         ADDC    A,#0x0
+   \   000010   FB           MOV     R3,A
+   \   000011   22           RET
+    176           
+    177          //从每一个有效数据帧中提取所需地理信息, 并且刷新geoInfoData对象, 同时将数据封装到一个包中用于发送
+    178          // void fetchGPSInfo(void)
+    179          // {
+    180              // uint16 i = 0, j = 0;
+    181              
+    182              // uint8* ptr = (void*)&geoInfo;        //将整个结构体视为一个由字节构成的整体处理
+    183              
+    184              // while(i <= sizeof(geoInfo))
+    185              // {
+    186                  // if(geoBuf.send->data[j] == ',')
+    187                  // {
+    188                      // j++;
+    189                      // continue;
+    190                  // }
+    191                  
+    192                  // ptr[i++] = geoBuf.send->data[j++];
+    193              // }
+    194              
+    195          // }
+    196          /*********************************************************************
+    197           * @fn      SampleApp_Init
+    198           *
+    199           * @brief   Initialization function for the Generic App Task.
+    200           *          This is called during initialization and should contain
+    201           *          any application specific initialization (ie. hardware
+    202           *          initialization/setup, table initialization, power up
+    203           *          notificaiton ... ).
+    204           *
+    205           * @param   task_id - the ID assigned by OSAL.  This ID should be
+    206           *                    used to send messages and set timers.
+    207           *
+    208           * @return  none
+    209           */
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    210          void SampleApp_Init( uint8 task_id )
    \                     SampleApp_Init:
-    229          { 
+    211          { 
    \   000000   74F7         MOV     A,#-0x9
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
    \   000005                ; Saved register size: 9
    \   000005                ; Auto size: 0
    \   000005   E9           MOV     A,R1
-    230              SampleApp_TaskID = task_id;
+    212              SampleApp_TaskID = task_id;
    \   000006   90....       MOV     DPTR,#SampleApp_TaskID
    \   000009   F0           MOVX    @DPTR,A
-    231              SampleApp_NwkState = DEV_INIT;
+    213              SampleApp_NwkState = DEV_INIT;
    \   00000A   90....       MOV     DPTR,#SampleApp_NwkState
    \   00000D   7401         MOV     A,#0x1
    \   00000F   F0           MOVX    @DPTR,A
-    232              SampleApp_TransID = 0;
+    214              SampleApp_TransID = 0;
    \   000010   90....       MOV     DPTR,#SampleApp_TransID
    \   000013   E4           CLR     A
    \   000014   F0           MOVX    @DPTR,A
-    233            
-    234              initUart();
+    215            
+    216              initUart(0, (void*)0);      //初始化与上位机相连的串口
    \   000015                ; Setup parameters for call to function initUart
-   \   000015   12....       LCALL   ??initUart?relay
-    235              initGeoBuf();
-   \   000018                ; Setup parameters for call to function initGeoBuf
-   \   000018   12....       LCALL   ??initGeoBuf?relay
-    236          
-    237              // 设置消息发送目标地址(广播模式)
-    238              SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;
-   \   00001B   90....       MOV     DPTR,#SampleApp_Periodic_DstAddr + 8
-   \   00001E   740F         MOV     A,#0xf
-   \   000020   F0           MOVX    @DPTR,A
-    239              SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
-   \   000021   A3           INC     DPTR
-   \   000022   7414         MOV     A,#0x14
-   \   000024   F0           MOVX    @DPTR,A
-    240              SampleApp_Periodic_DstAddr.addr.shortAddr = 0xFFFF;
-   \   000025   90....       MOV     DPTR,#SampleApp_Periodic_DstAddr
-   \   000028   74FF         MOV     A,#-0x1
-   \   00002A   F0           MOVX    @DPTR,A
-   \   00002B   A3           INC     DPTR
-   \   00002C   F0           MOVX    @DPTR,A
-    241              
-    242              // 填充端点描述符
-    243              SampleApp_epDesc.endPoint = SAMPLEAPP_ENDPOINT;
-   \   00002D   90....       MOV     DPTR,#SampleApp_epDesc
-   \   000030   7414         MOV     A,#0x14
-   \   000032   F0           MOVX    @DPTR,A
-    244              SampleApp_epDesc.task_id = &SampleApp_TaskID;
-   \   000033   A3           INC     DPTR
-   \   000034   74..         MOV     A,#SampleApp_TaskID & 0xff
-   \   000036   F0           MOVX    @DPTR,A
-   \   000037   A3           INC     DPTR
-   \   000038   74..         MOV     A,#(SampleApp_TaskID >> 8) & 0xff
-   \   00003A   F0           MOVX    @DPTR,A
-    245              SampleApp_epDesc.simpleDesc
-    246                      = (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc;
-   \   00003B   A3           INC     DPTR
-   \   00003C   74..         MOV     A,#SampleApp_SimpleDesc & 0xff
-   \   00003E   F0           MOVX    @DPTR,A
-   \   00003F   A3           INC     DPTR
-   \   000040   74..         MOV     A,#(SampleApp_SimpleDesc >> 8) & 0xff
-   \   000042   F0           MOVX    @DPTR,A
-    247              SampleApp_epDesc.latencyReq = noLatencyReqs;
-   \   000043   A3           INC     DPTR
-   \   000044   E4           CLR     A
+   \   000015   FC           MOV     R4,A
+   \   000016   FD           MOV     R5,A
+   \   000017   FA           MOV     R2,A
+   \   000018   FB           MOV     R3,A
+   \   000019   12....       LCALL   ??initUart?relay
+    217              initUart(1, recGPSData);    //初始化与GPS相连的串口
+   \   00001C                ; Setup parameters for call to function initUart
+   \   00001C   7C..         MOV     R4,#??recGPSData?relay & 0xff
+   \   00001E   7D..         MOV     R5,#(??recGPSData?relay >> 8) & 0xff
+   \   000020   7A01         MOV     R2,#0x1
+   \   000022   7B00         MOV     R3,#0x0
+   \   000024   12....       LCALL   ??initUart?relay
+    218              initGeoBuf();
+   \   000027                ; Setup parameters for call to function initGeoBuf
+   \   000027   12....       LCALL   ??initGeoBuf?relay
+    219          
+    220              // 设置消息发送目标地址(广播模式)
+    221              SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;
+   \   00002A   90....       MOV     DPTR,#SampleApp_Periodic_DstAddr + 8
+   \   00002D   740F         MOV     A,#0xf
+   \   00002F   F0           MOVX    @DPTR,A
+    222              SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
+   \   000030   A3           INC     DPTR
+   \   000031   7414         MOV     A,#0x14
+   \   000033   F0           MOVX    @DPTR,A
+    223              SampleApp_Periodic_DstAddr.addr.shortAddr = 0xFFFF;
+   \   000034   90....       MOV     DPTR,#SampleApp_Periodic_DstAddr
+   \   000037   74FF         MOV     A,#-0x1
+   \   000039   F0           MOVX    @DPTR,A
+   \   00003A   A3           INC     DPTR
+   \   00003B   F0           MOVX    @DPTR,A
+    224              
+    225              // 填充端点描述符
+    226              SampleApp_epDesc.endPoint = SAMPLEAPP_ENDPOINT;
+   \   00003C   90....       MOV     DPTR,#SampleApp_epDesc
+   \   00003F   7414         MOV     A,#0x14
+   \   000041   F0           MOVX    @DPTR,A
+    227              SampleApp_epDesc.task_id = &SampleApp_TaskID;
+   \   000042   A3           INC     DPTR
+   \   000043   74..         MOV     A,#SampleApp_TaskID & 0xff
    \   000045   F0           MOVX    @DPTR,A
-    248              
-    249              // 向应用层注册端点
-    250              afRegister( &SampleApp_epDesc );
-   \   000046                ; Setup parameters for call to function afRegister
-   \   000046   7A..         MOV     R2,#SampleApp_epDesc & 0xff
-   \   000048   7B..         MOV     R3,#(SampleApp_epDesc >> 8) & 0xff
-   \   00004A   12....       LCALL   ??afRegister?relay
-    251              
-    252              // 表明这个APP处理所有事务
-    253              RegisterForKeys( SampleApp_TaskID );
-   \   00004D                ; Setup parameters for call to function RegisterForKeys
-   \   00004D   90....       MOV     DPTR,#SampleApp_TaskID
-   \   000050   E0           MOVX    A,@DPTR
-   \   000051   F9           MOV     R1,A
-   \   000052   12....       LCALL   ??RegisterForKeys?relay
-    254          }
-   \   000055   7F01         MOV     R7,#0x1
-   \   000057   02....       LJMP    ?BANKED_LEAVE_XDATA
-    255          
-    256          /*********************************************************************
-    257           * @fn      SampleApp_ProcessEvent
-    258           *
-    259           * @brief   Generic Application Task event processor.  This function
-    260           *          is called to process all events for the task.  Events
-    261           *          include timers, messages and any other user defined events.
-    262           *
-    263           * @param   task_id  - The OSAL assigned task ID.
-    264           * @param   events - events to process.  This is a bit map and can
-    265           *                   contain more than one event.
-    266           *
-    267           * @return  none
-    268           */
+   \   000046   A3           INC     DPTR
+   \   000047   74..         MOV     A,#(SampleApp_TaskID >> 8) & 0xff
+   \   000049   F0           MOVX    @DPTR,A
+    228              SampleApp_epDesc.simpleDesc
+    229                      = (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc;
+   \   00004A   A3           INC     DPTR
+   \   00004B   74..         MOV     A,#SampleApp_SimpleDesc & 0xff
+   \   00004D   F0           MOVX    @DPTR,A
+   \   00004E   A3           INC     DPTR
+   \   00004F   74..         MOV     A,#(SampleApp_SimpleDesc >> 8) & 0xff
+   \   000051   F0           MOVX    @DPTR,A
+    230              SampleApp_epDesc.latencyReq = noLatencyReqs;
+   \   000052   A3           INC     DPTR
+   \   000053   E4           CLR     A
+   \   000054   F0           MOVX    @DPTR,A
+    231              
+    232              // 向应用层注册端点
+    233              afRegister( &SampleApp_epDesc );
+   \   000055                ; Setup parameters for call to function afRegister
+   \   000055   7A..         MOV     R2,#SampleApp_epDesc & 0xff
+   \   000057   7B..         MOV     R3,#(SampleApp_epDesc >> 8) & 0xff
+   \   000059   12....       LCALL   ??afRegister?relay
+    234              
+    235              // 表明这个APP处理所有事务
+    236              RegisterForKeys( SampleApp_TaskID );
+   \   00005C                ; Setup parameters for call to function RegisterForKeys
+   \   00005C   90....       MOV     DPTR,#SampleApp_TaskID
+   \   00005F   E0           MOVX    A,@DPTR
+   \   000060   F9           MOV     R1,A
+   \   000061   12....       LCALL   ??RegisterForKeys?relay
+    237          }
+   \   000064   7F01         MOV     R7,#0x1
+   \   000066   02....       LJMP    ?BANKED_LEAVE_XDATA
+    238          
+    239          /*********************************************************************
+    240           * @fn      SampleApp_ProcessEvent
+    241           *
+    242           * @brief   Generic Application Task event processor.  This function
+    243           *          is called to process all events for the task.  Events
+    244           *          include timers, messages and any other user defined events.
+    245           *
+    246           * @param   task_id  - The OSAL assigned task ID.
+    247           * @param   events - events to process.  This is a bit map and can
+    248           *                   contain more than one event.
+    249           *
+    250           * @return  none
+    251           */
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    269          uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
+    252          uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
    \                     SampleApp_ProcessEvent:
-    270          {
+    253          {
    \   000000   74F4         MOV     A,#-0xc
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
    \   000005                ; Saved register size: 12
@@ -1044,78 +964,78 @@ Warning[Pe177]: variable "k" was declared but never referenced
    \   000006   FE           MOV     R6,A
    \   000007   EB           MOV     A,R3
    \   000008   FF           MOV     R7,A
-    271              afIncomingMSGPacket_t *MSGpkt;
-    272              (void)task_id;  // Intentionally unreferenced parameter
-    273              
-    274              if ( events & SYS_EVENT_MSG ) //检测对应位是否为1以判定是否为是相应事件, 其余位一般为零
+    254              afIncomingMSGPacket_t *MSGpkt;
+    255              (void)task_id;  // Intentionally unreferenced parameter
+    256              
+    257              if ( events & SYS_EVENT_MSG ) //检测对应位是否为1以判定是否为是相应事件, 其余位一般为零
    \   000009   5480         ANL     A,#0x80
    \   00000B   605C         JZ      ??SampleApp_ProcessEvent_0
-    275              {
-    276                  MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID );
+    258              {
+    259                  MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID );
    \   00000D                ; Setup parameters for call to function osal_msg_receive
    \   00000D   8026         SJMP    ??SampleApp_ProcessEvent_1
-    277                  
-    278                  while ( MSGpkt )
-    279                  {
-    280                      switch ( MSGpkt->hdr.event )
-    281                      {        
-    282                          // Received when a messages is received (OTA) for this endpoint
-    283                          case AF_INCOMING_MSG_CMD:
-    284                              SampleApp_MessageMSGCB( MSGpkt );
-    285                              break;
-    286                      
-    287                          // Received whenever the device changes state in the network
-    288                          case ZDO_STATE_CHANGE:
-    289                              SampleApp_NwkState = (devStates_t)(MSGpkt->hdr.status);
+    260                  
+    261                  while ( MSGpkt )
+    262                  {
+    263                      switch ( MSGpkt->hdr.event )
+    264                      {        
+    265                          // Received when a messages is received (OTA) for this endpoint
+    266                          case AF_INCOMING_MSG_CMD:
+    267                              SampleApp_MessageMSGCB( MSGpkt );
+    268                              break;
+    269                      
+    270                          // 网络状态改变触发此事件, 也就意味着只有当建网成功后才会开始间隔发送消息
+    271                          case ZDO_STATE_CHANGE:
+    272                              SampleApp_NwkState = (devStates_t)(MSGpkt->hdr.status);
    \                     ??SampleApp_ProcessEvent_2:
    \   00000F   A3           INC     DPTR
    \   000010   E0           MOVX    A,@DPTR
    \   000011   90....       MOV     DPTR,#SampleApp_NwkState
    \   000014   F0           MOVX    @DPTR,A
-    290                              if ( //(SampleApp_NwkState == DEV_ZB_COORD) ||
-    291                                  (SampleApp_NwkState == DEV_ROUTER)
-    292                                  || (SampleApp_NwkState == DEV_END_DEVICE) )
+    273                              if ( //(SampleApp_NwkState == DEV_ZB_COORD) ||
+    274                                  (SampleApp_NwkState == DEV_ROUTER)
+    275                                  || (SampleApp_NwkState == DEV_END_DEVICE) )
    \   000015   6407         XRL     A,#0x7
    \   000017   6005         JZ      ??SampleApp_ProcessEvent_3
    \   000019   E0           MOVX    A,@DPTR
    \   00001A   6406         XRL     A,#0x6
    \   00001C   7010         JNZ     ??SampleApp_ProcessEvent_4
-    293                              {
-    294                              // Start sending the periodic message in a regular interval.
-    295                              osal_start_timerEx( SampleApp_TaskID,
-    296                                                  SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
-    297                                                  SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
+    276                              {
+    277                              // 从现在开始计时, 到规定时间即向指定任务发送时间标志, 只执行一次
+    278                              osal_start_timerEx( SampleApp_TaskID,
+    279                                                  SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+    280                                                  SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
    \                     ??SampleApp_ProcessEvent_3:
    \   00001E                ; Setup parameters for call to function osal_start_timerEx
-   \   00001E   7CE8         MOV     R4,#-0x18
-   \   000020   7D03         MOV     R5,#0x3
+   \   00001E   7CF4         MOV     R4,#-0xc
+   \   000020   7D01         MOV     R5,#0x1
    \   000022   7A01         MOV     R2,#0x1
    \   000024   7B00         MOV     R3,#0x0
    \   000026   90....       MOV     DPTR,#SampleApp_TaskID
    \   000029   E0           MOVX    A,@DPTR
    \   00002A   F9           MOV     R1,A
    \   00002B   12....       LCALL   ??osal_start_timerEx?relay
-    298                              }
-    299                              else
-    300                              {
-    301                              // Device is no longer in the network
-    302                              }
-    303                              break;
-    304                      
-    305                          default:
-    306                              break;
-    307                      }
-    308                  
-    309                      // Release the memory
-    310                      osal_msg_deallocate( (uint8 *)MSGpkt );
+    281                              }
+    282                              else
+    283                              {
+    284                              // Device is no longer in the network
+    285                              }
+    286                              break;
+    287                      
+    288                          default:
+    289                              break;
+    290                      }
+    291                  
+    292                      // 释放空间
+    293                      osal_msg_deallocate( (uint8 *)MSGpkt );
    \                     ??SampleApp_ProcessEvent_4:
    \   00002E                ; Setup parameters for call to function osal_msg_deallocate
    \   00002E   AA..         MOV     R2,?V0 + 0
    \   000030   AB..         MOV     R3,?V0 + 1
    \   000032   12....       LCALL   ??osal_msg_deallocate?relay
-    311                  
-    312                      // Next - if one is available
-    313                      MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID );
+    294                  
+    295                      // 如果缓冲区还有剩余的事件则继续处理
+    296                      MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive( SampleApp_TaskID );
    \   000035                ; Setup parameters for call to function osal_msg_receive
    \                     ??SampleApp_ProcessEvent_1:
    \   000035   90....       MOV     DPTR,#SampleApp_TaskID
@@ -1141,10 +1061,10 @@ Warning[Pe177]: variable "k" was declared but never referenced
    \   00005A   AB..         MOV     R3,?V0 + 1
    \   00005C   12....       LCALL   ??SampleApp_MessageMSGCB?relay
    \   00005F   80CD         SJMP    ??SampleApp_ProcessEvent_4
-    314                  }
-    315                  
-    316                  // 返回未处理的事件
-    317                  return (events ^ SYS_EVENT_MSG);
+    297                  }
+    298                  
+    299                  // 返回未处理的事件
+    300                  return (events ^ SYS_EVENT_MSG);
    \                     ??SampleApp_ProcessEvent_5:
    \   000061   EE           MOV     A,R6
    \   000062   FA           MOV     R2,A
@@ -1152,151 +1072,156 @@ Warning[Pe177]: variable "k" was declared but never referenced
    \   000064   6480         XRL     A,#0x80
    \                     ??SampleApp_ProcessEvent_7:
    \   000066   FB           MOV     R3,A
-   \   000067   8009         SJMP    ??SampleApp_ProcessEvent_8
-    318              }
-    319              
-    320              // 设置发送消息的时间间隔, 由计时器触发
-    321              if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
+   \   000067   806C         SJMP    ??SampleApp_ProcessEvent_8
+    301              }
+    302              
+    303              // 设置发送消息的时间间隔, 由计时器触发
+    304              if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
    \                     ??SampleApp_ProcessEvent_0:
    \   000069   EE           MOV     A,R6
    \   00006A   A2E0         MOV     C,0xE0 /* A   */.0
-   \   00006C   4054         JC      ??CrossCallReturnLabel_26
-    322              {
-    323                  
-    324                  //限制只有至少存在两个有效数据帧时再处理, 防止数据提取速率超过接受速率, 破坏链表结构
-    325                  while(geoBuf.num >= 2)  
-    326                  {
-    327          
-    328                      fetchGPSInfo();
-    329                      
-    330                      SampleApp_SendPeriodicMessage("Connect Success! ---- ", 22);
-    331                      SampleApp_SendPeriodicMessage((void*)&geoInfo, sizeof(geoInfo));
-    332          
-    333                      geoBuf.num--;
-    334                      
-    335                      geoBuf.send = geoBuf.send->next;
-    336                      
-    337                      osal_mem_free(geoBuf.head);
-    338                      geoBuf.head = geoBuf.send;   
-    339                  }
-    340                  
-    341                  // 设置事件触发的时间间隔
-    342                  osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
-    343                      (SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT + (osal_rand() & 0x00FF)) );
-    344                  
-    345                  // 返回未处理的事件
-    346                  return (events ^ SAMPLEAPP_SEND_PERIODIC_MSG_EVT);
-    347              }
-    348              
-    349              // 丢弃无用事件
-    350              return 0;
-   \   00006E   7A00         MOV     R2,#0x0
-   \   000070   7B00         MOV     R3,#0x0
-   \                     ??SampleApp_ProcessEvent_8:
-   \   000072   7F04         MOV     R7,#0x4
-   \   000074   02....       LJMP    ?BANKED_LEAVE_XDATA
-   \                     ??SampleApp_ProcessEvent_9:
-   \   000077                ; Setup parameters for call to function fetchGPSInfo
-   \   000077   12....       LCALL   ??fetchGPSInfo?relay
-   \   00007A                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
-   \   00007A   7C16         MOV     R4,#0x16
-   \   00007C   7D00         MOV     R5,#0x0
-   \   00007E   7A..         MOV     R2,#`?<Constant "Connect Success! ---- ">` & 0xff
-   \   000080   7B..         MOV     R3,#(`?<Constant "Connect Success! ---- ">` >> 8) & 0xff
-   \   000082   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
-   \   000085                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
-   \   000085   7C23         MOV     R4,#0x23
-   \   000087   7D00         MOV     R5,#0x0
-   \   000089   7A..         MOV     R2,#geoInfo & 0xff
-   \   00008B   7B..         MOV     R3,#(geoInfo >> 8) & 0xff
-   \   00008D   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
-   \   000090   90....       MOV     DPTR,#geoBuf
-   \   000093   E0           MOVX    A,@DPTR
-   \   000094   24FF         ADD     A,#-0x1
-   \   000096   F0           MOVX    @DPTR,A
-   \   000097   A3           INC     DPTR
-   \   000098   E0           MOVX    A,@DPTR
-   \   000099   34FF         ADDC    A,#-0x1
-   \   00009B   F0           MOVX    @DPTR,A
-   \   00009C   90....       MOV     DPTR,#geoBuf + 4
-   \   00009F   12....       LCALL   ?Subroutine6 & 0xFFFF
+   \   00006C   5063         JNC     ??SampleApp_ProcessEvent_9
+    305              {
+    306           
+    307                  //限制只有至少存在两个有效数据帧时再处理, 防止数据提取速率超过接收速率, 破坏链表结构
+    308                  if(geoBuf.num >= 2)  
+   \   00006E   90....       MOV     DPTR,#geoBuf
+   \   000071   C3           CLR     C
+   \   000072   E0           MOVX    A,@DPTR
+   \   000073   9402         SUBB    A,#0x2
+   \   000075   A3           INC     DPTR
+   \   000076   E0           MOVX    A,@DPTR
+   \   000077   9400         SUBB    A,#0x0
+   \   000079   403F         JC      ??CrossCallReturnLabel_28
+    309                  {
+    310          
+    311                      //fetchGPSInfo();
+    312                      
+    313                      HalUARTWrite(0, "LocalHost : ", sizeof("LocalHost : ")-1); //发送自机数据
+   \   00007B                ; Setup parameters for call to function HalUARTWrite
+   \   00007B   7C0C         MOV     R4,#0xc
+   \   00007D   7D00         MOV     R5,#0x0
+   \   00007F   7A..         MOV     R2,#`?<Constant "LocalHost : ">` & 0xff
+   \   000081   7B..         MOV     R3,#(`?<Constant "LocalHost : ">` >> 8) & 0xff
+   \   000083   12....       LCALL   ?Subroutine3 & 0xFFFF
+    314                      HalUARTWrite(0, geoBuf.send->data, geoBuf.send->len); //发送自机数据
+   \                     ??CrossCallReturnLabel_2:
+   \   000086   12....       LCALL   ?Subroutine3 & 0xFFFF
+    315                      
+    316                      SampleApp_SendPeriodicMessage(geoBuf.send->data, geoBuf.send->len);
    \                     ??CrossCallReturnLabel_3:
-   \   0000A2   F9           MOV     R1,A
-   \   0000A3   8882         MOV     DPL,R0
-   \   0000A5   8983         MOV     DPH,R1
-   \   0000A7   12....       LCALL   ??Subroutine9_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_11:
-   \   0000AA   12....       LCALL   ?Subroutine3 & 0xFFFF
+   \   000089   12....       LCALL   ??SampleApp_SendPeriodicMessage?relay
+    317          
+    318                      geoBuf.num--;
+   \   00008C   90....       MOV     DPTR,#geoBuf
+   \   00008F   E0           MOVX    A,@DPTR
+   \   000090   24FF         ADD     A,#-0x1
+   \   000092   F0           MOVX    @DPTR,A
+   \   000093   A3           INC     DPTR
+   \   000094   E0           MOVX    A,@DPTR
+   \   000095   34FF         ADDC    A,#-0x1
+   \   000097   F0           MOVX    @DPTR,A
+    319                      
+    320                      geoBuf.send = geoBuf.send->next;
+   \   000098   90....       MOV     DPTR,#geoBuf + 4
+   \   00009B   12....       LCALL   ?Subroutine7 & 0xFFFF
+   \                     ??CrossCallReturnLabel_9:
+   \   00009E   F8           MOV     R0,A
+   \   00009F   A3           INC     DPTR
+   \   0000A0   E0           MOVX    A,@DPTR
+   \   0000A1   F9           MOV     R1,A
+   \   0000A2   12....       LCALL   ?Subroutine5 & 0xFFFF
+    321                      
+    322                      osal_mem_free(geoBuf.head);
+   \                     ??CrossCallReturnLabel_30:
+   \   0000A5                ; Setup parameters for call to function osal_mem_free
+   \   0000A5   90....       MOV     DPTR,#geoBuf + 2
+   \   0000A8   12....       LCALL   ?Subroutine9 & 0xFFFF
+   \                     ??CrossCallReturnLabel_17:
+   \   0000AB   12....       LCALL   ??osal_mem_free?relay
+    323                      geoBuf.head = geoBuf.send;   
+   \   0000AE   90....       MOV     DPTR,#geoBuf + 4
+   \   0000B1   12....       LCALL   ?Subroutine8 & 0xFFFF
+    324                  }
+   \                     ??CrossCallReturnLabel_14:
+   \   0000B4   90....       MOV     DPTR,#geoBuf + 2
+   \   0000B7   12....       LCALL   ??Subroutine13_0 & 0xFFFF
+    325                  
+    326                  // 设置事件触发的时间间隔
+    327                  osal_start_timerEx( SampleApp_TaskID, SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+    328                      SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT);
    \                     ??CrossCallReturnLabel_28:
-   \   0000AD                ; Setup parameters for call to function osal_mem_free
-   \   0000AD   90....       MOV     DPTR,#geoBuf + 2
-   \   0000B0   12....       LCALL   ??Subroutine11_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_16:
-   \   0000B3   12....       LCALL   ??osal_mem_free?relay
-   \   0000B6   90....       MOV     DPTR,#geoBuf + 4
-   \   0000B9   12....       LCALL   ??Subroutine9_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_12:
-   \   0000BC   90....       MOV     DPTR,#geoBuf + 2
-   \   0000BF   12....       LCALL   ??Subroutine12_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_26:
-   \   0000C2   90....       MOV     DPTR,#geoBuf
-   \   0000C5   C3           CLR     C
-   \   0000C6   E0           MOVX    A,@DPTR
-   \   0000C7   9402         SUBB    A,#0x2
-   \   0000C9   A3           INC     DPTR
-   \   0000CA   E0           MOVX    A,@DPTR
-   \   0000CB   9400         SUBB    A,#0x0
-   \   0000CD   50A8         JNC     ??SampleApp_ProcessEvent_9
-   \   0000CF                ; Setup parameters for call to function osal_rand
-   \   0000CF   12....       LCALL   ??osal_rand?relay
-   \   0000D2                ; Setup parameters for call to function osal_start_timerEx
-   \   0000D2   EA           MOV     A,R2
-   \   0000D3   24E8         ADD     A,#-0x18
-   \   0000D5   FC           MOV     R4,A
-   \   0000D6   E4           CLR     A
-   \   0000D7   3403         ADDC    A,#0x3
-   \   0000D9   FD           MOV     R5,A
-   \   0000DA   7A01         MOV     R2,#0x1
-   \   0000DC   7B00         MOV     R3,#0x0
-   \   0000DE   90....       MOV     DPTR,#SampleApp_TaskID
-   \   0000E1   E0           MOVX    A,@DPTR
-   \   0000E2   F9           MOV     R1,A
-   \   0000E3   12....       LCALL   ??osal_start_timerEx?relay
-   \   0000E6   EE           MOV     A,R6
-   \   0000E7   6401         XRL     A,#0x1
-   \   0000E9   FA           MOV     R2,A
-   \   0000EA   EF           MOV     A,R7
-   \   0000EB   02....       LJMP    ??SampleApp_ProcessEvent_7 & 0xFFFF
-    351          }
-    352          
-    353          /*********************************************************************
-    354           * Event Generation Functions
-    355           */
-    356          
-    357          
-    358          /*********************************************************************
-    359           * LOCAL FUNCTIONS
-    360           */
-    361          
-    362          /*********************************************************************
-    363           * @fn      SampleApp_MessageMSGCB
-    364           *
-    365           * @brief   Data message processor callback.  This function processes
-    366           *          any incoming data - probably from other devices.  So, based
-    367           *          on cluster ID, perform the intended action.
-    368           *
-    369           * @param   none
-    370           *
-    371           * @return  none
-    372           */
+   \   0000BA                ; Setup parameters for call to function osal_start_timerEx
+   \   0000BA   7CF4         MOV     R4,#-0xc
+   \   0000BC   7D01         MOV     R5,#0x1
+   \   0000BE   7A01         MOV     R2,#0x1
+   \   0000C0   7B00         MOV     R3,#0x0
+   \   0000C2   90....       MOV     DPTR,#SampleApp_TaskID
+   \   0000C5   E0           MOVX    A,@DPTR
+   \   0000C6   F9           MOV     R1,A
+   \   0000C7   12....       LCALL   ??osal_start_timerEx?relay
+    329                  
+    330                  // 返回未处理的事件
+    331                  return (events ^ SAMPLEAPP_SEND_PERIODIC_MSG_EVT);
+   \   0000CA   EE           MOV     A,R6
+   \   0000CB   6401         XRL     A,#0x1
+   \   0000CD   FA           MOV     R2,A
+   \   0000CE   EF           MOV     A,R7
+   \   0000CF   8095         SJMP    ??SampleApp_ProcessEvent_7
+    332              }
+    333              
+    334              //丢弃无用事件
+    335              return 0;
+   \                     ??SampleApp_ProcessEvent_9:
+   \   0000D1   7A00         MOV     R2,#0x0
+   \   0000D3   7B00         MOV     R3,#0x0
+   \                     ??SampleApp_ProcessEvent_8:
+   \   0000D5   7F04         MOV     R7,#0x4
+   \   0000D7   02....       LJMP    ?BANKED_LEAVE_XDATA
+    336          }
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    373          void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )      //接收数据
+   \                     ?Subroutine3:
+   \   000000   7900         MOV     R1,#0x0
+   \   000002   12....       LCALL   ??HalUARTWrite?relay
+   \   000005   90....       MOV     DPTR,#geoBuf + 4
+   \   000008   E0           MOVX    A,@DPTR
+   \   000009   F8           MOV     R0,A
+   \   00000A   A3           INC     DPTR
+   \   00000B   E0           MOVX    A,@DPTR
+   \   00000C   F9           MOV     R1,A
+   \   00000D                ; Setup parameters for call to function HalUARTWrite
+   \   00000D                ; Setup parameters for call to function SampleApp_SendPeriodicMessage
+   \   00000D   12....       LCALL   ?Subroutine12 & 0xFFFF
+   \                     ??CrossCallReturnLabel_24:
+   \   000010   22           RET
+    337          
+    338          /*********************************************************************
+    339           * Event Generation Functions
+    340           */
+    341          
+    342          
+    343          /*********************************************************************
+    344           * LOCAL FUNCTIONS
+    345           */
+    346          
+    347          /*********************************************************************
+    348           * @fn      SampleApp_MessageMSGCB
+    349           *
+    350           * @brief   处理别的结点发来的数据
+    351           *          
+    352           * @param   none
+    353           *
+    354           * @return  none
+    355           */
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    356          void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
    \                     SampleApp_MessageMSGCB:
-    374          {
-   \   000000   74EE         MOV     A,#-0x12
+    357          {
+   \   000000   74F6         MOV     A,#-0xa
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
-   \   000005                ; Saved register size: 18
+   \   000005                ; Saved register size: 10
    \   000005                ; Auto size: 20
    \   000005   74EC         MOV     A,#-0x14
    \   000007   12....       LCALL   ?ALLOC_XSTACK8
@@ -1304,8 +1229,8 @@ Warning[Pe177]: variable "k" was declared but never referenced
    \   00000B   FE           MOV     R6,A
    \   00000C   EB           MOV     A,R3
    \   00000D   FF           MOV     R7,A
-    375          
-    376            switch ( pkt->clusterId )
+    358            uint8 num[20];
+    359            switch ( pkt->clusterId )
    \   00000E   8E82         MOV     DPL,R6
    \   000010   8F83         MOV     DPH,R7
    \   000012   A3           INC     DPTR
@@ -1320,13 +1245,10 @@ Warning[Pe177]: variable "k" was declared but never referenced
    \                     ??SampleApp_MessageMSGCB_0:
    \   00001D   6003         JZ      $+5
    \   00001F   02....       LJMP    ??SampleApp_MessageMSGCB_1 & 0xFFFF
-    377            {
-    378              case SAMPLEAPP_PERIODIC_CLUSTERID:
-    379                
-    380                  uint8 num[20];
-                         ^
-Warning[Pe1072]: a declaration cannot have a label
-    381                  _ltoa(pkt->srcAddr.endPoint, num, 10);                  //数字转字符串
+    360            {
+    361                  case SAMPLEAPP_PERIODIC_CLUSTERID:
+    362                  //输出结点所属网络PAN ID, 一个结点可以同时处在多个网络中, 用PAN ID进行区分
+    363                  _ltoa(pkt->srcAddr.panId, num, 16);
    \   000022                ; Setup parameters for call to function _ltoa
    \   000022   85..82       MOV     DPL,?XSP + 0
    \   000025   85..83       MOV     DPH,?XSP + 1
@@ -1334,239 +1256,191 @@ Warning[Pe1072]: a declaration cannot have a label
    \   00002B   8583..       MOV     ?V0 + 1,DPH
    \   00002E   78..         MOV     R0,#?V0 + 0
    \   000030   12....       LCALL   ?PUSH_XSTACK_I_TWO
-   \   000033   790A         MOV     R1,#0xa
+   \   000033   7910         MOV     R1,#0x10
    \   000035   EE           MOV     A,R6
-   \   000036   240F         ADD     A,#0xf
+   \   000036   2410         ADD     A,#0x10
    \   000038   F582         MOV     DPL,A
    \   00003A   EF           MOV     A,R7
    \   00003B   3400         ADDC    A,#0x0
    \   00003D   F583         MOV     DPH,A
-   \   00003F   E0           MOVX    A,@DPTR
-   \   000040   FA           MOV     R2,A
-   \   000041   E4           CLR     A
-   \   000042   FB           MOV     R3,A
-   \   000043   FC           MOV     R4,A
-   \   000044   FD           MOV     R5,A
-   \   000045   12....       LCALL   ??_ltoa?relay
-   \   000048   7402         MOV     A,#0x2
-   \   00004A   12....       LCALL   ?DEALLOC_XSTACK8
-    382                  HalUARTWrite(0, num, osal_strlen(num));                 //提示信息(消息来源端点号)
+   \   00003F   12....       LCALL   ?Subroutine6 & 0xFFFF
+   \                     ??CrossCallReturnLabel_6:
+   \   000042   12....       LCALL   ?DEALLOC_XSTACK8
+    364                  HalUARTWrite(0, "0x", 2);        
+   \   000045                ; Setup parameters for call to function HalUARTWrite
+   \   000045   7C02         MOV     R4,#0x2
+   \   000047   7D00         MOV     R5,#0x0
+   \   000049   7A..         MOV     R2,#`?<Constant "0x">` & 0xff
+   \   00004B   7B..         MOV     R3,#(`?<Constant "0x">` >> 8) & 0xff
+   \   00004D   12....       LCALL   ?Subroutine2 & 0xFFFF
+    365                  HalUARTWrite(0, num, osal_strlen(num));
                                                           ^
 Warning[Pe167]: argument of type "unsigned char *" is incompatible with
           parameter of type "char *"
-   \   00004D                ; Setup parameters for call to function HalUARTWrite
-   \   00004D                ; Setup parameters for call to function osal_strlen
-   \   00004D   85..82       MOV     DPL,?XSP + 0
-   \   000050   85..83       MOV     DPH,?XSP + 1
-   \   000053   AA82         MOV     R2,DPL
-   \   000055   AB83         MOV     R3,DPH
-   \   000057   12....       LCALL   ??osal_strlen?relay
-   \   00005A   EA           MOV     A,R2
-   \   00005B   FC           MOV     R4,A
-   \   00005C   EB           MOV     A,R3
-   \   00005D   FD           MOV     R5,A
-   \   00005E   85..82       MOV     DPL,?XSP + 0
-   \   000061   85..83       MOV     DPH,?XSP + 1
-   \   000064   AA82         MOV     R2,DPL
-   \   000066   AB83         MOV     R3,DPH
-   \   000068   7900         MOV     R1,#0x0
-   \   00006A   12....       LCALL   ??HalUARTWrite?relay
-    383                  HalUARTWrite(0, ":", 1);                              //提示信息
-   \   00006D                ; Setup parameters for call to function HalUARTWrite
-   \   00006D   7C01         MOV     R4,#0x1
-   \   00006F   7D00         MOV     R5,#0x0
-   \   000071   7A..         MOV     R2,#`?<Constant ":">` & 0xff
-   \   000073   7B..         MOV     R3,#(`?<Constant ":">` >> 8) & 0xff
-   \   000075   7900         MOV     R1,#0x0
-   \   000077   12....       LCALL   ??HalUARTWrite?relay
-    384                  
-    385                  if(pkt->cmd.DataLength == sizeof(geoInfo))
-   \   00007A   EE           MOV     A,R6
-   \   00007B   241F         ADD     A,#0x1f
-   \   00007D   F582         MOV     DPL,A
-   \   00007F   EF           MOV     A,R7
-   \   000080   3400         ADDC    A,#0x0
-   \   000082   F583         MOV     DPH,A
-   \   000084   E0           MOVX    A,@DPTR
-   \   000085   FC           MOV     R4,A
-   \   000086   A3           INC     DPTR
-   \   000087   E0           MOVX    A,@DPTR
-   \   000088   FD           MOV     R5,A
-   \   000089   75....       MOV     ?V0 + 6,#`?<Constant "\\n">` & 0xff
-   \   00008C   75....       MOV     ?V0 + 7,#(`?<Constant "\\n">` >> 8) & 0xff
-   \   00008F   EE           MOV     A,R6
-   \   000090   2421         ADD     A,#0x21
-   \   000092   F5..         MOV     ?V0 + 4,A
-   \   000094   EF           MOV     A,R7
-   \   000095   3400         ADDC    A,#0x0
-   \   000097   F5..         MOV     ?V0 + 5,A
-   \   000099   7423         MOV     A,#0x23
-   \   00009B   6C           XRL     A,R4
-   \   00009C   7001         JNZ     ??SampleApp_MessageMSGCB_2
-   \   00009E   ED           MOV     A,R5
-   \                     ??SampleApp_MessageMSGCB_2:
-   \   00009F   6003         JZ      $+5
-   \   0000A1   02....       LJMP    ??SampleApp_MessageMSGCB_3 & 0xFFFF
-    386                  {
-    387                      uint16 i = 0;
-   \   0000A4   75..00       MOV     ?V0 + 0,#0x0
-   \   0000A7   75..00       MOV     ?V0 + 1,#0x0
-    388                      for(; i < 5; i++)
-    389                      {
-    390                          HalUARTWrite(0, "\n   ", 4);  
-   \                     ??SampleApp_MessageMSGCB_4:
-   \   0000AA                ; Setup parameters for call to function HalUARTWrite
-   \   0000AA   7C04         MOV     R4,#0x4
-   \   0000AC   7D00         MOV     R5,#0x0
-   \   0000AE   7A..         MOV     R2,#`?<Constant "\\n   ">` & 0xff
-   \   0000B0   7B..         MOV     R3,#(`?<Constant "\\n   ">` >> 8) & 0xff
-   \   0000B2   7900         MOV     R1,#0x0
-   \   0000B4   12....       LCALL   ??HalUARTWrite?relay
-    391                          HalUARTWrite(0, GeoInfoName[i], osal_strlen(GeoInfoName[i]));
-                                                                             ^
+    366                  
+    367                  //输出网络短地址, 相当于IP地址
+    368                  osal_memset(num, 0, sizeof num);        //初始化缓冲存储空间
+   \                     ??CrossCallReturnLabel_0:
+   \   000050                ; Setup parameters for call to function osal_memset
+   \   000050   7C14         MOV     R4,#0x14
+   \   000052   7D00         MOV     R5,#0x0
+   \   000054   7900         MOV     R1,#0x0
+   \   000056   85..82       MOV     DPL,?XSP + 0
+   \   000059   85..83       MOV     DPH,?XSP + 1
+   \   00005C   AA82         MOV     R2,DPL
+   \   00005E   AB83         MOV     R3,DPH
+   \   000060   12....       LCALL   ??osal_memset?relay
+    369                  _ltoa((uint16)(pkt->srcAddr.addr.shortAddr), num, 16);   //数字转字符串
+   \   000063                ; Setup parameters for call to function _ltoa
+   \   000063   85..82       MOV     DPL,?XSP + 0
+   \   000066   8582..       MOV     ?V0 + 0,DPL
+   \   000069   78..         MOV     R0,#?V0 + 0
+   \   00006B   12....       LCALL   ?PUSH_XSTACK_I_TWO
+   \   00006E   7910         MOV     R1,#0x10
+   \   000070   8E82         MOV     DPL,R6
+   \   000072   8F83         MOV     DPH,R7
+   \   000074   A3           INC     DPTR
+   \   000075   A3           INC     DPTR
+   \   000076   A3           INC     DPTR
+   \   000077   A3           INC     DPTR
+   \   000078   A3           INC     DPTR
+   \   000079   A3           INC     DPTR
+   \   00007A   12....       LCALL   ?Subroutine6 & 0xFFFF
+   \                     ??CrossCallReturnLabel_7:
+   \   00007D   12....       LCALL   ?DEALLOC_XSTACK8
+    370                  HalUARTWrite(0, "->0x", 4);  
+   \   000080                ; Setup parameters for call to function HalUARTWrite
+   \   000080   7C04         MOV     R4,#0x4
+   \   000082   7D00         MOV     R5,#0x0
+   \   000084   7A..         MOV     R2,#`?<Constant "->0x">` & 0xff
+   \   000086   7B..         MOV     R3,#(`?<Constant "->0x">` >> 8) & 0xff
+   \   000088   12....       LCALL   ?Subroutine2 & 0xFFFF
+    371                  HalUARTWrite(0, num, osal_strlen(num));                 //提示信息(消息来源端点号)
+                                                          ^
 Warning[Pe167]: argument of type "unsigned char *" is incompatible with
           parameter of type "char *"
-   \   0000B7   E5..         MOV     A,?V0 + 0
-   \   0000B9   C3           CLR     C
-   \   0000BA   33           RLC     A
-   \   0000BB   FE           MOV     R6,A
-   \   0000BC   E5..         MOV     A,?V0 + 1
-   \   0000BE   33           RLC     A
-   \   0000BF   FF           MOV     R7,A
-   \   0000C0   74..         MOV     A,#GeoInfoName & 0xff
-   \   0000C2   2E           ADD     A,R6
-   \   0000C3   F5..         MOV     ?V0 + 2,A
-   \   0000C5   74..         MOV     A,#(GeoInfoName >> 8) & 0xff
-   \   0000C7   3F           ADDC    A,R7
-   \   0000C8   F5..         MOV     ?V0 + 3,A
-   \   0000CA                ; Setup parameters for call to function osal_strlen
-   \   0000CA   85..82       MOV     DPL,?V0 + 2
-   \   0000CD   F583         MOV     DPH,A
-   \   0000CF   12....       LCALL   ??Subroutine11_0 & 0xFFFF
-   \                     ??CrossCallReturnLabel_17:
-   \   0000D2   12....       LCALL   ??osal_strlen?relay
-   \   0000D5   8A..         MOV     ?V0 + 8,R2
-   \   0000D7   8B..         MOV     ?V0 + 9,R3
-   \   0000D9   AC..         MOV     R4,?V0 + 8
-   \   0000DB   AD..         MOV     R5,?V0 + 9
-   \   0000DD                ; Setup parameters for call to function HalUARTWrite
-   \   0000DD   85..82       MOV     DPL,?V0 + 2
-   \   0000E0   85..83       MOV     DPH,?V0 + 3
-   \   0000E3   12....       LCALL   ??Subroutine11_0 & 0xFFFF
+    372                  HalUARTWrite(0, " : ", 3);                              //提示信息
+   \                     ??CrossCallReturnLabel_1:
+   \   00008B                ; Setup parameters for call to function HalUARTWrite
+   \   00008B   7C03         MOV     R4,#0x3
+   \   00008D   7D00         MOV     R5,#0x0
+   \   00008F   7A..         MOV     R2,#`?<Constant " : ">` & 0xff
+   \   000091   7B..         MOV     R3,#(`?<Constant " : ">` >> 8) & 0xff
+   \   000093   7900         MOV     R1,#0x0
+   \   000095   12....       LCALL   ??HalUARTWrite?relay
+    373                  
+    374                  // if(pkt->cmd.DataLength == sizeof(geoInfo))
+    375                  // {
+    376                      // uint16 i = 0;
+    377                      // for(; i < 5; i++)
+    378                      // {
+    379                          // HalUARTWrite(0, "\n   ", 4);  
+    380                          // HalUARTWrite(0, GeoInfoName[i], osal_strlen(GeoInfoName[i]));
+    381                          // HalUARTWrite(0, pkt->cmd.Data + geoInfoLen[i], geoInfoLen[i+1] - geoInfoLen[i]);    //输出接收到的数据
+    382                      // }
+    383                      
+    384                      // HalUARTWrite(0, "\n", 1);                               //回车换行
+    385                  // }
+    386                  // else
+    387                  {
+    388                      HalUARTWrite(0, pkt->cmd.Data, pkt->cmd.DataLength);    //输出接收到的数据
+   \   000098                ; Setup parameters for call to function HalUARTWrite
+   \   000098   EE           MOV     A,R6
+   \   000099   241F         ADD     A,#0x1f
+   \   00009B   F582         MOV     DPL,A
+   \   00009D   EF           MOV     A,R7
+   \   00009E   3400         ADDC    A,#0x0
+   \   0000A0   F583         MOV     DPH,A
+   \   0000A2   E0           MOVX    A,@DPTR
+   \   0000A3   FC           MOV     R4,A
+   \   0000A4   A3           INC     DPTR
+   \   0000A5   E0           MOVX    A,@DPTR
+   \   0000A6   FD           MOV     R5,A
+   \   0000A7   EE           MOV     A,R6
+   \   0000A8   2421         ADD     A,#0x21
+   \   0000AA   F582         MOV     DPL,A
+   \   0000AC   EF           MOV     A,R7
+   \   0000AD   3400         ADDC    A,#0x0
+   \   0000AF   F583         MOV     DPH,A
+   \   0000B1   12....       LCALL   ?Subroutine9 & 0xFFFF
+    389                  }
    \                     ??CrossCallReturnLabel_18:
-   \   0000E6   7900         MOV     R1,#0x0
-   \   0000E8   12....       LCALL   ??HalUARTWrite?relay
-    392                          HalUARTWrite(0, pkt->cmd.Data + geoInfoLen[i], geoInfoLen[i+1] - geoInfoLen[i]);    //输出接收到的数据
-   \   0000EB   74..         MOV     A,#geoInfoLen & 0xff
-   \   0000ED   2E           ADD     A,R6
-   \   0000EE   F8           MOV     R0,A
-   \   0000EF   74..         MOV     A,#(geoInfoLen >> 8) & 0xff
-   \   0000F1   3F           ADDC    A,R7
-   \   0000F2   12....       LCALL   ?Subroutine4 & 0xFFFF
-    393                      }
-   \                     ??CrossCallReturnLabel_22:
-   \   0000F5                ; Setup parameters for call to function HalUARTWrite
-   \   0000F5   8882         MOV     DPL,R0
-   \   0000F7   8983         MOV     DPH,R1
-   \   0000F9   A3           INC     DPTR
-   \   0000FA   A3           INC     DPTR
-   \   0000FB   E0           MOVX    A,@DPTR
-   \   0000FC   C3           CLR     C
-   \   0000FD   9A           SUBB    A,R2
-   \   0000FE   FC           MOV     R4,A
-   \   0000FF   A3           INC     DPTR
-   \   000100   E0           MOVX    A,@DPTR
-   \   000101   9B           SUBB    A,R3
-   \   000102   FD           MOV     R5,A
-   \   000103   85..82       MOV     DPL,?V0 + 4
-   \   000106   85..83       MOV     DPH,?V0 + 5
-   \   000109   E0           MOVX    A,@DPTR
-   \   00010A   2A           ADD     A,R2
-   \   00010B   FA           MOV     R2,A
-   \   00010C   A3           INC     DPTR
-   \   00010D   E0           MOVX    A,@DPTR
-   \   00010E   3B           ADDC    A,R3
-   \   00010F   FB           MOV     R3,A
-   \   000110   7900         MOV     R1,#0x0
-   \   000112   12....       LCALL   ??HalUARTWrite?relay
-   \   000115   E5..         MOV     A,?V0 + 0
-   \   000117   2401         ADD     A,#0x1
-   \   000119   F5..         MOV     ?V0 + 0,A
-   \   00011B   E5..         MOV     A,?V0 + 1
-   \   00011D   3400         ADDC    A,#0x0
-   \   00011F   F5..         MOV     ?V0 + 1,A
-   \   000121   C3           CLR     C
-   \   000122   E5..         MOV     A,?V0 + 0
-   \   000124   9405         SUBB    A,#0x5
-   \   000126   E5..         MOV     A,?V0 + 1
-   \   000128   9400         SUBB    A,#0x0
-   \   00012A   5003         JNC     $+5
-   \   00012C   02....       LJMP    ??SampleApp_MessageMSGCB_4 & 0xFFFF
-    394                      
-    395                      HalUARTWrite(0, "\n", 1);                               //回车换行
-   \   00012F                ; Setup parameters for call to function HalUARTWrite
-   \   00012F   7C01         MOV     R4,#0x1
-   \   000131   7D00         MOV     R5,#0x0
-   \   000133   AA..         MOV     R2,?V0 + 6
-   \   000135   AB..         MOV     R3,?V0 + 7
-   \   000137   8009         SJMP    ??CrossCallReturnLabel_19
-    396                  }
-    397                  else
-    398                  {
-    399                      HalUARTWrite(0, pkt->cmd.Data, pkt->cmd.DataLength);    //输出接收到的数据
-   \                     ??SampleApp_MessageMSGCB_3:
-   \   000139                ; Setup parameters for call to function HalUARTWrite
-   \   000139   85..82       MOV     DPL,?V0 + 4
-   \   00013C   85..83       MOV     DPH,?V0 + 5
-   \   00013F   12....       LCALL   ??Subroutine11_0 & 0xFFFF
-    400                  }
-   \                     ??CrossCallReturnLabel_19:
-   \   000142   7900         MOV     R1,#0x0
-   \   000144   12....       LCALL   ??HalUARTWrite?relay
-    401                  
-    402                  HalUARTWrite(0, "\n", 1);                               //回车换行
-   \   000147                ; Setup parameters for call to function HalUARTWrite
-   \   000147   7C01         MOV     R4,#0x1
-   \   000149   7D00         MOV     R5,#0x0
-   \   00014B   AA..         MOV     R2,?V0 + 6
-   \   00014D   AB..         MOV     R3,?V0 + 7
-   \   00014F   7900         MOV     R1,#0x0
-   \   000151   12....       LCALL   ??HalUARTWrite?relay
-    403                  break;
-    404          
-    405            }
-    406          }
+   \   0000B4   7900         MOV     R1,#0x0
+   \   0000B6   12....       LCALL   ??HalUARTWrite?relay
+    390                  
+    391                  break;
+    392          
+    393            }
+    394          }
    \                     ??SampleApp_MessageMSGCB_1:
-   \   000154   7414         MOV     A,#0x14
-   \   000156   12....       LCALL   ?DEALLOC_XSTACK8
-   \   000159   7F0A         MOV     R7,#0xa
-   \   00015B   02....       LJMP    ?BANKED_LEAVE_XDATA
-    407          
-    408          /*********************************************************************
-    409           * @fn      SampleApp_SendPeriodicMessage
-    410           *
-    411           * @brief   Send the periodic message.
-    412           *
-    413           * @param   none
-    414           *
-    415           * @return  none
-    416           */
+   \   0000B9   7414         MOV     A,#0x14
+   \   0000BB   02....       LJMP    ?Subroutine1 & 0xFFFF
 
    \                                 In  segment BANKED_CODE, align 1, keep-with-next
-    417          void SampleApp_SendPeriodicMessage(uint8 *data, uint16 len)
+   \                     ?Subroutine6:
+   \   000000   E0           MOVX    A,@DPTR
+   \   000001   F5..         MOV     ?V0 + 0,A
+   \   000003   A3           INC     DPTR
+   \   000004   E0           MOVX    A,@DPTR
+   \   000005   AA..         MOV     R2,?V0 + 0
+   \   000007   FB           MOV     R3,A
+   \   000008   E4           CLR     A
+   \   000009   FC           MOV     R4,A
+   \   00000A   FD           MOV     R5,A
+   \   00000B   12....       LCALL   ??_ltoa?relay
+   \   00000E   7402         MOV     A,#0x2
+   \   000010   22           RET
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+   \                     ?Subroutine2:
+   \   000000   7900         MOV     R1,#0x0
+   \   000002   12....       LCALL   ??HalUARTWrite?relay
+   \   000005                ; Setup parameters for call to function HalUARTWrite
+   \   000005                ; Setup parameters for call to function osal_strlen
+   \   000005                ; Setup parameters for call to function HalUARTWrite
+   \   000005                ; Setup parameters for call to function osal_strlen
+   \   000005   85..82       MOV     DPL,?XSP + 0
+   \   000008   85..83       MOV     DPH,?XSP + 1
+   \   00000B   AA82         MOV     R2,DPL
+   \   00000D   AB83         MOV     R3,DPH
+   \   00000F   12....       LCALL   ??osal_strlen?relay
+   \   000012   EA           MOV     A,R2
+   \   000013   FC           MOV     R4,A
+   \   000014   EB           MOV     A,R3
+   \   000015   FD           MOV     R5,A
+   \   000016   85..82       MOV     DPL,?XSP + 0
+   \   000019   85..83       MOV     DPH,?XSP + 1
+   \   00001C   AA82         MOV     R2,DPL
+   \   00001E   AB83         MOV     R3,DPH
+   \   000020   7900         MOV     R1,#0x0
+   \   000022   12....       LCALL   ??HalUARTWrite?relay
+   \   000025   22           RET
+    395          
+    396          /*********************************************************************
+    397           * @fn      SampleApp_SendPeriodicMessage
+    398           *
+    399           * @brief   定时广播自身结点数据
+    400           *
+    401           * @param   none
+    402           *
+    403           * @return  none
+    404           */
+
+   \                                 In  segment BANKED_CODE, align 1, keep-with-next
+    405          void SampleApp_SendPeriodicMessage(uint8 *data, uint16 len)
    \                     SampleApp_SendPeriodicMessage:
-    418          {
+    406          {
    \   000000   74F6         MOV     A,#-0xa
    \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
    \   000005                ; Saved register size: 10
    \   000005                ; Auto size: 0
-    419            if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
-    420                                 SAMPLEAPP_PERIODIC_CLUSTERID,
-    421                                 len,
-    422                                 data,
-    423                                 &SampleApp_TransID,
-    424                                 AF_DISCV_ROUTE,
-    425                                 AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
+    407            if ( AF_DataRequest( &SampleApp_Periodic_DstAddr, &SampleApp_epDesc,
+    408                                 SAMPLEAPP_PERIODIC_CLUSTERID,
+    409                                 len,
+    410                                 data,
+    411                                 &SampleApp_TransID,
+    412                                 AF_DISCV_ROUTE,
+    413                                 AF_DEFAULT_RADIUS ) == afStatus_SUCCESS )
    \   000005                ; Setup parameters for call to function AF_DataRequest
    \   000005   75..1E       MOV     ?V0 + 0,#0x1e
    \   000008   78..         MOV     R0,#?V0 + 0
@@ -1595,13 +1469,13 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
    \   00003F   12....       LCALL   ??AF_DataRequest?relay
    \   000042   7409         MOV     A,#0x9
    \   000044   02....       LJMP    ?Subroutine1 & 0xFFFF
-    426            {
-    427            }
-    428            else
-    429            {
-    430              // Error occurred in request to send.
-    431            }
-    432          }
+    414            {
+    415            }
+    416            else
+    417            {
+    418              // Error occurred in request to send.
+    419            }
+    420          }
 
    \                                 In  segment XDATA_ID, align 1, keep-with-next
    \                     `?<Initializer for GeoInfoName>`:
@@ -1627,11 +1501,6 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
    \                     ??recGPSData?relay:
    \   000000   12....       LCALL   ?BDISPATCH
    \   000003   ......       DC24    recGPSData
-
-   \                                 In  segment BANK_RELAYS, align 1
-   \                     ??fetchGPSInfo?relay:
-   \   000000   12....       LCALL   ?BDISPATCH
-   \   000003   ......       DC24    fetchGPSInfo
 
    \                                 In  segment BANK_RELAYS, align 1
    \                     ??SampleApp_Init?relay:
@@ -1707,37 +1576,27 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
    \            474100  
 
    \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant "Connect Fail! ---- ">`:
-   \   000000   436F6E6E     DB "Connect Fail! ---- "
-   \            65637420
-   \            4661696C
-   \            21202D2D
-   \            2D2D2000
-
-   \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant "Connect Success! ---- ">`:
-   \   000000   436F6E6E     DB "Connect Success! ---- "
-   \            65637420
-   \            53756363
-   \            65737321
-   \            202D2D2D
-   \            2D2000  
-
-   \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant ":">`:
-   \   000000   3A00         DB ":"
-
-   \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant "\\n   ">`:
-   \   000000   0A202020     DB "\012   "
+   \                     `?<Constant "LocalHost : ">`:
+   \   000000   4C6F6361     DB "LocalHost : "
+   \            6C486F73
+   \            74203A20
    \            00      
 
    \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant "\\n">`:
-   \   000000   0A00         DB "\012"
-    433          
-    434          /*********************************************************************
-    435          *********************************************************************/
+   \                     `?<Constant "0x">`:
+   \   000000   307800       DB "0x"
+
+   \                                 In  segment XDATA_ROM_C, align 1
+   \                     `?<Constant "->0x">`:
+   \   000000   2D3E3078     DB "->0x"
+   \            00      
+
+   \                                 In  segment XDATA_ROM_C, align 1
+   \                     `?<Constant " : ">`:
+   \   000000   203A2000     DB " : "
+    421          
+    422          /*********************************************************************
+    423          *********************************************************************/
 
    Maximum stack usage in bytes:
 
@@ -1745,38 +1604,36 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
      --------                       ------ ------ ------
      SampleApp_Init                     0      0      9
        -> initUart                      0      0     18
+       -> initUart                      0      0     18
        -> initGeoBuf                    0      0     18
        -> afRegister                    0      0     18
        -> RegisterForKeys               0      0     18
-     SampleApp_MessageMSGCB             0      0     52
-       -> _ltoa                         0      0     80
-       -> osal_strlen                   0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> osal_strlen                   0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
-       -> HalUARTWrite                  0      0     76
+     SampleApp_MessageMSGCB             0      0     44
+       -> _ltoa                         0      0     64
+       -> HalUARTWrite                  0      0     60
+       -> osal_strlen                   0      0     60
+       -> HalUARTWrite                  0      0     60
+       -> osal_memset                   0      0     60
+       -> _ltoa                         0      0     64
+       -> HalUARTWrite                  0      0     60
+       -> osal_strlen                   0      0     60
+       -> HalUARTWrite                  0      0     60
+       -> HalUARTWrite                  0      0     60
+       -> HalUARTWrite                  0      0     60
      SampleApp_ProcessEvent             0      0     12
        -> osal_msg_receive              0      0     24
        -> osal_start_timerEx            0      0     24
        -> osal_msg_deallocate           0      0     24
        -> osal_msg_receive              0      0     24
        -> SampleApp_MessageMSGCB        0      0     24
-       -> fetchGPSInfo                  0      0     24
-       -> SampleApp_SendPeriodicMessage
-                                        0      0     24
+       -> HalUARTWrite                  0      0     24
+       -> HalUARTWrite                  0      0     24
        -> SampleApp_SendPeriodicMessage
                                         0      0     24
        -> osal_mem_free                 0      0     24
-       -> osal_rand                     0      0     24
        -> osal_start_timerEx            0      0     24
      SampleApp_SendPeriodicMessage      0      0     31
        -> AF_DataRequest                0      0     38
-     fetchGPSInfo                       3      0     12
      initGeoBuf                         2      0      9
        -> osal_mem_alloc                4      0      0
        -> osal_memset                   4      0      0
@@ -1788,8 +1645,6 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
        -> HalUARTRead                   0      0     22
        -> osal_mem_alloc                0      0     22
        -> osal_memset                   0      0     22
-       -> SampleApp_SendPeriodicMessage
-                                        0      0     22
        -> SampleApp_SendPeriodicMessage
                                         0      0     22
 
@@ -1813,29 +1668,28 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
      initUart                               113
      ?Subroutine0                             7
      initGeoBuf                              48
-     ??Subroutine9_0                          6
-     ?Subroutine2                            15
-     ?Subroutine3                             3
-     ??Subroutine12_0                         6
-     recGPSData                             300
-     ?Subroutine1                             8
-     ?Subroutine8                            12
-     ?Subroutine7                             9
+     ?Subroutine8                             6
+     ?Subroutine4                            15
      ?Subroutine5                             3
-     ?Subroutine6                             9
-     ?Subroutine4                             1
-     ??Subroutine10_0                         4
-     ??Subroutine11_0                         6
-     fetchGPSInfo                            86
-     SampleApp_Init                          90
-     SampleApp_ProcessEvent                 238
-     SampleApp_MessageMSGCB                 350
+     ??Subroutine13_0                         6
+     recGPSData                             280
+     ?Subroutine1                             8
+     ?Subroutine11                           12
+     ?Subroutine10                            9
+     ?Subroutine9                             6
+     ?Subroutine7                            15
+     ?Subroutine12                           18
+     SampleApp_Init                         105
+     SampleApp_ProcessEvent                 218
+     ?Subroutine3                            17
+     SampleApp_MessageMSGCB                 190
+     ?Subroutine6                            17
+     ?Subroutine2                            38
      SampleApp_SendPeriodicMessage           71
      ?<Initializer for GeoInfoName>          14
      ??initUart?relay                         6
      ??initGeoBuf?relay                       6
      ??recGPSData?relay                       6
-     ??fetchGPSInfo?relay                     6
      ??SampleApp_Init?relay                   6
      ??SampleApp_ProcessEvent?relay           6
      ??SampleApp_MessageMSGCB?relay           6
@@ -1849,23 +1703,22 @@ Warning[Pe167]: argument of type "unsigned char *" is incompatible with
      ?<Constant "satelliteNum=">             14
      ?<Constant "Link Start!\n">             13
      ?<Constant "$GPGGA">                     7
-     ?<Constant "Connect Fail! ---- ">       20
-     ?<Constant "Connect Success! ---- ">    23
-     ?<Constant ":">                          2
-     ?<Constant "\n   ">                      5
-     ?<Constant "\n">                         2
+     ?<Constant "LocalHost : ">              13
+     ?<Constant "0x">                         3
+     ?<Constant "->0x">                       5
+     ?<Constant " : ">                        4
 
  
- 1 385 bytes in segment BANKED_CODE
-    48 bytes in segment BANK_RELAYS
+ 1 202 bytes in segment BANKED_CODE
+    42 bytes in segment BANK_RELAYS
     14 bytes in segment XDATA_I
     14 bytes in segment XDATA_ID
-   174 bytes in segment XDATA_ROM_C
+   147 bytes in segment XDATA_ROM_C
     71 bytes in segment XDATA_Z
  
- 1 447 bytes of CODE  memory
-   174 bytes of CONST memory
+ 1 258 bytes of CODE  memory
+   147 bytes of CONST memory
     85 bytes of XDATA memory
 
 Errors: none
-Warnings: 4
+Warnings: 2

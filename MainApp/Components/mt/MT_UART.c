@@ -21,7 +21,7 @@
   its documentation for any purpose.
 
   YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+  PROVIDED “AS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
   INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
   NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
   TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
@@ -135,6 +135,47 @@ void MT_UartInit ()
   MT_UartZAppRxStatus   = MT_UART_ZAPP_RX_READY;
 #endif
 
+}
+
+
+/***************************************************************************************************
+ * @fn      MT_Uart1Init
+ *
+ * @brief   ³õÊ¼»¯MT²ã, Ê¹´®¿Ú1ÎªISRÄ£Ê½Í¨ÐÅ
+ *
+ * @param   ÎÞ
+ *
+ * @return  ÎÞ
+***************************************************************************************************/
+void MT_Uart1Init ()
+{
+  halUARTCfg_t uartConfig1;
+ 
+  /* Initialize APP ID */
+  App_TaskID = 0;
+ 
+  /* UART Configuration */
+  uartConfig1.configured           = TRUE;
+  uartConfig1.baudRate             = MT_UART_DEFAULT_BAUDRATE;
+  uartConfig1.flowControl          = MT_UART_DEFAULT_OVERFLOW;
+  uartConfig1.flowControlThreshold = MT_UART_DEFAULT_THRESHOLD;
+  uartConfig1.rx.maxBufSize        = MT_UART_DEFAULT_MAX_RX_BUFF;
+  uartConfig1.tx.maxBufSize        = MT_UART_DEFAULT_MAX_TX_BUFF;
+  uartConfig1.idleTimeout          = MT_UART_DEFAULT_IDLE_TIMEOUT;
+  uartConfig1.intEnable            = TRUE;
+  uartConfig1.callBackFunc         = MT_UartProcessZToolData;
+ 
+  /* Start UART */
+  HalUARTOpen (HAL_UART_PORT_1, &uartConfig1);
+  /* Silence IAR compiler warning */
+ 
+  /* Initialize for ZApp */
+#if defined (ZAPP_P1) || defined (ZAPP_P2)
+  /* Default max bytes that ZAPP can take */
+  MT_UartMaxZAppBufLen  = 1;
+  MT_UartZAppRxStatus   = MT_UART_ZAPP_RX_READY;
+#endif
+ 
 }
 
 /***************************************************************************************************

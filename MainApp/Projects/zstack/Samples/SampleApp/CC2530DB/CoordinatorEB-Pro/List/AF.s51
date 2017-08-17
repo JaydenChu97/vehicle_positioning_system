@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        29/Jul/2017  13:54:49 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  15:56:50 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -17,7 +17,7 @@
 //                          ts\zstack\Samples\SampleApp\CC2530DB\..\..\..\Too /
 //                          ls\CC2530DB\f8wCoord.cfg (-DCPU32MHZ              /
 //                          -DROOT=__near_func -DMAC_CFG_APP_PENDING_QUEUE=TR /
-//                          UE -DZDO_COORDINATOR -DRTR_NWK -DBLINK_LEDS) -f   /
+//                          UE -DZDO_COORDINATOR -DRTR_NWK) -f                /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /
 //                          zstack\Samples\SampleApp\CC2530DB\..\..\..\Tools\ /
@@ -42,11 +42,11 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440) -DHAL_UART=TRUE           /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\MainApp\Component /
-//                          s\stack\af\AF.c -D ZIGBEEPRO -D xMT_TASK -D       /
-//                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                   /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
+//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
+//                          -Local-Repositories\vehicle_positioning_system\Ma /
+//                          inApp\Components\stack\af\AF.c -D ZIGBEEPRO -D    /
+//                          xMT_TASK -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -D       /
 //                          LCD_SUPPORTED=DEBUG -lC                           /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /

@@ -29,7 +29,8 @@
  */
 
 // 主函数执行任务表, 显然序号越小优先级越高, 任务序号需要和之后初始化函数中的顺序相符
-const pTaskEventHandlerFn tasksArr[] = {
+const pTaskEventHandlerFn tasksArr[] = 
+{
   macEventLoop,
   nwk_event_loop,
   Hal_ProcessEvent,                  //串口相关的函数在这层运行

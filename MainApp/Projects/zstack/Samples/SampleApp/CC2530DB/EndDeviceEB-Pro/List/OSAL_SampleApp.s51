@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        29/Jul/2017  13:44:16 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  20:22:33 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -10,18 +10,16 @@
 //    Constant location  =  data_rom                                          /
 //    Dptr setup         =  1,16                                              /
 //    Source file        =  C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\Source /
-//                          \OSAL_SampleApp.c                                 /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\Source\OSAL_SampleApp.c  /
 //    Command line       =  -f C:\Users\Administrator\Desktop\Git-Local-Repos /
-//                          itories\vehicle_positioning_system\ZStack-CC2530- /
-//                          2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\CC2 /
-//                          530DB\..\..\..\Tools\CC2530DB\f8wEndev.cfg        /
-//                          (-DCPU32MHZ -DROOT=__near_func -DBLINK_LEDS) -f   /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\Tools\CC2530DB\f8wConfig.cfg          /
+//                          itories\vehicle_positioning_system\MainApp\Projec /
+//                          ts\zstack\Samples\SampleApp\CC2530DB\..\..\..\Too /
+//                          ls\CC2530DB\f8wEndev.cfg (-DCPU32MHZ              /
+//                          -DROOT=__near_func) -f C:\Users\Administrator\Des /
+//                          ktop\Git-Local-Repositories\vehicle_positioning_s /
+//                          ystem\MainApp\Projects\zstack\Samples\SampleApp\C /
+//                          C2530DB\..\..\..\Tools\CC2530DB\f8wConfig.cfg     /
 //                          (-DSECURE=0 -DZG_SECURE_DYNAMIC=0 -DREFLECTOR     /
 //                          -DDEFAULT_CHANLIST=0x00000800                     /
 //                          -DZDAPP_CONFIG_PAN_ID=0xFFF1                      /
@@ -42,121 +40,116 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440) -DHAL_UART=TRUE           /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\Source /
-//                          \OSAL_SampleApp.c -D ZIGBEEPRO -D NWK_AUTO_POLL   /
-//                          -D ZTOOL_P1 -D xMT_TASK -D xMT_SYS_FUNC -D        /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
+//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
+//                          -Local-Repositories\vehicle_positioning_system\Ma /
+//                          inApp\Projects\zstack\Samples\SampleApp\Source\OS /
+//                          AL_SampleApp.c -D ZIGBEEPRO -D NWK_AUTO_POLL -D   /
+//                          ZTOOL_P1 -D xMT_TASK -D xMT_SYS_FUNC -D           /
 //                          xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC           /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\EndDeviceEB-Pro\List\ -lA                      /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro /
+//                          \List\ -lA C:\Users\Administrator\Desktop\Git-Loc /
+//                          al-Repositories\vehicle_positioning_system\MainAp /
+//                          p\Projects\zstack\Samples\SampleApp\CC2530DB\EndD /
+//                          eviceEB-Pro\List\ --diag_suppress Pe001,Pa010 -o  /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\EndDeviceEB-Pro\List\ --diag_suppress          /
-//                          Pe001,Pa010 -o C:\Users\Administrator\Desktop\Git /
-//                          -Local-Repositories\vehicle_positioning_system\ZS /
-//                          tack-CC2530-2.3.0-1.4.0\Projects\zstack\Samples\S /
-//                          ampleApp\CC2530DB\EndDeviceEB-Pro\Obj\ -e         /
-//                          --debug --core=plain --dptr=16,1                  /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro /
+//                          \Obj\ -e --debug --core=plain --dptr=16,1         /
 //                          --data_model=large --code_model=banked            /
 //                          --calling_convention=xdata_reentrant              /
 //                          --place_constants=data_rom --nr_virtual_regs 16   /
 //                          -I C:\Users\Administrator\Desktop\Git-Local-Repos /
-//                          itories\vehicle_positioning_system\ZStack-CC2530- /
-//                          2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\CC2 /
-//                          530DB\ -I C:\Users\Administrator\Desktop\Git-Loca /
-//                          l-Repositories\vehicle_positioning_system\ZStack- /
-//                          CC2530-2.3.0-1.4.0\Projects\zstack\Samples\Sample /
-//                          App\CC2530DB\..\SOURCE\ -I                        /
+//                          itories\vehicle_positioning_system\MainApp\Projec /
+//                          ts\zstack\Samples\SampleApp\CC2530DB\ -I          /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\ZMAIN\TI2530DB\ -I                    /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\SOURCE\ -I   /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\MT\ -I               /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\ZMAIN\ /
+//                          TI2530DB\ -I C:\Users\Administrator\Desktop\Git-L /
+//                          ocal-Repositories\vehicle_positioning_system\Main /
+//                          App\Projects\zstack\Samples\SampleApp\CC2530DB\.. /
+//                          \..\..\..\..\COMPONENTS\MT\ -I                    /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\HAL\INCLUDE\ -I      /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\HAL\INCLUDE\ -I                        /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\HAL\TARGET\CC2530EB\ /
-//                           -I C:\Users\Administrator\Desktop\Git-Local-Repo /
-//                          sitories\vehicle_positioning_system\ZStack-CC2530 /
-//                          -2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\CC /
-//                          2530DB\..\..\..\..\..\COMPONENTS\OSAL\MCU\CCSOC\  /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\HAL\TARGET\CC2530EB\ -I                /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\OSAL\MCU\CCSOC\ -I                     /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\OSAL\INCLUDE\ -I                       /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\AF\ -I                           /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\NWK\ -I                          /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\SEC\ -I                          /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\SAPI\ -I                         /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\SYS\ -I                          /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\STACK\ZDO\ -I                          /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\ZMAC\F8W\ -I                           /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\ZMAC\ -I C:\Users\Administrator\Deskto /
+//                          p\Git-Local-Repositories\vehicle_positioning_syst /
+//                          em\MainApp\Projects\zstack\Samples\SampleApp\CC25 /
+//                          30DB\..\..\..\..\..\COMPONENTS\SERVICES\SADDR\    /
 //                          -I C:\Users\Administrator\Desktop\Git-Local-Repos /
-//                          itories\vehicle_positioning_system\ZStack-CC2530- /
-//                          2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\CC2 /
-//                          530DB\..\..\..\..\..\COMPONENTS\OSAL\INCLUDE\ -I  /
+//                          itories\vehicle_positioning_system\MainApp\Projec /
+//                          ts\zstack\Samples\SampleApp\CC2530DB\..\..\..\..\ /
+//                          ..\COMPONENTS\SERVICES\SDATA\ -I                  /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\AF\ -I         /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\MAC\INCLUDE\ -I                        /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\NWK\ -I        /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\MAC\HIGH_LEVEL\ -I                     /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\SEC\ -I        /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\MAC\LOW_LEVEL\srf04\ -I                /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\SAPI\ -I       /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\SYS\ -I        /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\STACK\ZDO\ -I        /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\ZMAC\F8W\ -I         /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\ZMAC\ -I             /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\SERVICES\SADDR\ -I   /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\SERVICES\SDATA\ -I   /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\MAC\INCLUDE\ -I      /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\MAC\HIGH_LEVEL\ -I   /
-//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\..\..\..\..\..\COMPONENTS\MAC\LOW_LEVEL\srf04\ /
-//                           -I C:\Users\Administrator\Desktop\Git-Local-Repo /
-//                          sitories\vehicle_positioning_system\ZStack-CC2530 /
-//                          -2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\CC /
-//                          2530DB\..\..\..\..\..\COMPONENTS\MAC\LOW_LEVEL\sr /
-//                          f04\SINGLE_CHIP\ -Ohz --require_prototypes        /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ /
+//                          COMPONENTS\MAC\LOW_LEVEL\srf04\SINGLE_CHIP\ -Ohz  /
+//                          --require_prototypes                              /
 //    List file          =  C:\Users\Administrator\Desktop\Git-Local-Reposito /
-//                          ries\vehicle_positioning_system\ZStack-CC2530-2.3 /
-//                          .0-1.4.0\Projects\zstack\Samples\SampleApp\CC2530 /
-//                          DB\EndDeviceEB-Pro\List\OSAL_SampleApp.s51        /
+//                          ries\vehicle_positioning_system\MainApp\Projects\ /
+//                          zstack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro /
+//                          \List\OSAL_SampleApp.s51                          /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -413,7 +406,7 @@ osalInitTasks       SYMBOL "osalInitTasks"
         EXTERN ??osal_memset?relay
         FUNCTION ??osal_memset?relay,00H
 
-// C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\ZStack-CC2530-2.3.0-1.4.0\Projects\zstack\Samples\SampleApp\Source\OSAL_SampleApp.c
+// C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system\MainApp\Projects\zstack\Samples\SampleApp\Source\OSAL_SampleApp.c
 //    1 /*********************************************************************
 //    2  * INCLUDES
 //    3  */
@@ -448,7 +441,7 @@ osalInitTasks       SYMBOL "osalInitTasks"
 
         RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
         DATA8
-//   32 const pTaskEventHandlerFn tasksArr[] = {
+//   32 const pTaskEventHandlerFn tasksArr[] = 
 tasksArr:
         DATA16
         DW ??macEventLoop?relay
@@ -458,58 +451,59 @@ tasksArr:
         DW ??APSF_ProcessEvent?relay
         DW ??ZDApp_event_loop?relay
         DW ??SampleApp_ProcessEvent?relay
-//   33   macEventLoop,
-//   34   nwk_event_loop,
-//   35   Hal_ProcessEvent,                  //串口相关的函数在这层运行
-//   36 #if defined( MT_TASK )
-//   37   MT_ProcessEvent,
-//   38 #endif
-//   39   APS_event_loop,
-//   40 #if defined ( ZIGBEE_FRAGMENTATION )
-//   41   APSF_ProcessEvent,
-//   42 #endif
-//   43   ZDApp_event_loop,
-//   44 #if defined ( ZIGBEE_FREQ_AGILITY ) || defined ( ZIGBEE_PANID_CONFLICT )
-//   45   ZDNwkMgr_event_loop,
-//   46 #endif
-//   47   SampleApp_ProcessEvent             //自定义的任务
-//   48 };
-//   49 
+//   33 {
+//   34   macEventLoop,
+//   35   nwk_event_loop,
+//   36   Hal_ProcessEvent,                  //串口相关的函数在这层运行
+//   37 #if defined( MT_TASK )
+//   38   MT_ProcessEvent,
+//   39 #endif
+//   40   APS_event_loop,
+//   41 #if defined ( ZIGBEE_FRAGMENTATION )
+//   42   APSF_ProcessEvent,
+//   43 #endif
+//   44   ZDApp_event_loop,
+//   45 #if defined ( ZIGBEE_FREQ_AGILITY ) || defined ( ZIGBEE_PANID_CONFLICT )
+//   46   ZDNwkMgr_event_loop,
+//   47 #endif
+//   48   SampleApp_ProcessEvent             //自定义的任务
+//   49 };
+//   50 
 
         RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
         DATA8
-//   50 const uint8 tasksCnt = sizeof( tasksArr ) / sizeof( tasksArr[0] );
+//   51 const uint8 tasksCnt = sizeof( tasksArr ) / sizeof( tasksArr[0] );
 tasksCnt:
         DB 7
 
         RSEG XDATA_Z:XDATA:NOROOT(0)
         DATA16
-//   51 uint16 *tasksEvents;
+//   52 uint16 *tasksEvents;
 tasksEvents:
         DS 2
         REQUIRE __INIT_XDATA_Z
-//   52 
-//   53 /*********************************************************************
-//   54  * FUNCTIONS
-//   55  *********************************************************************/
-//   56 
-//   57 /*********************************************************************
-//   58  * @fn      osalInitTasks
-//   59  *
-//   60  * @brief   This function invokes the initialization function for each task.
-//   61  *
-//   62  * @param   void
-//   63  *
-//   64  * @return  none
-//   65  */
+//   53 
+//   54 /*********************************************************************
+//   55  * FUNCTIONS
+//   56  *********************************************************************/
+//   57 
+//   58 /*********************************************************************
+//   59  * @fn      osalInitTasks
+//   60  *
+//   61  * @brief   This function invokes the initialization function for each task.
+//   62  *
+//   63  * @param   void
+//   64  *
+//   65  * @return  none
+//   66  */
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-//   66 void osalInitTasks( void )
+//   67 void osalInitTasks( void )
 osalInitTasks:
         CFI Block cfiBlock0 Using cfiCommon0
         CFI Function osalInitTasks
         CODE
-//   67 {
+//   68 {
         FUNCALL osalInitTasks, osal_mem_alloc
         LOCFRAME ISTACK, 2, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -617,9 +611,9 @@ osalInitTasks:
         CFI CFA_SP SP+-5
         ; Saved register size: 2
         ; Auto size: 0
-//   68   uint8 taskID = 0;
-//   69 
-//   70   tasksEvents = (uint16 *)osal_mem_alloc( sizeof( uint16 ) * tasksCnt);
+//   69   uint8 taskID = 0;
+//   70 
+//   71   tasksEvents = (uint16 *)osal_mem_alloc( sizeof( uint16 ) * tasksCnt);
         ; Setup parameters for call to function osal_mem_alloc
         MOV     R2,#0xe
         MOV     R3,#0x0
@@ -630,50 +624,50 @@ osalInitTasks:
         INC     DPTR
         MOV     A,R3
         MOVX    @DPTR,A
-//   71   osal_memset( tasksEvents, 0, (sizeof( uint16 ) * tasksCnt));
+//   72   osal_memset( tasksEvents, 0, (sizeof( uint16 ) * tasksCnt));
         ; Setup parameters for call to function osal_memset
         MOV     R4,#0xe
         MOV     R5,#0x0
         MOV     R1,#0x0
         LCALL   ??osal_memset?relay
-//   72 
-//   73   macTaskInit( taskID++ );
+//   73 
+//   74   macTaskInit( taskID++ );
         ; Setup parameters for call to function macTaskInit
         MOV     R1,#0x0
         LCALL   ??macTaskInit?relay
-//   74   nwk_init( taskID++ );
+//   75   nwk_init( taskID++ );
         ; Setup parameters for call to function nwk_init
         MOV     R1,#0x1
         LCALL   ??nwk_init?relay
-//   75   Hal_Init( taskID++ );
+//   76   Hal_Init( taskID++ );
         ; Setup parameters for call to function Hal_Init
         MOV     R1,#0x2
         LCALL   ??Hal_Init?relay
-//   76 #if defined( MT_TASK )
-//   77   MT_TaskInit( taskID++ );
-//   78 #endif
-//   79   APS_Init( taskID++ );
+//   77 #if defined( MT_TASK )
+//   78   MT_TaskInit( taskID++ );
+//   79 #endif
+//   80   APS_Init( taskID++ );
         ; Setup parameters for call to function APS_Init
         MOV     R1,#0x3
         LCALL   ??APS_Init?relay
-//   80 #if defined ( ZIGBEE_FRAGMENTATION )
-//   81   APSF_Init( taskID++ );
+//   81 #if defined ( ZIGBEE_FRAGMENTATION )
+//   82   APSF_Init( taskID++ );
         ; Setup parameters for call to function APSF_Init
         MOV     R1,#0x4
         LCALL   ??APSF_Init?relay
-//   82 #endif
-//   83   ZDApp_Init( taskID++ );
+//   83 #endif
+//   84   ZDApp_Init( taskID++ );
         ; Setup parameters for call to function ZDApp_Init
         MOV     R1,#0x5
         LCALL   ??ZDApp_Init?relay
-//   84 #if defined ( ZIGBEE_FREQ_AGILITY ) || defined ( ZIGBEE_PANID_CONFLICT )
-//   85   ZDNwkMgr_Init( taskID++ );
-//   86 #endif
-//   87   SampleApp_Init( taskID );         //自定义任务初始化
+//   85 #if defined ( ZIGBEE_FREQ_AGILITY ) || defined ( ZIGBEE_PANID_CONFLICT )
+//   86   ZDNwkMgr_Init( taskID++ );
+//   87 #endif
+//   88   SampleApp_Init( taskID );         //自定义任务初始化
         ; Setup parameters for call to function SampleApp_Init
         MOV     R1,#0x6
         LCALL   ??SampleApp_Init?relay
-//   88 }
+//   89 }
         POP     DPH
         CFI DPH0 SameValue
         CFI CFA_SP SP+-4
@@ -690,9 +684,9 @@ osalInitTasks:
         DC24    osalInitTasks
 
         END
-//   89 
-//   90 /*********************************************************************
-//   91 *********************************************************************/
+//   90 
+//   91 /*********************************************************************
+//   92 *********************************************************************/
 // 
 // 70 bytes in segment BANKED_CODE
 //  6 bytes in segment BANK_RELAYS
