@@ -29,4 +29,4 @@
  - 目前调试状态采用1个协调器(网关), 2路由器, 3个终端.
  
  ### 逻辑示意图
- [网络逻辑图](https://github.com/Sin1997/vehicle_positioning_system/raw/master/本创网络构建(初版).png)
+ ![网络逻辑图](https://github.com/Sin1997/vehicle_positioning_system/raw/master/本创网络构建(初版).png)
