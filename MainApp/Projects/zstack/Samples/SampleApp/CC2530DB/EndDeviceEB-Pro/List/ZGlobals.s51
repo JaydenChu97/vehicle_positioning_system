@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  16:05:16 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        23/Aug/2017  19:12:24 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -40,13 +40,13 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
-//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
-//                          -Local-Repositories\vehicle_positioning_system\Ma /
-//                          inApp\Components\stack\sys\ZGlobals.c -D          /
-//                          ZIGBEEPRO -D NWK_AUTO_POLL -D ZTOOL_P1 -D         /
-//                          xMT_TASK -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -D       /
-//                          LCD_SUPPORTED=DEBUG -lC                           /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE            /
+//                          -DHAL_DMA=TRUE) -DHAL_LCD=FALSE                   /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Component /
+//                          s\stack\sys\ZGlobals.c -D ZIGBEEPRO -D            /
+//                          NWK_AUTO_POLL -D ZTOOL_P1 -D xMT_TASK -D          /
+//                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                  /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /
 //                          zstack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro /

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  16:05:14 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        23/Aug/2017  19:12:23 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -40,13 +40,13 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
-//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
-//                          -Local-Repositories\vehicle_positioning_system\Ma /
-//                          inApp\Components\stack\nwk\nwk_globals.c -D       /
-//                          ZIGBEEPRO -D NWK_AUTO_POLL -D ZTOOL_P1 -D         /
-//                          xMT_TASK -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -D       /
-//                          LCD_SUPPORTED=DEBUG -lC                           /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE            /
+//                          -DHAL_DMA=TRUE) -DHAL_LCD=FALSE                   /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Component /
+//                          s\stack\nwk\nwk_globals.c -D ZIGBEEPRO -D         /
+//                          NWK_AUTO_POLL -D ZTOOL_P1 -D xMT_TASK -D          /
+//                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                  /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /
 //                          zstack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro /
@@ -173,14 +173,8 @@
         RSEG PSTACK:XDATA:NOROOT(0)
         RSEG XSTACK:XDATA:NOROOT(0)
 
-        EXTERN ?BANKED_ENTER_XDATA
-        EXTERN ?BANKED_LEAVE_XDATA
         EXTERN ?BDISPATCH
         EXTERN ?BRET
-        EXTERN ?DEALLOC_XSTACK8
-        EXTERN ?PUSH_XSTACK_I_ONE
-        EXTERN ?US_SWITCH_SPARSE
-        EXTERN ?V0
         EXTERN __INIT_XDATA_I
         EXTERN __INIT_XDATA_Z
 
@@ -190,31 +184,15 @@
         FUNCTION ??nwk_Status?relay,0203H
         PUBLIC ??nwk_globals_init?relay
         FUNCTION ??nwk_globals_init?relay,0203H
-        PUBLIC AssocCnfFailStr
-        PUBLIC AssocCnfStr
-        PUBLIC AssocIndStr
-        PUBLIC AssocRspFailStr
         PUBLIC AssociatedDevList
         PUBLIC BindingTable
         PUBLIC Cskip
         PUBLIC CskipChldrn
         PUBLIC CskipRtrs
-        PUBLIC EndDeviceStr
-        PUBLIC EnergyLevelStr
-        PUBLIC FailedStr
         PUBLIC NIB_init
         FUNCTION NIB_init,021203H
         ARGFRAME XSTACK, 0, STACK
         LOCFRAME ISTACK, 2, STACK
-        PUBLIC NetworkIDStr
-        PUBLIC OrphanRspStr
-        PUBLIC ParentStr
-        PUBLIC PingStr
-        PUBLIC RouterStr
-        PUBLIC ScanFailedStr
-        PUBLIC SentStr
-        PUBLIC SuccessStr
-        PUBLIC ZigbeeCoordStr
         PUBLIC apsEndDeviceBroadcastTable
         PUBLIC bcastHoldAckMask
         PUBLIC bcastHoldHandle
@@ -247,9 +225,8 @@
         PUBLIC gNWK_TREE_ALLOCATE_ROUTERADDR_FOR_ENDDEVICE
         PUBLIC neighborTable
         PUBLIC nwk_Status
-        FUNCTION nwk_Status,0a1203H
+        FUNCTION nwk_Status,0203H
         ARGFRAME XSTACK, 0, STACK
-        LOCFRAME XSTACK, 13, STACK
         PUBLIC nwk_globals_init
         FUNCTION nwk_globals_init,021203H
         ARGFRAME XSTACK, 0, STACK
@@ -418,15 +395,7 @@ AddrMgrInit         SYMBOL "AddrMgrInit"
 osal_rand           SYMBOL "osal_rand"
 osal_memset         SYMBOL "osal_memset"
 sAddrExtCpy         SYMBOL "sAddrExtCpy"
-HalLcdWriteStringValue SYMBOL "HalLcdWriteStringValue"
-HalLcdWriteScreen   SYMBOL "HalLcdWriteScreen"
-HalLcdWriteString   SYMBOL "HalLcdWriteString"
-HalLcdWriteValue    SYMBOL "HalLcdWriteValue"
 ??AddrMgrInit?relay SYMBOL "?relay", AddrMgrInit
-??HalLcdWriteScreen?relay SYMBOL "?relay", HalLcdWriteScreen
-??HalLcdWriteString?relay SYMBOL "?relay", HalLcdWriteString
-??HalLcdWriteStringValue?relay SYMBOL "?relay", HalLcdWriteStringValue
-??HalLcdWriteValue?relay SYMBOL "?relay", HalLcdWriteValue
 ??osal_memset?relay SYMBOL "?relay", osal_memset
 ??osal_rand?relay   SYMBOL "?relay", osal_rand
 ??sAddrExtCpy?relay SYMBOL "?relay", sAddrExtCpy
@@ -465,44 +434,8 @@ nwk_globals_init    SYMBOL "nwk_globals_init"
         ARGFRAME XSTACK, 0, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteStringValue
-        FUNCTION HalLcdWriteStringValue,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 13, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteScreen
-        FUNCTION HalLcdWriteScreen,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 12, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteString
-        FUNCTION HalLcdWriteString,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 12, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteValue
-        FUNCTION HalLcdWriteValue,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 13, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
         EXTERN ??AddrMgrInit?relay
         FUNCTION ??AddrMgrInit?relay,00H
-        EXTERN ??HalLcdWriteScreen?relay
-        FUNCTION ??HalLcdWriteScreen?relay,00H
-        EXTERN ??HalLcdWriteString?relay
-        FUNCTION ??HalLcdWriteString?relay,00H
-        EXTERN ??HalLcdWriteStringValue?relay
-        FUNCTION ??HalLcdWriteStringValue?relay,00H
-        EXTERN ??HalLcdWriteValue?relay
-        FUNCTION ??HalLcdWriteValue?relay,00H
         EXTERN ??osal_memset?relay
         FUNCTION ??osal_memset?relay,00H
         EXTERN ??osal_rand?relay
@@ -1027,102 +960,22 @@ defaultTCLinkKey:
 //  255  * STATUS STRINGS
 //  256  */
 //  257 #if defined ( LCD_SUPPORTED )
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  258   const char PingStr[]         = "Ping Rcvd from";
-PingStr:
-        DB "Ping Rcvd from"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  259   const char AssocCnfStr[]     = "Assoc Cnf";
-AssocCnfStr:
-        DB "Assoc Cnf"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  260   const char SuccessStr[]      = "Success";
-SuccessStr:
-        DB "Success"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  261   const char EndDeviceStr[]    = "EndDevice:";
-EndDeviceStr:
-        DB "EndDevice:"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  262   const char ParentStr[]       = "Parent:";
-ParentStr:
-        DB "Parent:"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  263   const char ZigbeeCoordStr[]  = "ZigBee Coord";
-ZigbeeCoordStr:
-        DB "ZigBee Coord"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  264   const char NetworkIDStr[]    = "Network ID:";
-NetworkIDStr:
-        DB "Network ID:"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  265   const char RouterStr[]       = "Router:";
-RouterStr:
-        DB "Router:"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  266   const char OrphanRspStr[]    = "Orphan Response";
-OrphanRspStr:
-        DB "Orphan Response"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  267   const char SentStr[]         = "Sent";
-SentStr:
-        DB "Sent"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  268   const char FailedStr[]       = "Failed";
-FailedStr:
-        DB "Failed"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  269   const char AssocRspFailStr[] = "Assoc Rsp fail";
-AssocRspFailStr:
-        DB "Assoc Rsp fail"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  270   const char AssocIndStr[]     = "Assoc Ind";
-AssocIndStr:
-        DB "Assoc Ind"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  271   const char AssocCnfFailStr[] = "Assoc Cnf fail";
-AssocCnfFailStr:
-        DB "Assoc Cnf fail"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  272   const char EnergyLevelStr[]  = "Energy Level";
-EnergyLevelStr:
-        DB "Energy Level"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //  273   const char ScanFailedStr[]   = "Scan Failed";
-ScanFailedStr:
-        DB "Scan Failed"
 //  274 #endif
 //  275 
 //  276 /*********************************************************************
@@ -1546,189 +1399,10 @@ nwk_Status:
         CFI Function nwk_Status
         CODE
 //  435 {
-        FUNCALL nwk_Status, HalLcdWriteStringValue
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 13, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 13, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL nwk_Status, HalLcdWriteStringValue
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 13, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 13, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL nwk_Status, HalLcdWriteScreen
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 12, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 12, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL nwk_Status, HalLcdWriteString
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 12, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 12, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL nwk_Status, HalLcdWriteValue
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 13, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 13, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL nwk_Status, HalLcdWriteScreen
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 12, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 12, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        MOV     A,#-0xc
-        LCALL   ?BANKED_ENTER_XDATA
-        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
-        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
-        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
-        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
-        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
-        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
-        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-7)))
-        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI CFA_SP SP+0
-        CFI CFA_XSP16 add(XSP16, 12)
-        ; Saved register size: 12
+        ; Saved register size: 0
         ; Auto size: 0
-        MOV     ?V0 + 2,R4
-        MOV     ?V0 + 3,R5
 //  436 #if defined ( LCD_SUPPORTED )
 //  437   switch ( statusCode )
-        MOV     ?V0 + 0,R2
-        MOV     ?V0 + 1,R3
-        MOV     R0,#?V0 + 0
-        LCALL   ?US_SWITCH_SPARSE
-`?<Jumptable for nwk_Status>_0`:
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        0
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        5
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        2
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_0
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        3
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_1
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        4
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_2
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        4099
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_3
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        4100
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_4
-        DATA
-        DATA16
-        DATA
-        DATA16
-        DW        ??nwk_Status_5
-        CODE
 //  438   {
 //  439     case NWK_STATUS_COORD_ADDR:
 //  440       if ( ZSTACK_ROUTER_BUILD )
@@ -1768,93 +1442,29 @@ nwk_Status:
 //  474       if ( ZSTACK_END_DEVICE_BUILD )
 //  475       {
 //  476         HalLcdWriteStringValue( (char*)EndDeviceStr, statusValue, 16, HAL_LCD_LINE_1 );
-??nwk_Status_1:
-        ; Setup parameters for call to function HalLcdWriteStringValue
-        MOV     ?V0 + 0,#0x1
-        MOV     R0,#?V0 + 0
-        LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 13)
-        MOV     R1,#0x10
-        MOV     R2,#EndDeviceStr & 0xff
-        MOV     R3,#(EndDeviceStr >> 8) & 0xff
-??nwk_Status_6:
-        LCALL   ??HalLcdWriteStringValue?relay
-??nwk_Status_7:
-        MOV     A,#0x1
-        LCALL   ?DEALLOC_XSTACK8
-        CFI CFA_XSP16 add(XSP16, 12)
 //  477       }
 //  478       break;
-        SJMP    ??nwk_Status_5
 //  479 
 //  480     case NWK_STATUS_PARENT_ADDR:
 //  481             HalLcdWriteStringValue( (char*)ParentStr, statusValue, 16, HAL_LCD_LINE_2 );
-??nwk_Status_2:
-        ; Setup parameters for call to function HalLcdWriteStringValue
-        MOV     ?V0 + 0,#0x2
-        MOV     R0,#?V0 + 0
-        LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 13)
-        MOV     R1,#0x10
-        MOV     R2,#ParentStr & 0xff
-        MOV     R3,#(ParentStr >> 8) & 0xff
-        SJMP    ??nwk_Status_6
-        CFI CFA_XSP16 add(XSP16, 12)
 //  482       break;
 //  483 
 //  484     case NWK_STATUS_ASSOC_CNF:
 //  485       HalLcdWriteScreen( (char*)AssocCnfStr, (char*)SuccessStr );
-??nwk_Status_0:
-        ; Setup parameters for call to function HalLcdWriteScreen
-        MOV     R4,#SuccessStr & 0xff
-        MOV     R5,#(SuccessStr >> 8) & 0xff
-        MOV     R2,#AssocCnfStr & 0xff
-        MOV     R3,#(AssocCnfStr >> 8) & 0xff
-        SJMP    ??nwk_Status_8
 //  486       break;
 //  487 
 //  488     case NWK_ERROR_ASSOC_CNF_DENIED:
 //  489       HalLcdWriteString((char*)AssocCnfFailStr, HAL_LCD_LINE_1 );
-??nwk_Status_3:
-        ; Setup parameters for call to function HalLcdWriteString
-        MOV     R1,#0x1
-        MOV     R2,#AssocCnfFailStr & 0xff
-        MOV     R3,#(AssocCnfFailStr >> 8) & 0xff
-        LCALL   ??HalLcdWriteString?relay
 //  490       HalLcdWriteValue( (uint32)(statusValue), 16, HAL_LCD_LINE_2 );
-        ; Setup parameters for call to function HalLcdWriteValue
-        MOV     ?V0 + 0,#0x2
-        MOV     R0,#?V0 + 0
-        LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 13)
-        MOV     R1,#0x10
-        MOV     R2,?V0 + 2
-        MOV     R3,?V0 + 3
-        CLR     A
-        MOV     R4,A
-        MOV     R5,A
-        LCALL   ??HalLcdWriteValue?relay
-        SJMP    ??nwk_Status_7
-        CFI CFA_XSP16 add(XSP16, 12)
 //  491       break;
 //  492 
 //  493     case NWK_ERROR_ENERGY_SCAN_FAILED:
 //  494       HalLcdWriteScreen( (char*)EnergyLevelStr, (char*)ScanFailedStr );
-??nwk_Status_4:
-        ; Setup parameters for call to function HalLcdWriteScreen
-        MOV     R4,#ScanFailedStr & 0xff
-        MOV     R5,#(ScanFailedStr >> 8) & 0xff
-        MOV     R2,#EnergyLevelStr & 0xff
-        MOV     R3,#(EnergyLevelStr >> 8) & 0xff
-??nwk_Status_8:
-        LCALL   ??HalLcdWriteScreen?relay
 //  495       break;
 //  496   }
 //  497 #endif
 //  498 }
-??nwk_Status_5:
-        MOV     R7,#0x4
-        LJMP    ?BANKED_LEAVE_XDATA
+        LJMP    ?BRET
         CFI EndBlock cfiBlock6
 
         RSEG XDATA_ID:CODE:NOROOT(0)
@@ -1890,16 +1500,14 @@ nwk_Status:
 //  500 /*********************************************************************
 //  501 *********************************************************************/
 // 
-//   398 bytes in segment BANKED_CODE
+//   260 bytes in segment BANKED_CODE
 //    18 bytes in segment BANK_RELAYS
 //    57 bytes in segment CODE_C
 //     2 bytes in segment XDATA_I
 //     2 bytes in segment XDATA_ID
-//   178 bytes in segment XDATA_ROM_C
 // 1 177 bytes in segment XDATA_Z
 // 
-//   475 bytes of CODE  memory
-//   178 bytes of CONST memory
+//   337 bytes of CODE  memory
 // 1 179 bytes of XDATA memory
 //
 //Errors: none

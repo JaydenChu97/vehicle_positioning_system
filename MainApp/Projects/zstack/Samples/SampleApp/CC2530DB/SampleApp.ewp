@@ -278,7 +278,6 @@
           <state>xMT_TASK</state>
           <state>xMT_SYS_FUNC</state>
           <state>xMT_ZDO_FUNC</state>
-          <state>LCD_SUPPORTED=DEBUG</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1338,7 +1337,6 @@
           <state>MT_TASK</state>
           <state>MT_SYS_FUNC</state>
           <state>MT_ZDO_FUNC</state>
-          <state>LCD_SUPPORTED=DEBUG</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -2399,7 +2397,6 @@
           <state>xMT_TASK</state>
           <state>xMT_SYS_FUNC</state>
           <state>xMT_ZDO_FUNC</state>
-          <state>LCD_SUPPORTED=DEBUG</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -3411,7 +3408,7 @@
           <name>$PROJ_DIR$\..\..\..\..\..\Components\mac\low_level\srf04\single_chip\mac_radio_defs.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mac\LOW_LEVEL\srf04\SINGLE_CHIP\mac_radio_defs.h</name>
+          <name>$PROJ_DIR$\..\..\..\..\..\Components\mac\low_level\srf04\single_chip\mac_radio_defs.h</name>
         </file>
         <file>
           <name>$PROJ_DIR$\..\..\..\..\..\Components\mac\low_level\srf04\single_chip\mac_rffrontend.c</name>
@@ -3425,13 +3422,13 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\DebugTrace.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\DebugTrace.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\DebugTrace.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\MT.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_AF.c</name>
@@ -3443,7 +3440,7 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_APP.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\MT_APP.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_APP.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_DEBUG.c</name>
@@ -3470,7 +3467,7 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_SYS.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\MT_SYS.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_SYS.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_TASK.c</name>
@@ -3482,7 +3479,7 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_UART.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\MT_UART.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_UART.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_UTIL.c</name>
@@ -3500,7 +3497,7 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_ZDO.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\mt\MT_ZDO.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\Components\mt\MT_ZDO.h</name>
     </file>
   </group>
   <group>
@@ -3683,7 +3680,7 @@
       <name>$PROJ_DIR$\..\..\..\..\..\Components\stack\zdo\ZDNwkMgr.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\Components\stack\zdo\ZDNwkMgr.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\COMPONENTS\stack\zdo\ZDNwkMgr.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\Components\stack\zdo\ZDObject.c</name>

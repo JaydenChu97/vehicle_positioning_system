@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  16:05:10 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         23/Aug/2017  19:12:21 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -40,20 +40,19 @@
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
 #                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
-#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          -DHAL_UART=TRUE -DHAL_DMA=TRUE) -DHAL_LCD=FALSE    #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Components\ #
 #                          hal\common\hal_drivers.c -D ZIGBEEPRO -D           #
 #                          NWK_AUTO_POLL -D ZTOOL_P1 -D xMT_TASK -D           #
-#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                    #
-#                          LCD_SUPPORTED=DEBUG -lC C:\Users\Administrator\Des #
-#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
-#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
-#                          530DB\EndDeviceEB-Pro\List\ -lA                    #
+#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                   #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Li #
-#                          st\ --diag_suppress Pe001,Pa010 -o                 #
+#                          st\ -lA C:\Users\Administrator\Desktop\Git-Local-R #
+#                          epositories\vehicle_positioning_system\MainApp\Pro #
+#                          jects\zstack\Samples\SampleApp\CC2530DB\EndDeviceE #
+#                          B-Pro\List\ --diag_suppress Pe001,Pa010 -o         #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Ob #
@@ -343,29 +342,27 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     149            /* LCD */
     150          #if (defined HAL_LCD) && (HAL_LCD == TRUE)
     151            HalLcdInit();
-   \   000010                ; Setup parameters for call to function HalLcdInit
-   \   000010   12....       LCALL   ??HalLcdInit?relay
     152          #endif
     153          
     154            /* LED */
     155          #if (defined HAL_LED) && (HAL_LED == TRUE)
     156            HalLedInit();
-   \   000013                ; Setup parameters for call to function HalLedInit
-   \   000013   12....       LCALL   ??HalLedInit?relay
+   \   000010                ; Setup parameters for call to function HalLedInit
+   \   000010   12....       LCALL   ??HalLedInit?relay
     157          #endif
     158          
     159            /* UART */
     160          #if (defined HAL_UART) && (HAL_UART == TRUE)
     161            HalUARTInit();
-   \   000016                ; Setup parameters for call to function HalUARTInit
-   \   000016   12....       LCALL   ??HalUARTInit?relay
+   \   000013                ; Setup parameters for call to function HalUARTInit
+   \   000013   12....       LCALL   ??HalUARTInit?relay
     162          #endif
     163          
     164            /* KEY */
     165          #if (defined HAL_KEY) && (HAL_KEY == TRUE)
     166            HalKeyInit();
-   \   000019                ; Setup parameters for call to function HalKeyInit
-   \   000019   12....       LCALL   ??HalKeyInit?relay
+   \   000016                ; Setup parameters for call to function HalKeyInit
+   \   000016   12....       LCALL   ??HalKeyInit?relay
     167          #endif
     168          
     169            /* SPI */
@@ -378,7 +375,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     176            usbHidInit();
     177          #endif
     178          }
-   \   00001C   80..         SJMP    ?Subroutine0
+   \   000019   80..         SJMP    ?Subroutine0
     179          
     180          
     181          /**************************************************************************************************
@@ -603,7 +600,6 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
        -> HalDmaInit              4      0      0
        -> HalFlashInit            4      0      0
        -> HalAesInit              4      0      0
-       -> HalLcdInit              4      0      0
        -> HalLedInit              4      0      0
        -> HalUARTInit             4      0      0
        -> HalKeyInit              4      0      0
@@ -626,7 +622,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      Hal_TaskID                  1
      Hal_Init                    9
      ?Subroutine0                7
-     HalDriverInit              30
+     HalDriverInit              27
      Hal_ProcessEvent           97
      Hal_ProcessPoll            10
      ??Hal_Init?relay            6
@@ -635,11 +631,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      ??Hal_ProcessPoll?relay     6
 
  
- 153 bytes in segment BANKED_CODE
+ 150 bytes in segment BANKED_CODE
   24 bytes in segment BANK_RELAYS
    1 byte  in segment XDATA_Z
  
- 177 bytes of CODE  memory
+ 174 bytes of CODE  memory
    1 byte  of XDATA memory
 
 Errors: none

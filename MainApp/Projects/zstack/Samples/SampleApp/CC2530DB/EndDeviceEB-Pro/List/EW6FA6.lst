@@ -1,0 +1,166 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         20/Aug/2017  15:11:53 #
+# Copyright 2004-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Core               =  plain                                              #
+#    Code model         =  banked                                             #
+#    Data model         =  large                                              #
+#    Calling convention =  xdata reentrant                                    #
+#    Constant location  =  data_rom                                           #
+#    Dptr setup         =  1,16                                               #
+#    Source file        =  C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EW6FA6.tmp         #
+#    Command line       =  -f C:\Users\Administrator\Desktop\Git-Local-Reposi #
+#                          tories\vehicle_positioning_system\MainApp\Projects #
+#                          \zstack\Samples\SampleApp\CC2530DB\..\..\..\Tools\ #
+#                          CC2530DB\f8wEndev.cfg (-DCPU32MHZ                  #
+#                          -DROOT=__near_func) -f C:\Users\Administrator\Desk #
+#                          top\Git-Local-Repositories\vehicle_positioning_sys #
+#                          tem\MainApp\Projects\zstack\Samples\SampleApp\CC25 #
+#                          30DB\..\..\..\Tools\CC2530DB\f8wConfig.cfg         #
+#                          (-DSECURE=0 -DZG_SECURE_DYNAMIC=0 -DREFLECTOR      #
+#                          -DDEFAULT_CHANLIST=0x00000800                      #
+#                          -DZDAPP_CONFIG_PAN_ID=0xFFF1                       #
+#                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_MA #
+#                          SK=0x007F -DBEACON_REQUEST_DELAY=100               #
+#                          -DBEACON_REQ_DELAY_MASK=0x00FF                     #
+#                          -DROUTE_EXPIRY_TIME=30 -DAPSC_ACK_WAIT_DURATION_PO #
+#                          LLED=3000 -DNWK_INDIRECT_MSG_TIMEOUT=7             #
+#                          -DMAX_RREQ_ENTRIES=8 -DAPSC_MAX_FRAME_RETRIES=3    #
+#                          -DNWK_MAX_DATA_RETRIES=2                           #
+#                          -DMAX_POLL_FAILURE_RETRIES=2 -DMAX_BCAST=9         #
+#                          -DAPS_MAX_GROUPS=16 -DMAX_RTG_ENTRIES=40           #
+#                          -DNWK_MAX_BINDING_ENTRIES=4                        #
+#                          -DMAX_BINDING_CLUSTER_IDS=4 "-DDEFAULT_KEY={0x01,  #
+#                          0x03, 0x05, 0x07, 0x09, 0x0B, 0x0D, 0x0F, 0x00,    #
+#                          0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x0D}"         #
+#                          -DMAC_MAX_FRAME_SIZE=116 "-DCONST=const __code"    #
+#                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
+#                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
+#                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
+#                          -DHAL_UART=TRUE -DHAL_DMA=TRUE -DHAL_LCD=FALSE)    #
+#                          -DLCD_SUPPORTED=DEBUG C:\Users\Administrator\Deskt #
+#                          op\Git-Local-Repositories\vehicle_positioning_syst #
+#                          em\MainApp\Projects\zstack\Samples\SampleApp\CC253 #
+#                          0DB\EW6FA6.tmp -D ZIGBEEPRO -D NWK_AUTO_POLL -D    #
+#                          ZTOOL_P1 -D xMT_TASK -D xMT_SYS_FUNC -D            #
+#                          xMT_ZDO_FUNC -lC C:\Users\Administrator\Desktop\Gi #
+#                          t-Local-Repositories\vehicle_positioning_system\Ma #
+#                          inApp\Projects\zstack\Samples\SampleApp\CC2530DB\E #
+#                          ndDeviceEB-Pro\List\ -lA                           #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Li #
+#                          st\ --diag_suppress Pe001,Pa010 -o                 #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Ob #
+#                          j\ -e --debug --core=plain --dptr=16,1             #
+#                          --data_model=large --code_model=banked             #
+#                          --calling_convention=xdata_reentrant               #
+#                          --place_constants=data_rom --nr_virtual_regs 16    #
+#                          -I C:\Users\Administrator\Desktop\Git-Local-Reposi #
+#                          tories\vehicle_positioning_system\MainApp\Projects #
+#                          \zstack\Samples\SampleApp\CC2530DB\ -I             #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\SOURCE\ -I      #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\ZMAIN\TI2 #
+#                          530DB\ -I C:\Users\Administrator\Desktop\Git-Local #
+#                          -Repositories\vehicle_positioning_system\MainApp\P #
+#                          rojects\zstack\Samples\SampleApp\CC2530DB\..\..\.. #
+#                          \..\..\COMPONENTS\MT\ -I                           #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\HAL\INCLUDE\ -I C:\Users\Administrator\Des #
+#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
+#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
+#                          530DB\..\..\..\..\..\COMPONENTS\HAL\TARGET\CC2530E #
+#                          B\ -I C:\Users\Administrator\Desktop\Git-Local-Rep #
+#                          ositories\vehicle_positioning_system\MainApp\Proje #
+#                          cts\zstack\Samples\SampleApp\CC2530DB\..\..\..\..\ #
+#                          ..\COMPONENTS\OSAL\MCU\CCSOC\ -I                   #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\OSAL\INCLUDE\ -I                           #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\STACK\AF\ -I C:\Users\Administrator\Deskto #
+#                          p\Git-Local-Repositories\vehicle_positioning_syste #
+#                          m\MainApp\Projects\zstack\Samples\SampleApp\CC2530 #
+#                          DB\..\..\..\..\..\COMPONENTS\STACK\NWK\ -I         #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\STACK\SEC\ -I C:\Users\Administrator\Deskt #
+#                          op\Git-Local-Repositories\vehicle_positioning_syst #
+#                          em\MainApp\Projects\zstack\Samples\SampleApp\CC253 #
+#                          0DB\..\..\..\..\..\COMPONENTS\STACK\SAPI\ -I       #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\STACK\SYS\ -I C:\Users\Administrator\Deskt #
+#                          op\Git-Local-Repositories\vehicle_positioning_syst #
+#                          em\MainApp\Projects\zstack\Samples\SampleApp\CC253 #
+#                          0DB\..\..\..\..\..\COMPONENTS\STACK\ZDO\ -I        #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\ZMAC\F8W\ -I C:\Users\Administrator\Deskto #
+#                          p\Git-Local-Repositories\vehicle_positioning_syste #
+#                          m\MainApp\Projects\zstack\Samples\SampleApp\CC2530 #
+#                          DB\..\..\..\..\..\COMPONENTS\ZMAC\ -I              #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\SERVICES\SADDR\ -I                         #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\SERVICES\SDATA\ -I                         #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\MAC\INCLUDE\ -I C:\Users\Administrator\Des #
+#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
+#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
+#                          530DB\..\..\..\..\..\COMPONENTS\MAC\HIGH_LEVEL\    #
+#                          -I C:\Users\Administrator\Desktop\Git-Local-Reposi #
+#                          tories\vehicle_positioning_system\MainApp\Projects #
+#                          \zstack\Samples\SampleApp\CC2530DB\..\..\..\..\..\ #
+#                          COMPONENTS\MAC\LOW_LEVEL\srf04\ -I                 #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\..\..\..\..\..\COM #
+#                          PONENTS\MAC\LOW_LEVEL\srf04\SINGLE_CHIP\ -Ohz      #
+#                          --require_prototypes --predef_macros               #
+#                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EW6FA5.tmp         #
+#    List file          =  C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Li #
+#                          st\EW6FA6.lst                                      #
+#    Object file        =  C:\Users\Administrator\Desktop\Git-Local-Repositor #
+#                          ies\vehicle_positioning_system\MainApp\Projects\zs #
+#                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Ob #
+#                          j\EW6FA6.r51                                       #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+
+
+ 
+ 
+ 0 bytes of memory
+
+Errors: none
+Warnings: none

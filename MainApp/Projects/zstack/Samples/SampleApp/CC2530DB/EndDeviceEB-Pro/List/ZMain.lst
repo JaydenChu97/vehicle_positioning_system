@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  16:05:20 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         23/Aug/2017  19:12:28 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -40,20 +40,19 @@
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
 #                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
-#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          -DHAL_UART=TRUE -DHAL_DMA=TRUE) -DHAL_LCD=FALSE    #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\ZMain\TI2530DB\ZMain.c -D ZIGBEEPRO -D        #
 #                          NWK_AUTO_POLL -D ZTOOL_P1 -D xMT_TASK -D           #
-#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                    #
-#                          LCD_SUPPORTED=DEBUG -lC C:\Users\Administrator\Des #
-#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
-#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
-#                          530DB\EndDeviceEB-Pro\List\ -lA                    #
+#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                   #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Li #
-#                          st\ --diag_suppress Pe001,Pa010 -o                 #
+#                          st\ -lA C:\Users\Administrator\Desktop\Git-Local-R #
+#                          epositories\vehicle_positioning_system\MainApp\Pro #
+#                          jects\zstack\Samples\SampleApp\CC2530DB\EndDeviceE #
+#                          B-Pro\List\ --diag_suppress Pe001,Pa010 -o         #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Ob #
@@ -417,8 +416,6 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     156          
     157            // Display information about this device
     158            zmain_dev_info();
-   \   000067                ; Setup parameters for call to function zmain_dev_info
-   \   000067   12....       LCALL   ??zmain_dev_info?relay
     159          
     160            /* Display the device info on the LCD */
     161          #ifdef LCD_SUPPORTED
@@ -431,20 +428,20 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     168          #endif
     169          
     170            osal_start_system(); // No Return from here
-   \   00006A                ; Setup parameters for call to function osal_start_system
-   \   00006A   12....       LCALL   ??osal_start_system?relay
+   \   000067                ; Setup parameters for call to function osal_start_system
+   \   000067   12....       LCALL   ??osal_start_system?relay
     171          
     172            return 0;  // Shouldn't get here.
-   \   00006D   7A00         MOV     R2,#0x0
-   \   00006F   7B00         MOV     R3,#0x0
-   \   000071   02....       LJMP    ?BRET
-   \   000074                REQUIRE SLEEPCMD
-   \   000074                REQUIRE SLEEPSTA
-   \   000074                REQUIRE CLKCONCMD
-   \   000074                REQUIRE CLKCONSTA
-   \   000074                REQUIRE P1DIR
-   \   000074                REQUIRE P0DIR
-   \   000074                REQUIRE P0INP
+   \   00006A   7A00         MOV     R2,#0x0
+   \   00006C   7B00         MOV     R3,#0x0
+   \   00006E   02....       LJMP    ?BRET
+   \   000071                REQUIRE SLEEPCMD
+   \   000071                REQUIRE SLEEPSTA
+   \   000071                REQUIRE CLKCONCMD
+   \   000071                REQUIRE CLKCONSTA
+   \   000071                REQUIRE P1DIR
+   \   000071                REQUIRE P0DIR
+   \   000071                REQUIRE P0INP
     173          } // main()
     174          
     175          /*********************************************************************
@@ -825,6 +822,32 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
    \   00000A   3400         ADDC    A,#0x0
    \   00000C   F583         MOV     DPH,A
    \   00000E   22           RET
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??main?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    main
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??zmain_vdd_check?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    zmain_vdd_check
+
+   \                                 In  segment BANK_RELAYS, align 1
+   \                     ??zmain_ext_addr?relay:
+   \   000000   12....       LCALL   ?BDISPATCH
+   \   000003   ......       DC24    zmain_ext_addr
+
+   \                                 In  segment XDATA_ROM_C, align 1
+   \                     `?<Constant {255, 255, 255, 255, 255, 255, 255,`:
+   \   000000   FF           DB 255
+   \   000001   FF           DB 255
+   \   000002   FF           DB 255
+   \   000003   FF           DB 255
+   \   000004   FF           DB 255
+   \   000005   FF           DB 255
+   \   000006   FF           DB 255
+   \   000007   FF           DB 255
     294          
     295          /**************************************************************************************************
     296           * @fn          zmain_dev_info
@@ -842,17 +865,8 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     308           * @return      None.
     309           **************************************************************************************************
     310           */
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
     311          static void zmain_dev_info(void)
-   \                     zmain_dev_info:
     312          {
-   \   000000   74F6         MOV     A,#-0xa
-   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
-   \   000005                ; Saved register size: 10
-   \   000005                ; Auto size: 17
-   \   000005   74EF         MOV     A,#-0x11
-   \   000007   12....       LCALL   ?ALLOC_XSTACK8
     313          #ifdef LCD_SUPPORTED
     314            uint8 i;
     315            uint8 *xad;
@@ -860,153 +874,20 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     317          
     318            // Display the extended address.
     319            xad = aExtendedAddress + Z_EXTADDR_LEN - 1;
-   \   00000A   78..         MOV     R0,#(aExtendedAddress + 7) & 0xff
-   \   00000C   79..         MOV     R1,#((aExtendedAddress + 7) >> 8) & 0xff
     320          
     321            for (i = 0; i < Z_EXTADDR_LEN*2; xad--)
-   \   00000E   7C00         MOV     R4,#0x0
     322            {
     323              uint8 ch;
     324              ch = (*xad >> 4) & 0x0F;
-   \                     ??zmain_dev_info_0:
-   \   000010   8882         MOV     DPL,R0
-   \   000012   8983         MOV     DPH,R1
-   \   000014   E0           MOVX    A,@DPTR
-   \   000015   C4           SWAP    A
-   \   000016   540F         ANL     A,#0xf
-   \   000018   FD           MOV     R5,A
     325              lcd_buf[i++] = ch + (( ch < 10 ) ? '0' : '7');
-   \   000019   EC           MOV     A,R4
-   \   00001A   FE           MOV     R6,A
-   \   00001B   0C           INC     R4
-   \   00001C   ED           MOV     A,R5
-   \   00001D   C3           CLR     C
-   \   00001E   940A         SUBB    A,#0xa
-   \   000020   5004         JNC     ??zmain_dev_info_1
-   \   000022   7A30         MOV     R2,#0x30
-   \   000024   8002         SJMP    ??zmain_dev_info_2
-   \                     ??zmain_dev_info_1:
-   \   000026   7A37         MOV     R2,#0x37
-   \                     ??zmain_dev_info_2:
-   \   000028   EA           MOV     A,R2
-   \   000029   2D           ADD     A,R5
-   \   00002A   C0E0         PUSH    A
-   \   00002C   8E..         MOV     ?V0 + 0,R6
-   \   00002E   12....       LCALL   ?Subroutine1 & 0xFFFF
-   \                     ??CrossCallReturnLabel_3:
-   \   000031   D0E0         POP     A
-   \   000033   F0           MOVX    @DPTR,A
     326              ch = *xad & 0x0F;
-   \   000034   8882         MOV     DPL,R0
-   \   000036   8983         MOV     DPH,R1
-   \   000038   E0           MOVX    A,@DPTR
-   \   000039   540F         ANL     A,#0xf
-   \   00003B   FD           MOV     R5,A
     327              lcd_buf[i++] = ch + (( ch < 10 ) ? '0' : '7');
-   \   00003C   EC           MOV     A,R4
-   \   00003D   FF           MOV     R7,A
-   \   00003E   0C           INC     R4
-   \   00003F   ED           MOV     A,R5
-   \   000040   C3           CLR     C
-   \   000041   940A         SUBB    A,#0xa
-   \   000043   5004         JNC     ??zmain_dev_info_3
-   \   000045   7A30         MOV     R2,#0x30
-   \   000047   8002         SJMP    ??zmain_dev_info_4
-   \                     ??zmain_dev_info_3:
-   \   000049   7A37         MOV     R2,#0x37
-   \                     ??zmain_dev_info_4:
-   \   00004B   EA           MOV     A,R2
-   \   00004C   2D           ADD     A,R5
-   \   00004D   C0E0         PUSH    A
-   \   00004F   8F..         MOV     ?V0 + 0,R7
-   \   000051   12....       LCALL   ?Subroutine1 & 0xFFFF
     328            }
-   \                     ??CrossCallReturnLabel_4:
-   \   000054   D0E0         POP     A
-   \   000056   F0           MOVX    @DPTR,A
-   \   000057   E8           MOV     A,R0
-   \   000058   24FF         ADD     A,#-0x1
-   \   00005A   18           DEC     R0
-   \   00005B   E9           MOV     A,R1
-   \   00005C   34FF         ADDC    A,#-0x1
-   \   00005E   F9           MOV     R1,A
-   \   00005F   EC           MOV     A,R4
-   \   000060   C3           CLR     C
-   \   000061   9410         SUBB    A,#0x10
-   \   000063   40AB         JC      ??zmain_dev_info_0
     329            lcd_buf[Z_EXTADDR_LEN*2] = '\0';
-   \   000065   7410         MOV     A,#0x10
-   \   000067   12....       LCALL   ?XSTACK_DISP0_8
-   \   00006A   E4           CLR     A
-   \   00006B   F0           MOVX    @DPTR,A
     330            HalLcdWriteString( "IEEE: ", HAL_LCD_LINE_1 );
-   \   00006C                ; Setup parameters for call to function HalLcdWriteString
-   \   00006C   7901         MOV     R1,#0x1
-   \   00006E   7A..         MOV     R2,#`?<Constant "IEEE: ">` & 0xff
-   \   000070   7B..         MOV     R3,#(`?<Constant "IEEE: ">` >> 8) & 0xff
-   \   000072   12....       LCALL   ??HalLcdWriteString?relay
     331            HalLcdWriteString( (char*)lcd_buf, HAL_LCD_LINE_2 );
-   \   000075                ; Setup parameters for call to function HalLcdWriteString
-   \   000075   7902         MOV     R1,#0x2
-   \   000077   85..82       MOV     DPL,?XSP + 0
-   \   00007A   85..83       MOV     DPH,?XSP + 1
-   \   00007D   AA82         MOV     R2,DPL
-   \   00007F   AB83         MOV     R3,DPH
-   \   000081   12....       LCALL   ??HalLcdWriteString?relay
     332          #endif
     333          }
-   \   000084   7411         MOV     A,#0x11
-   \   000086   12....       LCALL   ?DEALLOC_XSTACK8
-   \   000089   7F02         MOV     R7,#0x2
-   \   00008B   02....       LJMP    ?BANKED_LEAVE_XDATA
-
-   \                                 In  segment BANKED_CODE, align 1, keep-with-next
-   \                     ?Subroutine1:
-   \   000000   85..82       MOV     DPL,?XSP + 0
-   \   000003   85..83       MOV     DPH,?XSP + 1
-   \   000006   E582         MOV     A,DPL
-   \   000008   25..         ADD     A,?V0 + 0
-   \   00000A   F582         MOV     DPL,A
-   \   00000C   E583         MOV     A,DPH
-   \   00000E   3400         ADDC    A,#0x0
-   \   000010   F583         MOV     DPH,A
-   \   000012   22           RET
-
-   \                                 In  segment BANK_RELAYS, align 1
-   \                     ??main?relay:
-   \   000000   12....       LCALL   ?BDISPATCH
-   \   000003   ......       DC24    main
-
-   \                                 In  segment BANK_RELAYS, align 1
-   \                     ??zmain_vdd_check?relay:
-   \   000000   12....       LCALL   ?BDISPATCH
-   \   000003   ......       DC24    zmain_vdd_check
-
-   \                                 In  segment BANK_RELAYS, align 1
-   \                     ??zmain_ext_addr?relay:
-   \   000000   12....       LCALL   ?BDISPATCH
-   \   000003   ......       DC24    zmain_ext_addr
-
-   \                                 In  segment BANK_RELAYS, align 1
-   \                     ??zmain_dev_info?relay:
-   \   000000   12....       LCALL   ?BDISPATCH
-   \   000003   ......       DC24    zmain_dev_info
-
-   \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant {255, 255, 255, 255, 255, 255, 255,`:
-   \   000000   FF           DB 255
-   \   000001   FF           DB 255
-   \   000002   FF           DB 255
-   \   000003   FF           DB 255
-   \   000004   FF           DB 255
-   \   000005   FF           DB 255
-   \   000006   FF           DB 255
-   \   000007   FF           DB 255
-
-   \                                 In  segment XDATA_ROM_C, align 1
-   \                     `?<Constant "IEEE: ">`:
-   \   000000   49454545     DB "IEEE: "
-   \            3A2000  
     334          
     335          #ifdef LCD_SUPPORTED
     336          /*********************************************************************
@@ -1058,11 +939,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
        -> osal_init_system      0      0      0
        -> osal_int_enable       0      0      0
        -> InitBoard             0      0      0
-       -> zmain_dev_info        0      0      0
        -> osal_start_system     0      0      0
-     zmain_dev_info             1      0     27
-       -> HalLcdWriteString     0      0     54
-       -> HalLcdWriteString     0      0     54
      zmain_ext_addr             2      0     30
        -> osal_nv_item_init     0      0     56
        -> osal_nv_read          0      0     60
@@ -1093,27 +970,23 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      CLKCONCMD                                         1
      P0DIR                                             1
      P1DIR                                             1
-     main                                            116
+     main                                            113
      zmain_vdd_check                                  89
      zmain_ext_addr                                  368
      ?Subroutine0                                     15
-     zmain_dev_info                                  142
-     ?Subroutine1                                     19
      ??main?relay                                      6
      ??zmain_vdd_check?relay                           6
      ??zmain_ext_addr?relay                            6
-     ??zmain_dev_info?relay                            6
      ?<Constant {255, 255, 255, 255, 255, 255, 255,    8
-     ?<Constant "IEEE: ">                              7
 
  
- 749 bytes in segment BANKED_CODE
-  24 bytes in segment BANK_RELAYS
+ 585 bytes in segment BANKED_CODE
+  18 bytes in segment BANK_RELAYS
    8 bytes in segment SFR_AN
-  15 bytes in segment XDATA_ROM_C
+   8 bytes in segment XDATA_ROM_C
  
- 773 bytes of CODE  memory
-  15 bytes of CONST memory
+ 603 bytes of CODE  memory
+   8 bytes of CONST memory
    0 bytes of DATA  memory (+ 8 bytes shared)
 
 Errors: none

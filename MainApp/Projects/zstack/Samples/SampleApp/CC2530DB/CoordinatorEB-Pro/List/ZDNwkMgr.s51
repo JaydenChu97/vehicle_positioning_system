@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  15:56:59 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        21/Aug/2017  12:10:07 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -42,12 +42,12 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
-//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
-//                          -Local-Repositories\vehicle_positioning_system\Ma /
-//                          inApp\Components\stack\zdo\ZDNwkMgr.c -D          /
-//                          ZIGBEEPRO -D xMT_TASK -D xMT_SYS_FUNC -D          /
-//                          xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC           /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE            /
+//                          -DHAL_DMA=TRUE) -DHAL_LCD=FALSE                   /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Component /
+//                          s\stack\zdo\ZDNwkMgr.c -D ZIGBEEPRO -D xMT_TASK   /
+//                          -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC               /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /
 //                          zstack\Samples\SampleApp\CC2530DB\CoordinatorEB-P /
@@ -216,12 +216,8 @@
         FUNCTION ??ZDNwkMgr_SetNwkManagerAddr?relay,0203H
         PUBLIC ??ZDNwkMgr_event_loop?relay
         FUNCTION ??ZDNwkMgr_event_loop?relay,0203H
-        PUBLIC NwkMgrStr_1
-        PUBLIC NwkMgrStr_2
-        PUBLIC NwkMgrStr_3
-        PUBLIC NwkMgrStr_4
         FUNCTION ZDNwkMgr_BuildAndSendUpdateNotify,021203H
-        ARGFRAME XSTACK, 25, STACK
+        ARGFRAME XSTACK, 21, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
         LOCFRAME ISTACK, 1, STACK
@@ -230,7 +226,7 @@
         ARGFRAME XSTACK, 14, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        LOCFRAME XSTACK, 25, STACK
+        LOCFRAME XSTACK, 21, STACK
         PUBLIC ZDNwkMgr_EDScanConfirmCB
         FUNCTION ZDNwkMgr_EDScanConfirmCB,021603H
         ARGFRAME XSTACK, 0, STACK
@@ -455,15 +451,11 @@ ZDO_ParseMgmtNwkUpdateReq SYMBOL "ZDO_ParseMgmtNwkUpdateReq"
 NLME_SetUpdateID    SYMBOL "NLME_SetUpdateID"
 ZDP_MgmtNwkUpdateNotify SYMBOL "ZDP_MgmtNwkUpdateNotify"
 ZDO_ParseServerDiscRsp SYMBOL "ZDO_ParseServerDiscRsp"
-HalLcdWriteString   SYMBOL "HalLcdWriteString"
-HalLcdWriteStringValueValue SYMBOL "HalLcdWriteStringValueValue"
 osal_mem_alloc      SYMBOL "osal_mem_alloc"
 osal_mem_free       SYMBOL "osal_mem_free"
 osal_msg_allocate   SYMBOL "osal_msg_allocate"
 osal_msg_send       SYMBOL "osal_msg_send"
 osal_memcpy         SYMBOL "osal_memcpy"
-??HalLcdWriteString?relay SYMBOL "?relay", HalLcdWriteString
-??HalLcdWriteStringValueValue?relay SYMBOL "?relay", HalLcdWriteStringValueValue
 ??NLME_EDScanRequest?relay SYMBOL "?relay", NLME_EDScanRequest
 ??NLME_SetUpdateID?relay SYMBOL "?relay", NLME_SetUpdateID
 ??ZDApp_NwkStateUpdateCB?relay SYMBOL "?relay", ZDApp_NwkStateUpdateCB
@@ -580,20 +572,6 @@ ZDNwkMgr_event_loop SYMBOL "ZDNwkMgr_event_loop"
         ARGFRAME XSTACK, 12, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteString
-        FUNCTION HalLcdWriteString,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 20, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdWriteStringValueValue
-        FUNCTION HalLcdWriteStringValueValue,0202H
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 24, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
         EXTERN osal_mem_alloc
         FUNCTION osal_mem_alloc,0202H
         ARGFRAME ISTACK, 0, STACK
@@ -629,10 +607,6 @@ ZDNwkMgr_event_loop SYMBOL "ZDNwkMgr_event_loop"
         ARGFRAME XSTACK, 15, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN ??HalLcdWriteString?relay
-        FUNCTION ??HalLcdWriteString?relay,00H
-        EXTERN ??HalLcdWriteStringValueValue?relay
-        FUNCTION ??HalLcdWriteStringValueValue?relay,00H
         EXTERN ??NLME_EDScanRequest?relay
         FUNCTION ??NLME_EDScanRequest?relay,00H
         EXTERN ??NLME_SetUpdateID?relay
@@ -742,30 +716,10 @@ ZDNwkMgr_event_loop SYMBOL "ZDNwkMgr_event_loop"
 //   70 #define ONE_MINUTE             60000  // 1(m) * 60(s) * 1000(ms)
 //   71 
 //   72 #if defined ( LCD_SUPPORTED )
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //   73   const char NwkMgrStr_1[]     = "NM-fail not hi";
-NwkMgrStr_1:
-        DB "NM-fail not hi"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //   74   const char NwkMgrStr_2[]     = "NM-cur<last fail";
-NwkMgrStr_2:
-        DB "NM-cur<last fail"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //   75   const char NwkMgrStr_3[]     = "NM-energy too hi";
-NwkMgrStr_3:
-        DB "NM-energy too hi"
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
 //   76   const char NwkMgrStr_4[]     = "NM-energy not up";
-NwkMgrStr_4:
-        DB "NM-energy not up"
 //   77 #endif
 //   78   
 //   79 /******************************************************************************
@@ -1359,7 +1313,7 @@ ZDNwkMgr_event_loop:
         CFI CFA_XSP16 add(XSP16, 14)
         MOV     DPTR,#ZDNwkMgr_MgmtNwkUpdateReq + 5
         MOVX    A,@DPTR
-        JZ      ??CrossCallReturnLabel_15
+        JZ      ??CrossCallReturnLabel_19
         ; Setup parameters for call to function osal_start_timerEx
         MOV     R4,#0x32
         MOV     R5,#0x0
@@ -1383,7 +1337,7 @@ ZDNwkMgr_event_loop:
 //  260 
 //  261       // Release the memory
 //  262       osal_msg_deallocate( (uint8 *)msgPtr );
-??CrossCallReturnLabel_15:
+??CrossCallReturnLabel_19:
         ; Setup parameters for call to function osal_msg_deallocate
         MOV     R2,?V0 + 0
         MOV     R3,?V0 + 1
@@ -1411,7 +1365,7 @@ ZDNwkMgr_event_loop:
         DEC     A
         JZ      ??ZDNwkMgr_event_loop_5
         ADD     A,#0x5f
-        JNZ     ??CrossCallReturnLabel_15
+        JNZ     ??CrossCallReturnLabel_19
         MOV     A,?V0 + 0
         ADD     A,#0xc
         MOV     DPL,A
@@ -1472,26 +1426,26 @@ ZDNwkMgr_event_loop:
         DATA16
         DATA
         DATA16
-        DW        ??CrossCallReturnLabel_15
+        DW        ??CrossCallReturnLabel_19
         CODE
 ??ZDNwkMgr_event_loop_7:
         ; Setup parameters for call to function ZDNwkMgr_ProcessServerDiscRsp
         MOV     R2,?V0 + 0
         MOV     R3,?V0 + 1
         LCALL   ??ZDNwkMgr_ProcessServerDiscRsp?relay
-        SJMP    ??CrossCallReturnLabel_15
+        SJMP    ??CrossCallReturnLabel_19
 ??ZDNwkMgr_event_loop_6:
         ; Setup parameters for call to function ZDNwkMgr_ProcessMgmtNwkUpdateReq
         MOV     R2,?V0 + 0
         MOV     R3,?V0 + 1
         LCALL   ??ZDNwkMgr_ProcessMgmtNwkUpdateReq?relay
-        SJMP    ??CrossCallReturnLabel_15
+        SJMP    ??CrossCallReturnLabel_19
 ??ZDNwkMgr_event_loop_4:
         MOV     DPTR,#ZDNwkMgr_NumUpdateNotifySent
         MOVX    A,@DPTR
         CLR     C
         SUBB    A,#0x4
-        JNC     ??CrossCallReturnLabel_15
+        JNC     ??CrossCallReturnLabel_19
         ; Setup parameters for call to function NLME_EDScanRequest
         MOV     DPTR,#_NIB + 42
         MOVX    A,@DPTR
@@ -1500,28 +1454,28 @@ ZDNwkMgr_event_loop:
         LCALL   ?XLOAD_R2345
         LCALL   ??NLME_EDScanRequest?relay
         MOV     A,R1
-        JNZ     ??CrossCallReturnLabel_15
+        JNZ     ??CrossCallReturnLabel_19
         MOV     DPL,?V0 + 0
         MOV     DPH,?V0 + 1
-        LCALL   ?Subroutine12 & 0xFFFF
-??CrossCallReturnLabel_28:
+        LCALL   ?Subroutine13 & 0xFFFF
+??CrossCallReturnLabel_32:
         MOV     DPTR,#ZDNwkMgr_TotalTransmissions
-        LCALL   ??Subroutine16_0 & 0xFFFF
-??CrossCallReturnLabel_19:
+        LCALL   ??Subroutine17_0 & 0xFFFF
+??CrossCallReturnLabel_23:
         MOV     DPL,?V0 + 0
         MOV     DPH,?V0 + 1
         INC     DPTR
         INC     DPTR
-        LCALL   ?Subroutine12 & 0xFFFF
-??CrossCallReturnLabel_29:
+        LCALL   ?Subroutine13 & 0xFFFF
+??CrossCallReturnLabel_33:
         MOV     DPTR,#ZDNwkMgr_TxFailures
-        LCALL   ??Subroutine16_0 & 0xFFFF
-??CrossCallReturnLabel_20:
+        LCALL   ??Subroutine17_0 & 0xFFFF
+??CrossCallReturnLabel_24:
         MOV     DPTR,#ZDNwkMgr_MgmtNwkUpdateReq + 5
         MOV     A,#-0x1
 ??ZDNwkMgr_event_loop_8:
         MOVX    @DPTR,A
-        LJMP    ??CrossCallReturnLabel_15 & 0xFFFF
+        LJMP    ??CrossCallReturnLabel_19 & 0xFFFF
 ??ZDNwkMgr_event_loop_5:
         MOV     DPTR,#ZDNwkMgr_MgmtNwkUpdateReq + 5
         MOVX    A,@DPTR
@@ -1596,8 +1550,8 @@ ZDNwkMgr_event_loop:
 //  290     // Update the Update Notify timer
 //  291     if ( ZDNwkMgr_UpdateNotifyTimer > 0 )
         MOV     DPTR,#ZDNwkMgr_UpdateNotifyTimer
-        LCALL   ??Subroutine17_0 & 0xFFFF
-??CrossCallReturnLabel_26:
+        LCALL   ??Subroutine18_0 & 0xFFFF
+??CrossCallReturnLabel_30:
         MOV     A,R0
         ORL     A,R1
         JZ      ??ZDNwkMgr_event_loop_14
@@ -1618,7 +1572,7 @@ ZDNwkMgr_event_loop:
         MOV     R2,#0x2
         LCALL   ?Subroutine6 & 0xFFFF
 //  295     }
-??CrossCallReturnLabel_12:
+??CrossCallReturnLabel_16:
         SJMP    ??ZDNwkMgr_event_loop_15
 //  296     else
 //  297     {
@@ -1703,7 +1657,7 @@ ZDNwkMgr_event_loop:
 ?Subroutine6:
         CFI Block cfiCond3 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_15
+        CFI Conditional ??CrossCallReturnLabel_19
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -1722,7 +1676,7 @@ ZDNwkMgr_event_loop:
         CFI CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond4 Using cfiCommon0
         CFI (cfiCond4) NoFunction
-        CFI (cfiCond4) Conditional ??CrossCallReturnLabel_12
+        CFI (cfiCond4) Conditional ??CrossCallReturnLabel_16
         CFI (cfiCond4) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond4) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond4) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -1741,7 +1695,7 @@ ZDNwkMgr_event_loop:
         CFI (cfiCond4) CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond5 Using cfiCommon0
         CFI (cfiCond5) NoFunction
-        CFI (cfiCond5) Conditional ??CrossCallReturnLabel_13
+        CFI (cfiCond5) Conditional ??CrossCallReturnLabel_17
         CFI (cfiCond5) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond5) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond5) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -1764,28 +1718,24 @@ ZDNwkMgr_event_loop:
         CFI EndBlock cfiCond4
         CFI EndBlock cfiCond5
         CFI EndBlock cfiPicker6
-        REQUIRE ??Subroutine13_0
-        ; // Fall through to label ??Subroutine13_0
+        REQUIRE ??Subroutine14_0
+        ; // Fall through to label ??Subroutine14_0
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-??Subroutine13_0:
+??Subroutine14_0:
         CFI Block cfiCond7 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_14
-        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI Conditional ??CrossCallReturnLabel_18
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -1793,10 +1743,10 @@ ZDNwkMgr_event_loop:
         CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI CFA_SP SP+0
-        CFI CFA_XSP16 add(XSP16, 20)
+        CFI CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond8 Using cfiCommon0
         CFI (cfiCond8) NoFunction
-        CFI (cfiCond8) Conditional ??CrossCallReturnLabel_15
+        CFI (cfiCond8) Conditional ??CrossCallReturnLabel_19
         CFI (cfiCond8) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond8) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond8) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -1815,7 +1765,7 @@ ZDNwkMgr_event_loop:
         CFI (cfiCond8) CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond9 Using cfiCommon0
         CFI (cfiCond9) NoFunction
-        CFI (cfiCond9) Conditional ??CrossCallReturnLabel_12
+        CFI (cfiCond9) Conditional ??CrossCallReturnLabel_16
         CFI (cfiCond9) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond9) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond9) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -1834,7 +1784,7 @@ ZDNwkMgr_event_loop:
         CFI (cfiCond9) CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond10 Using cfiCommon0
         CFI (cfiCond10) NoFunction
-        CFI (cfiCond10) Conditional ??CrossCallReturnLabel_13
+        CFI (cfiCond10) Conditional ??CrossCallReturnLabel_17
         CFI (cfiCond10) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond10) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond10) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -2210,8 +2160,8 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
 //  537     if ( ( !inMsg->wasBroadcast )                     && 
 //  538          ( Req.scanCount >  ZDNWKMGR_MIN_SCAN_COUNT ) && 
 //  539          ( Req.scanCount <= ZDNWKMGR_MAX_SCAN_COUNT ) )
-        LCALL   ?Subroutine11 & 0xFFFF
-??CrossCallReturnLabel_10:
+        LCALL   ?Subroutine12 & 0xFFFF
+??CrossCallReturnLabel_14:
         JZ      $+5
         LJMP    ??ZDNwkMgr_ProcessMgmtNwkUpdateReq_1 & 0xFFFF
         MOV     A,#0x5
@@ -2244,7 +2194,7 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
         LCALL   ?Subroutine3 & 0xFFFF
 //  546         
 //  547         Req.scanCount--;
-??CrossCallReturnLabel_24:
+??CrossCallReturnLabel_28:
         MOV     A,#0x5
         LCALL   ?XSTACK_DISP0_8
         MOVX    A,@DPTR
@@ -2351,7 +2301,7 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
 //  586       }
 //  587     }
 //  588   }
-??CrossCallReturnLabel_13:
+??CrossCallReturnLabel_17:
         LJMP    ??ZDNwkMgr_ProcessMgmtNwkUpdateReq_1 & 0xFFFF
 //  589   else if ( Req.scanDuration == 0xFF )
 ??ZDNwkMgr_ProcessMgmtNwkUpdateReq_2:
@@ -2420,15 +2370,15 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
 //  609     // Request is invalid
 //  610     if ( !inMsg->wasBroadcast )
 ??ZDNwkMgr_ProcessMgmtNwkUpdateReq_5:
-        LCALL   ?Subroutine11 & 0xFFFF
-??CrossCallReturnLabel_11:
+        LCALL   ?Subroutine12 & 0xFFFF
+??CrossCallReturnLabel_15:
         JNZ     ??ZDNwkMgr_ProcessMgmtNwkUpdateReq_1
 //  611     {
 //  612       ZDNwkMgr_MgmtNwkUpdateNotifyAddr.addr.shortAddr = inMsg->srcAddr.addr.shortAddr;
         LCALL   ?Subroutine3 & 0xFFFF
 //  613       ZDP_MgmtNwkUpdateNotify( inMsg->TransSeq, &ZDNwkMgr_MgmtNwkUpdateNotifyAddr,
 //  614                                ZDP_INVALID_REQTYPE, 0, 0, 0, 0, NULL, AF_TX_OPTIONS_NONE, false );
-??CrossCallReturnLabel_25:
+??CrossCallReturnLabel_29:
         ; Setup parameters for call to function ZDP_MgmtNwkUpdateNotify
         MOV     ?V0 + 0,#0x0
         MOV     R0,#?V0 + 0
@@ -2496,10 +2446,10 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
         CFI EndBlock cfiBlock13
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine11:
+?Subroutine12:
         CFI Block cfiCond14 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_10
+        CFI Conditional ??CrossCallReturnLabel_14
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -2516,7 +2466,7 @@ ZDNwkMgr_ProcessMgmtNwkUpdateReq:
         CFI CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond15 Using cfiCommon0
         CFI (cfiCond15) NoFunction
-        CFI (cfiCond15) Conditional ??CrossCallReturnLabel_11
+        CFI (cfiCond15) Conditional ??CrossCallReturnLabel_15
         CFI (cfiCond15) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond15) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond15) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -2833,48 +2783,26 @@ ZDNwkMgr_CheckForChannelInterference:
         FUNCALL ZDNwkMgr_CheckForChannelInterference, ZDNwkMgr_BuildAndSendUpdateNotify
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 25, STACK
+        LOCFRAME XSTACK, 21, STACK
         LOCFRAME IOVERLAY, 0, STATIC
         LOCFRAME DOVERLAY, 0, STATIC
         ARGFRAME ISTACK, 0, STACK
         ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 25, STACK
+        ARGFRAME XSTACK, 21, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
         FUNCALL ZDNwkMgr_CheckForChannelInterference, osal_start_timerEx
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 20, STACK
+        LOCFRAME XSTACK, 16, STACK
         LOCFRAME IOVERLAY, 0, STATIC
         LOCFRAME DOVERLAY, 0, STATIC
         ARGFRAME ISTACK, 0, STACK
         ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 20, STACK
+        ARGFRAME XSTACK, 16, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL ZDNwkMgr_CheckForChannelInterference, HalLcdWriteString
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 20, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 20, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL ZDNwkMgr_CheckForChannelInterference, HalLcdWriteStringValueValue
-        LOCFRAME ISTACK, 0, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 24, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 0, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 24, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        MOV     A,#-0x14
+        MOV     A,#-0x10
         LCALL   ?BANKED_ENTER_XDATA
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
@@ -2882,29 +2810,25 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
         CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
-        CFI V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
-        CFI V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
         CFI CFA_SP SP+0
-        CFI CFA_XSP16 add(XSP16, 20)
-        ; Saved register size: 20
+        CFI CFA_XSP16 add(XSP16, 16)
+        ; Saved register size: 16
         ; Auto size: 0
         MOV     ?V0 + 0,R2
         MOV     ?V0 + 1,R3
 //  723   uint8 i;
 //  724   uint8 channelEnergy = 0;
-        MOV     ?V0 + 4,#0x0
+        MOV     R4,#0x0
 //  725   uint8 energyIncreased = FALSE;
 //  726     
 //  727   // Get the current channel energy
@@ -2920,28 +2844,26 @@ ZDNwkMgr_CheckForChannelInterference:
         INC     R2
         INC     R2
         MOV     R3,A
-        MOV     ?V0 + 8,#0x1
-        MOV     ?V0 + 9,#0x0
-        MOV     ?V0 + 10,#0x0
-        MOV     ?V0 + 11,#0x0
+        MOV     ?V0 + 4,#0x1
+        MOV     ?V0 + 5,R4
+        MOV     ?V0 + 6,R4
+        MOV     ?V0 + 7,R4
         MOV     A,?V0 + 2
-        MOV     R0,#?V0 + 8
+        MOV     R0,#?V0 + 4
         LCALL   ?L_SHL
         MOV     DPL,R2
         MOV     DPH,R3
-        MOV     R0,#?V0 + 8
+        MOV     R0,#?V0 + 4
         LCALL   ?L_AND_X
-        MOV     A,?V0 + 8
-        ORL     A,?V0 + 9
-        ORL     A,?V0 + 10
-        ORL     A,?V0 + 11
+        LCALL   ?Subroutine11 & 0xFFFF
+??CrossCallReturnLabel_10:
         JZ      ??ZDNwkMgr_CheckForChannelInterference_0
 //  729   {
 //  730     channelEnergy = pEDScanConfirm->energyDetectList[_NIB.nwkLogicalChannel];
         LCALL   ?Subroutine10 & 0xFFFF
 //  731   }
-??CrossCallReturnLabel_17:
-        MOV     ?V0 + 4,A
+??CrossCallReturnLabel_21:
+        MOV     R4,A
 //  732     
 //  733   // If this energy scan does not indicate higher energy on the current 
 //  734   // channel then other channels, no action is taken. The device should 
@@ -2953,27 +2875,25 @@ ZDNwkMgr_CheckForChannelInterference:
 //  738     if ( ( ( (uint32)1 << i ) & pEDScanConfirm->scannedChannels ) && 
 //  739          ( channelEnergy > pEDScanConfirm->energyDetectList[i] ) )
 ??ZDNwkMgr_CheckForChannelInterference_1:
-        MOV     ?V0 + 8,#0x1
-        MOV     ?V0 + 9,#0x0
-        MOV     ?V0 + 10,#0x0
-        MOV     ?V0 + 11,#0x0
+        MOV     ?V0 + 4,#0x1
+        MOV     ?V0 + 5,#0x0
+        MOV     ?V0 + 6,#0x0
+        MOV     ?V0 + 7,#0x0
         MOV     A,R1
-        MOV     R0,#?V0 + 8
+        MOV     R0,#?V0 + 4
         LCALL   ?L_SHL
         MOV     DPL,R2
         MOV     DPH,R3
-        MOV     R0,#?V0 + 8
+        MOV     R0,#?V0 + 4
         LCALL   ?L_AND_X
-        MOV     A,?V0 + 8
-        ORL     A,?V0 + 9
-        ORL     A,?V0 + 10
-        ORL     A,?V0 + 11
+        LCALL   ?Subroutine11 & 0xFFFF
+??CrossCallReturnLabel_11:
         JZ      ??ZDNwkMgr_CheckForChannelInterference_2
         MOV     ?V0 + 2,R1
         LCALL   ?Subroutine10 & 0xFFFF
-??CrossCallReturnLabel_18:
+??CrossCallReturnLabel_22:
         CLR     C
-        SUBB    A,?V0 + 4
+        SUBB    A,R4
         JNC     ??ZDNwkMgr_CheckForChannelInterference_2
 //  740     {
 //  741       energyIncreased = TRUE;
@@ -2989,22 +2909,22 @@ ZDNwkMgr_CheckForChannelInterference:
 //  751     // Send a Management Network Update notify to the Network Manager
 //  752     ZDNwkMgr_MgmtNwkUpdateNotifyAddr.addr.shortAddr = _NIB.nwkManagerAddr;
         MOV     DPTR,#_NIB + 106
-        LCALL   ??Subroutine15_0 & 0xFFFF
+        LCALL   ??Subroutine16_0 & 0xFFFF
 //  753     ZDNwkMgr_BuildAndSendUpdateNotify( 0, &ZDNwkMgr_MgmtNwkUpdateNotifyAddr, 
 //  754                                        ZDNwkMgr_TotalTransmissions, ZDNwkMgr_TxFailures,
 //  755                                        pEDScanConfirm, AF_MSG_ACK_REQUEST );
-??CrossCallReturnLabel_23:
+??CrossCallReturnLabel_27:
         ; Setup parameters for call to function ZDNwkMgr_BuildAndSendUpdateNotify
         MOV     ?V0 + 2,#0x10
         MOV     R0,#?V0 + 2
         LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 21)
+        CFI CFA_XSP16 add(XSP16, 17)
         MOV     R0,#?V0 + 0
         LCALL   ?PUSH_XSTACK_I_TWO
-        CFI CFA_XSP16 add(XSP16, 23)
+        CFI CFA_XSP16 add(XSP16, 19)
         MOV     DPTR,#ZDNwkMgr_TxFailures
         LCALL   ?PUSH_XSTACK8_X_TWO
-        CFI CFA_XSP16 add(XSP16, 25)
+        CFI CFA_XSP16 add(XSP16, 21)
         MOV     DPTR,#ZDNwkMgr_TotalTransmissions
         LCALL   ?Subroutine7 & 0xFFFF
 ??CrossCallReturnLabel_5:
@@ -3012,7 +2932,7 @@ ZDNwkMgr_CheckForChannelInterference:
         LCALL   ??ZDNwkMgr_BuildAndSendUpdateNotify?relay
         MOV     A,#0x5
         LCALL   ?DEALLOC_XSTACK8
-        CFI CFA_XSP16 add(XSP16, 20)
+        CFI CFA_XSP16 add(XSP16, 16)
 //  756     ZDNwkMgr_WaitingForNotifyConfirm = TRUE; // Confirm will clear the counters
         MOV     DPTR,#ZDNwkMgr_WaitingForNotifyConfirm
         MOV     A,#0x1
@@ -3021,7 +2941,7 @@ ZDNwkMgr_CheckForChannelInterference:
 //  758     if ( ZDNwkMgr_NumUpdateNotifySent == 0 )
         MOV     DPTR,#ZDNwkMgr_NumUpdateNotifySent
         MOVX    A,@DPTR
-        JNZ     ??CrossCallReturnLabel_14
+        JNZ     ??CrossCallReturnLabel_18
 //  759     {
 //  760       // First notify message sent within this hour. Start the Update Notify timer.
 //  761       ZDNwkMgr_UpdateNotifyTimer = ZDNWKMGR_UPDATE_NOTIFY_TIMER;
@@ -3037,85 +2957,51 @@ ZDNwkMgr_CheckForChannelInterference:
         MOV     R5,#-0x16
         MOV     R2,#0x2
         MOV     R3,A
-        LCALL   ??Subroutine13_0 & 0xFFFF
+        LCALL   ??Subroutine14_0 & 0xFFFF
 //  763     }
 //  764     
 //  765     ZDNwkMgr_NumUpdateNotifySent++;
-??CrossCallReturnLabel_14:
+??CrossCallReturnLabel_18:
         MOV     DPTR,#ZDNwkMgr_NumUpdateNotifySent
         MOVX    A,@DPTR
         INC     A
         MOVX    @DPTR,A
-        SJMP    ??ZDNwkMgr_CheckForChannelInterference_3
 //  766   }
+//  767 #if defined ( LCD_SUPPORTED )
+//  768   else
+//  769   {
+//  770     HalLcdWriteString( (char*)NwkMgrStr_4, HAL_LCD_LINE_1 );
+//  771     HalLcdWriteStringValueValue( ": ", _NIB.nwkLogicalChannel, 10, channelEnergy, 10, HAL_LCD_LINE_2 );
+//  772   }
+//  773 #endif
+//  774 }
+??ZDNwkMgr_CheckForChannelInterference_3:
+        MOV     R7,#0x8
+        LJMP    ?BANKED_LEAVE_XDATA
 ??ZDNwkMgr_CheckForChannelInterference_2:
         INC     R1
         MOV     A,R1
         CLR     C
         SUBB    A,#0x1b
-        JNC     $+5
+        JNC     ??ZDNwkMgr_CheckForChannelInterference_3
         LJMP    ??ZDNwkMgr_CheckForChannelInterference_1 & 0xFFFF
-//  767 #if defined ( LCD_SUPPORTED )
-//  768   else
-//  769   {
-//  770     HalLcdWriteString( (char*)NwkMgrStr_4, HAL_LCD_LINE_1 );
-        ; Setup parameters for call to function HalLcdWriteString
-        MOV     R1,#0x1
-        MOV     R2,#NwkMgrStr_4 & 0xff
-        MOV     R3,#(NwkMgrStr_4 >> 8) & 0xff
-        LCALL   ??HalLcdWriteString?relay
-//  771     HalLcdWriteStringValueValue( ": ", _NIB.nwkLogicalChannel, 10, channelEnergy, 10, HAL_LCD_LINE_2 );
-        ; Setup parameters for call to function HalLcdWriteStringValueValue
-        MOV     ?V0 + 0,#0x2
-        MOV     R0,#?V0 + 0
-        LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 21)
-        MOV     ?V0 + 0,#0xa
-        MOV     R0,#?V0 + 0
-        LCALL   ?PUSH_XSTACK_I_ONE
-        CFI CFA_XSP16 add(XSP16, 22)
-        MOV     ?V0 + 5,#0x0
-        MOV     R0,#?V0 + 4
-        LCALL   ?PUSH_XSTACK_I_TWO
-        CFI CFA_XSP16 add(XSP16, 24)
-        MOV     R1,#0xa
-        MOV     DPTR,#_NIB + 22
-        MOVX    A,@DPTR
-        MOV     R4,A
-        MOV     R5,#0x0
-        MOV     R2,#`?<Constant ": ">` & 0xff
-        MOV     R3,#(`?<Constant ": ">` >> 8) & 0xff
-        LCALL   ??HalLcdWriteStringValueValue?relay
-        MOV     A,#0x4
-        LCALL   ?DEALLOC_XSTACK8
-        CFI CFA_XSP16 add(XSP16, 20)
-//  772   }
-//  773 #endif
-//  774 }
-??ZDNwkMgr_CheckForChannelInterference_3:
-        MOV     R7,#0xc
-        LJMP    ?BANKED_LEAVE_XDATA
         CFI EndBlock cfiBlock24
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
 ?Subroutine10:
         CFI Block cfiCond25 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_17
-        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI Conditional ??CrossCallReturnLabel_21
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3123,24 +3009,20 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI CFA_SP SP+0
-        CFI CFA_XSP16 add(XSP16, 20)
+        CFI CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond26 Using cfiCommon0
         CFI (cfiCond26) NoFunction
-        CFI (cfiCond26) Conditional ??CrossCallReturnLabel_18
-        CFI (cfiCond26) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond26) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond26) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond26) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond26) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond26) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond26) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond26) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond26) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond26) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond26) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond26) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond26) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond26) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond26) Conditional ??CrossCallReturnLabel_22
+        CFI (cfiCond26) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond26) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond26) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond26) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond26) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond26) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond26) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond26) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond26) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond26) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond26) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond26) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond26) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3148,7 +3030,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond26) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond26) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond26) CFA_SP SP+0
-        CFI (cfiCond26) CFA_XSP16 add(XSP16, 20)
+        CFI (cfiCond26) CFA_XSP16 add(XSP16, 16)
         CFI Block cfiPicker27 Using cfiCommon1
         CFI (cfiPicker27) NoFunction
         CFI (cfiPicker27) Picker
@@ -3159,14 +3041,14 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI EndBlock cfiCond25
         CFI EndBlock cfiCond26
         CFI EndBlock cfiPicker27
-        REQUIRE ??Subroutine14_0
-        ; // Fall through to label ??Subroutine14_0
+        REQUIRE ??Subroutine15_0
+        ; // Fall through to label ??Subroutine15_0
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-??Subroutine14_0:
+??Subroutine15_0:
         CFI Block cfiCond28 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_16
+        CFI Conditional ??CrossCallReturnLabel_20
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-23)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-22)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-21)))
@@ -3194,21 +3076,17 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI CFA_XSP16 add(XSP16, 25)
         CFI Block cfiCond29 Using cfiCommon0
         CFI (cfiCond29) NoFunction
-        CFI (cfiCond29) Conditional ??CrossCallReturnLabel_17
-        CFI (cfiCond29) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond29) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond29) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond29) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond29) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond29) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond29) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond29) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond29) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond29) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond29) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond29) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond29) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond29) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond29) Conditional ??CrossCallReturnLabel_21
+        CFI (cfiCond29) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond29) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond29) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond29) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond29) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond29) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond29) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond29) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond29) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond29) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond29) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond29) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond29) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3216,24 +3094,20 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond29) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond29) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond29) CFA_SP SP+0
-        CFI (cfiCond29) CFA_XSP16 add(XSP16, 20)
+        CFI (cfiCond29) CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond30 Using cfiCommon0
         CFI (cfiCond30) NoFunction
-        CFI (cfiCond30) Conditional ??CrossCallReturnLabel_18
-        CFI (cfiCond30) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond30) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond30) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond30) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond30) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond30) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond30) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond30) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond30) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond30) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond30) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond30) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond30) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond30) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond30) Conditional ??CrossCallReturnLabel_22
+        CFI (cfiCond30) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond30) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond30) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond30) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond30) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond30) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond30) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond30) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond30) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond30) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond30) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond30) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond30) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3241,7 +3115,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond30) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond30) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond30) CFA_SP SP+0
-        CFI (cfiCond30) CFA_XSP16 add(XSP16, 20)
+        CFI (cfiCond30) CFA_XSP16 add(XSP16, 16)
         CFI Block cfiPicker31 Using cfiCommon1
         CFI (cfiPicker31) NoFunction
         CFI (cfiPicker31) Picker
@@ -3285,20 +3159,16 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI Block cfiCond33 Using cfiCommon0
         CFI (cfiCond33) NoFunction
         CFI (cfiCond33) Conditional ??CrossCallReturnLabel_5
-        CFI (cfiCond33) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond33) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond33) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond33) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond33) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond33) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond33) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond33) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond33) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond33) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond33) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond33) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond33) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond33) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond33) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond33) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond33) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond33) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond33) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond33) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond33) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond33) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond33) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond33) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond33) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond33) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond33) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3306,7 +3176,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond33) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond33) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond33) CFA_SP SP+0
-        CFI (cfiCond33) CFA_XSP16 add(XSP16, 25)
+        CFI (cfiCond33) CFA_XSP16 add(XSP16, 21)
         CFI Block cfiPicker34 Using cfiCommon1
         CFI (cfiPicker34) NoFunction
         CFI (cfiPicker34) Picker
@@ -3326,7 +3196,7 @@ ZDNwkMgr_CheckForChannelInterference:
 ?Subroutine3:
         CFI Block cfiCond35 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_24
+        CFI Conditional ??CrossCallReturnLabel_28
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3343,7 +3213,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond36 Using cfiCommon0
         CFI (cfiCond36) NoFunction
-        CFI (cfiCond36) Conditional ??CrossCallReturnLabel_25
+        CFI (cfiCond36) Conditional ??CrossCallReturnLabel_29
         CFI (cfiCond36) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond36) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond36) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3366,28 +3236,24 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI EndBlock cfiCond35
         CFI EndBlock cfiCond36
         CFI EndBlock cfiPicker37
-        REQUIRE ??Subroutine15_0
-        ; // Fall through to label ??Subroutine15_0
+        REQUIRE ??Subroutine16_0
+        ; // Fall through to label ??Subroutine16_0
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-??Subroutine15_0:
+??Subroutine16_0:
         CFI Block cfiCond38 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_23
-        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI Conditional ??CrossCallReturnLabel_27
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3395,10 +3261,10 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI CFA_SP SP+0
-        CFI CFA_XSP16 add(XSP16, 20)
+        CFI CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond39 Using cfiCommon0
         CFI (cfiCond39) NoFunction
-        CFI (cfiCond39) Conditional ??CrossCallReturnLabel_24
+        CFI (cfiCond39) Conditional ??CrossCallReturnLabel_28
         CFI (cfiCond39) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond39) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond39) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3415,7 +3281,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond39) CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond40 Using cfiCommon0
         CFI (cfiCond40) NoFunction
-        CFI (cfiCond40) Conditional ??CrossCallReturnLabel_25
+        CFI (cfiCond40) Conditional ??CrossCallReturnLabel_29
         CFI (cfiCond40) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond40) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond40) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3433,21 +3299,21 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI Block cfiPicker41 Using cfiCommon1
         CFI (cfiPicker41) NoFunction
         CFI (cfiPicker41) Picker
-        LCALL   ??Subroutine17_0 & 0xFFFF
-??CrossCallReturnLabel_30:
+        LCALL   ??Subroutine18_0 & 0xFFFF
+??CrossCallReturnLabel_34:
         MOV     DPTR,#ZDNwkMgr_MgmtNwkUpdateNotifyAddr
         CFI EndBlock cfiCond38
         CFI EndBlock cfiCond39
         CFI EndBlock cfiCond40
         CFI EndBlock cfiPicker41
-        REQUIRE ??Subroutine16_0
-        ; // Fall through to label ??Subroutine16_0
+        REQUIRE ??Subroutine17_0
+        ; // Fall through to label ??Subroutine17_0
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-??Subroutine16_0:
+??Subroutine17_0:
         CFI Block cfiCond42 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_19
+        CFI Conditional ??CrossCallReturnLabel_23
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3466,7 +3332,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond43 Using cfiCommon0
         CFI (cfiCond43) NoFunction
-        CFI (cfiCond43) Conditional ??CrossCallReturnLabel_20
+        CFI (cfiCond43) Conditional ??CrossCallReturnLabel_24
         CFI (cfiCond43) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond43) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond43) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3485,7 +3351,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond43) CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond44 Using cfiCommon0
         CFI (cfiCond44) NoFunction
-        CFI (cfiCond44) Conditional ??CrossCallReturnLabel_21
+        CFI (cfiCond44) Conditional ??CrossCallReturnLabel_25
         CFI (cfiCond44) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond44) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond44) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -3500,7 +3366,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond44) CFA_XSP16 add(XSP16, 10)
         CFI Block cfiCond45 Using cfiCommon0
         CFI (cfiCond45) NoFunction
-        CFI (cfiCond45) Conditional ??CrossCallReturnLabel_22
+        CFI (cfiCond45) Conditional ??CrossCallReturnLabel_26
         CFI (cfiCond45) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond45) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond45) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -3515,21 +3381,17 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond45) CFA_XSP16 add(XSP16, 10)
         CFI Block cfiCond46 Using cfiCommon0
         CFI (cfiCond46) NoFunction
-        CFI (cfiCond46) Conditional ??CrossCallReturnLabel_23
-        CFI (cfiCond46) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond46) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond46) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond46) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond46) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond46) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond46) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond46) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond46) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond46) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond46) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond46) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond46) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond46) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond46) Conditional ??CrossCallReturnLabel_27
+        CFI (cfiCond46) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond46) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond46) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond46) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond46) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond46) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond46) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond46) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond46) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond46) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond46) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond46) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond46) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3537,10 +3399,10 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond46) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond46) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond46) CFA_SP SP+0
-        CFI (cfiCond46) CFA_XSP16 add(XSP16, 20)
+        CFI (cfiCond46) CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond47 Using cfiCommon0
         CFI (cfiCond47) NoFunction
-        CFI (cfiCond47) Conditional ??CrossCallReturnLabel_24
+        CFI (cfiCond47) Conditional ??CrossCallReturnLabel_28
         CFI (cfiCond47) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond47) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond47) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3557,7 +3419,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond47) CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond48 Using cfiCommon0
         CFI (cfiCond48) NoFunction
-        CFI (cfiCond48) Conditional ??CrossCallReturnLabel_25
+        CFI (cfiCond48) Conditional ??CrossCallReturnLabel_29
         CFI (cfiCond48) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond48) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond48) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3591,10 +3453,10 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI EndBlock cfiPicker49
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-?Subroutine12:
+?Subroutine13:
         CFI Block cfiCond50 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_28
+        CFI Conditional ??CrossCallReturnLabel_32
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3613,7 +3475,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond51 Using cfiCommon0
         CFI (cfiCond51) NoFunction
-        CFI (cfiCond51) Conditional ??CrossCallReturnLabel_29
+        CFI (cfiCond51) Conditional ??CrossCallReturnLabel_33
         CFI (cfiCond51) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond51) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond51) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3638,14 +3500,14 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI EndBlock cfiCond50
         CFI EndBlock cfiCond51
         CFI EndBlock cfiPicker52
-        REQUIRE ??Subroutine17_0
-        ; // Fall through to label ??Subroutine17_0
+        REQUIRE ??Subroutine18_0
+        ; // Fall through to label ??Subroutine18_0
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-??Subroutine17_0:
+??Subroutine18_0:
         CFI Block cfiCond53 Using cfiCommon0
         CFI NoFunction
-        CFI Conditional ??CrossCallReturnLabel_26
+        CFI Conditional ??CrossCallReturnLabel_30
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3664,7 +3526,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond54 Using cfiCommon0
         CFI (cfiCond54) NoFunction
-        CFI (cfiCond54) Conditional ??CrossCallReturnLabel_30, ??CrossCallReturnLabel_24
+        CFI (cfiCond54) Conditional ??CrossCallReturnLabel_34, ??CrossCallReturnLabel_28
         CFI (cfiCond54) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond54) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond54) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3681,7 +3543,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond54) CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond55 Using cfiCommon0
         CFI (cfiCond55) NoFunction
-        CFI (cfiCond55) Conditional ??CrossCallReturnLabel_30, ??CrossCallReturnLabel_25
+        CFI (cfiCond55) Conditional ??CrossCallReturnLabel_34, ??CrossCallReturnLabel_29
         CFI (cfiCond55) R6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
         CFI (cfiCond55) VB load(1, XDATA, add(CFA_XSP16, literal(-11)))
         CFI (cfiCond55) V0 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -3698,21 +3560,17 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond55) CFA_XSP16 add(XSP16, 21)
         CFI Block cfiCond56 Using cfiCommon0
         CFI (cfiCond56) NoFunction
-        CFI (cfiCond56) Conditional ??CrossCallReturnLabel_30, ??CrossCallReturnLabel_23
-        CFI (cfiCond56) R6 load(1, XDATA, add(CFA_XSP16, literal(-20)))
-        CFI (cfiCond56) VB load(1, XDATA, add(CFA_XSP16, literal(-19)))
-        CFI (cfiCond56) V0 load(1, XDATA, add(CFA_XSP16, literal(-18)))
-        CFI (cfiCond56) V1 load(1, XDATA, add(CFA_XSP16, literal(-17)))
-        CFI (cfiCond56) V2 load(1, XDATA, add(CFA_XSP16, literal(-16)))
-        CFI (cfiCond56) V3 load(1, XDATA, add(CFA_XSP16, literal(-15)))
-        CFI (cfiCond56) V4 load(1, XDATA, add(CFA_XSP16, literal(-14)))
-        CFI (cfiCond56) V5 load(1, XDATA, add(CFA_XSP16, literal(-13)))
-        CFI (cfiCond56) V6 load(1, XDATA, add(CFA_XSP16, literal(-12)))
-        CFI (cfiCond56) V7 load(1, XDATA, add(CFA_XSP16, literal(-11)))
-        CFI (cfiCond56) V8 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond56) V9 load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond56) V10 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond56) V11 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond56) Conditional ??CrossCallReturnLabel_34, ??CrossCallReturnLabel_27
+        CFI (cfiCond56) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond56) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond56) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond56) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond56) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond56) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond56) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond56) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond56) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond56) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
         CFI (cfiCond56) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
         CFI (cfiCond56) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
         CFI (cfiCond56) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
@@ -3720,10 +3578,10 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond56) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
         CFI (cfiCond56) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI (cfiCond56) CFA_SP SP+0
-        CFI (cfiCond56) CFA_XSP16 add(XSP16, 20)
+        CFI (cfiCond56) CFA_XSP16 add(XSP16, 16)
         CFI Block cfiCond57 Using cfiCommon0
         CFI (cfiCond57) NoFunction
-        CFI (cfiCond57) Conditional ??CrossCallReturnLabel_27, ??CrossCallReturnLabel_2
+        CFI (cfiCond57) Conditional ??CrossCallReturnLabel_31, ??CrossCallReturnLabel_2
         CFI (cfiCond57) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond57) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond57) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -3738,7 +3596,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond57) CFA_XSP16 add(XSP16, 10)
         CFI Block cfiCond58 Using cfiCommon0
         CFI (cfiCond58) NoFunction
-        CFI (cfiCond58) Conditional ??CrossCallReturnLabel_27, ??CrossCallReturnLabel_3
+        CFI (cfiCond58) Conditional ??CrossCallReturnLabel_31, ??CrossCallReturnLabel_3
         CFI (cfiCond58) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
         CFI (cfiCond58) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
         CFI (cfiCond58) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
@@ -3753,7 +3611,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond58) CFA_XSP16 add(XSP16, 10)
         CFI Block cfiCond59 Using cfiCommon0
         CFI (cfiCond59) NoFunction
-        CFI (cfiCond59) Conditional ??CrossCallReturnLabel_28
+        CFI (cfiCond59) Conditional ??CrossCallReturnLabel_32
         CFI (cfiCond59) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond59) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond59) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3772,7 +3630,7 @@ ZDNwkMgr_CheckForChannelInterference:
         CFI (cfiCond59) CFA_XSP16 add(XSP16, 14)
         CFI Block cfiCond60 Using cfiCommon0
         CFI (cfiCond60) NoFunction
-        CFI (cfiCond60) Conditional ??CrossCallReturnLabel_29
+        CFI (cfiCond60) Conditional ??CrossCallReturnLabel_33
         CFI (cfiCond60) R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
         CFI (cfiCond60) VB load(1, XDATA, add(CFA_XSP16, literal(-13)))
         CFI (cfiCond60) V0 load(1, XDATA, add(CFA_XSP16, literal(-12)))
@@ -3956,10 +3814,8 @@ ZDNwkMgr_BuildAndSendUpdateNotify:
         MOV     DPH,?V0 + 11
         MOV     R0,#?V0 + 4
         LCALL   ?L_AND_X
-        MOV     A,?V0 + 4
-        ORL     A,?V0 + 5
-        ORL     A,?V0 + 6
-        ORL     A,?V0 + 7
+        LCALL   ?Subroutine11 & 0xFFFF
+??CrossCallReturnLabel_12:
         JZ      ??ZDNwkMgr_BuildAndSendUpdateNotify_1
 //  801       listCount++;
         INC     ?V0 + 8
@@ -4006,10 +3862,8 @@ ZDNwkMgr_BuildAndSendUpdateNotify:
         MOV     DPH,?V0 + 11
         MOV     R0,#?V0 + 4
         LCALL   ?L_AND_X
-        MOV     A,?V0 + 4
-        ORL     A,?V0 + 5
-        ORL     A,?V0 + 6
-        ORL     A,?V0 + 7
+        LCALL   ?Subroutine11 & 0xFFFF
+??CrossCallReturnLabel_13:
         JZ      ??ZDNwkMgr_BuildAndSendUpdateNotify_4
 //  814           energyValues[j++] = pEDScanConfirm->energyDetectList[i];
         MOV     ?V0 + 4,R1
@@ -4017,9 +3871,9 @@ ZDNwkMgr_BuildAndSendUpdateNotify:
         ADD     A,?V0 + 4
         MOV     DPL,A
         MOV     A,?V0 + 13
-        LCALL   ??Subroutine14_0 & 0xFFFF
+        LCALL   ??Subroutine15_0 & 0xFFFF
 //  815       }
-??CrossCallReturnLabel_16:
+??CrossCallReturnLabel_20:
         PUSH    A
         CFI CFA_SP SP+-1
         MOV     ?V0 + 4,R2
@@ -4109,6 +3963,120 @@ ZDNwkMgr_BuildAndSendUpdateNotify:
         MOV     R7,#0xf
         LJMP    ?BANKED_LEAVE_XDATA
         CFI EndBlock cfiBlock62
+
+        RSEG BANKED_CODE:CODE:NOROOT(0)
+?Subroutine11:
+        CFI Block cfiCond63 Using cfiCommon0
+        CFI NoFunction
+        CFI Conditional ??CrossCallReturnLabel_10
+        CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI CFA_SP SP+0
+        CFI CFA_XSP16 add(XSP16, 16)
+        CFI Block cfiCond64 Using cfiCommon0
+        CFI (cfiCond64) NoFunction
+        CFI (cfiCond64) Conditional ??CrossCallReturnLabel_11
+        CFI (cfiCond64) R6 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond64) VB load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond64) V0 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond64) V1 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond64) V2 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond64) V3 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond64) V4 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond64) V5 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond64) V6 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond64) V7 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond64) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond64) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond64) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond64) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond64) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond64) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond64) CFA_SP SP+0
+        CFI (cfiCond64) CFA_XSP16 add(XSP16, 16)
+        CFI Block cfiCond65 Using cfiCommon0
+        CFI (cfiCond65) NoFunction
+        CFI (cfiCond65) Conditional ??CrossCallReturnLabel_12
+        CFI (cfiCond65) R6 load(1, XDATA, add(CFA_XSP16, literal(-23)))
+        CFI (cfiCond65) VB load(1, XDATA, add(CFA_XSP16, literal(-22)))
+        CFI (cfiCond65) V0 load(1, XDATA, add(CFA_XSP16, literal(-21)))
+        CFI (cfiCond65) V1 load(1, XDATA, add(CFA_XSP16, literal(-20)))
+        CFI (cfiCond65) V2 load(1, XDATA, add(CFA_XSP16, literal(-19)))
+        CFI (cfiCond65) V3 load(1, XDATA, add(CFA_XSP16, literal(-18)))
+        CFI (cfiCond65) V4 load(1, XDATA, add(CFA_XSP16, literal(-17)))
+        CFI (cfiCond65) V5 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond65) V6 load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond65) V7 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond65) V8 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond65) V9 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond65) V10 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond65) V11 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond65) V12 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond65) V13 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond65) V14 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond65) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond65) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond65) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond65) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond65) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond65) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond65) CFA_SP SP+0
+        CFI (cfiCond65) CFA_XSP16 add(XSP16, 25)
+        CFI Block cfiCond66 Using cfiCommon0
+        CFI (cfiCond66) NoFunction
+        CFI (cfiCond66) Conditional ??CrossCallReturnLabel_13
+        CFI (cfiCond66) R6 load(1, XDATA, add(CFA_XSP16, literal(-23)))
+        CFI (cfiCond66) VB load(1, XDATA, add(CFA_XSP16, literal(-22)))
+        CFI (cfiCond66) V0 load(1, XDATA, add(CFA_XSP16, literal(-21)))
+        CFI (cfiCond66) V1 load(1, XDATA, add(CFA_XSP16, literal(-20)))
+        CFI (cfiCond66) V2 load(1, XDATA, add(CFA_XSP16, literal(-19)))
+        CFI (cfiCond66) V3 load(1, XDATA, add(CFA_XSP16, literal(-18)))
+        CFI (cfiCond66) V4 load(1, XDATA, add(CFA_XSP16, literal(-17)))
+        CFI (cfiCond66) V5 load(1, XDATA, add(CFA_XSP16, literal(-16)))
+        CFI (cfiCond66) V6 load(1, XDATA, add(CFA_XSP16, literal(-15)))
+        CFI (cfiCond66) V7 load(1, XDATA, add(CFA_XSP16, literal(-14)))
+        CFI (cfiCond66) V8 load(1, XDATA, add(CFA_XSP16, literal(-13)))
+        CFI (cfiCond66) V9 load(1, XDATA, add(CFA_XSP16, literal(-12)))
+        CFI (cfiCond66) V10 load(1, XDATA, add(CFA_XSP16, literal(-11)))
+        CFI (cfiCond66) V11 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond66) V12 load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond66) V13 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond66) V14 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond66) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond66) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond66) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond66) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond66) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond66) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond66) CFA_SP SP+0
+        CFI (cfiCond66) CFA_XSP16 add(XSP16, 25)
+        CFI Block cfiPicker67 Using cfiCommon1
+        CFI (cfiPicker67) NoFunction
+        CFI (cfiPicker67) Picker
+        MOV     A,?V0 + 4
+        ORL     A,?V0 + 5
+        ORL     A,?V0 + 6
+        ORL     A,?V0 + 7
+        RET
+        CFI EndBlock cfiCond63
+        CFI EndBlock cfiCond64
+        CFI EndBlock cfiCond65
+        CFI EndBlock cfiCond66
+        CFI EndBlock cfiPicker67
 //  827 
 //  828 #if defined ( NWK_MANAGER )
 //  829 /*********************************************************************
@@ -4146,7 +4114,7 @@ ZDNwkMgr_BuildAndSendUpdateNotify:
         RSEG BANKED_CODE:CODE:NOROOT(0)
 //  860 void ZDNwkMgr_SetNwkManagerAddr( uint16 nwkManagerAddr )
 ZDNwkMgr_SetNwkManagerAddr:
-        CFI Block cfiBlock63 Using cfiCommon0
+        CFI Block cfiBlock68 Using cfiCommon0
         CFI Function ZDNwkMgr_SetNwkManagerAddr
         CODE
 //  861 {
@@ -4193,7 +4161,7 @@ ZDNwkMgr_SetNwkManagerAddr:
 //  868     ZDApp_NwkStateUpdateCB();
         ; Setup parameters for call to function ZDApp_NwkStateUpdateCB
         LCALL   ??ZDApp_NwkStateUpdateCB?relay
-        CFI EndBlock cfiBlock63
+        CFI EndBlock cfiBlock68
 //  869   }
 //  870 }
 ??ZDNwkMgr_SetNwkManagerAddr_1:
@@ -4202,7 +4170,7 @@ ZDNwkMgr_SetNwkManagerAddr:
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
 ?Subroutine2:
-        CFI Block cfiBlock64 Using cfiCommon0
+        CFI Block cfiBlock69 Using cfiCommon0
         CFI NoFunction
         CFI CFA_SP SP+-5
         CFI DPL0 Frame(CFA_SP, 4)
@@ -4214,7 +4182,7 @@ ZDNwkMgr_SetNwkManagerAddr:
         CFI CFA_SP SP+-3
         CFI DPL0 SameValue
         LJMP    ?BRET
-        CFI EndBlock cfiBlock64
+        CFI EndBlock cfiBlock69
 //  871 
 //  872 /*********************************************************************
 //  873  * @fn          ZDNwkMgr_ReportChannelInterference
@@ -4230,7 +4198,7 @@ ZDNwkMgr_SetNwkManagerAddr:
         RSEG BANKED_CODE:CODE:NOROOT(0)
 //  882 void ZDNwkMgr_ReportChannelInterference(  NLME_ChanInterference_t *chanInterference  )
 ZDNwkMgr_ReportChannelInterference:
-        CFI Block cfiBlock65 Using cfiCommon0
+        CFI Block cfiBlock70 Using cfiCommon0
         CFI Function ZDNwkMgr_ReportChannelInterference
         CODE
 //  883 {
@@ -4301,9 +4269,9 @@ ZDNwkMgr_ReportChannelInterference:
         MOV     DPH,R7
         LCALL   ?Subroutine5 & 0xFFFF
 ??CrossCallReturnLabel_2:
-        LCALL   ??Subroutine16_0 & 0xFFFF
+        LCALL   ??Subroutine17_0 & 0xFFFF
 //  894     pChanInterference->txFailures = chanInterference->txFailures;
-??CrossCallReturnLabel_21:
+??CrossCallReturnLabel_25:
         MOV     DPL,R6
         MOV     DPH,R7
         INC     DPTR
@@ -4312,10 +4280,10 @@ ZDNwkMgr_ReportChannelInterference:
 ??CrossCallReturnLabel_3:
         INC     DPTR
         INC     DPTR
-        LCALL   ??Subroutine16_0 & 0xFFFF
+        LCALL   ??Subroutine17_0 & 0xFFFF
 //  895               
 //  896     osal_msg_send( ZDNwkMgr_TaskID, (uint8 *)pChanInterference );
-??CrossCallReturnLabel_22:
+??CrossCallReturnLabel_26:
         ; Setup parameters for call to function osal_msg_send
         MOV     DPTR,#ZDNwkMgr_TaskID
         MOVX    A,@DPTR
@@ -4326,11 +4294,11 @@ ZDNwkMgr_ReportChannelInterference:
 ??ZDNwkMgr_ReportChannelInterference_0:
         MOV     R7,#0x2
         LJMP    ?BANKED_LEAVE_XDATA
-        CFI EndBlock cfiBlock65
+        CFI EndBlock cfiBlock70
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
 ?Subroutine5:
-        CFI Block cfiCond66 Using cfiCommon0
+        CFI Block cfiCond71 Using cfiCommon0
         CFI NoFunction
         CFI Conditional ??CrossCallReturnLabel_2
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
@@ -4345,34 +4313,34 @@ ZDNwkMgr_ReportChannelInterference:
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI CFA_SP SP+0
         CFI CFA_XSP16 add(XSP16, 10)
-        CFI Block cfiCond67 Using cfiCommon0
-        CFI (cfiCond67) NoFunction
-        CFI (cfiCond67) Conditional ??CrossCallReturnLabel_3
-        CFI (cfiCond67) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
-        CFI (cfiCond67) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
-        CFI (cfiCond67) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
-        CFI (cfiCond67) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
-        CFI (cfiCond67) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
-        CFI (cfiCond67) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
-        CFI (cfiCond67) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
-        CFI (cfiCond67) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
-        CFI (cfiCond67) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
-        CFI (cfiCond67) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
-        CFI (cfiCond67) CFA_SP SP+0
-        CFI (cfiCond67) CFA_XSP16 add(XSP16, 10)
-        CFI Block cfiPicker68 Using cfiCommon1
-        CFI (cfiPicker68) NoFunction
-        CFI (cfiPicker68) Picker
-        LCALL   ??Subroutine17_0 & 0xFFFF
-??CrossCallReturnLabel_27:
+        CFI Block cfiCond72 Using cfiCommon0
+        CFI (cfiCond72) NoFunction
+        CFI (cfiCond72) Conditional ??CrossCallReturnLabel_3
+        CFI (cfiCond72) R6 load(1, XDATA, add(CFA_XSP16, literal(-10)))
+        CFI (cfiCond72) VB load(1, XDATA, add(CFA_XSP16, literal(-9)))
+        CFI (cfiCond72) V0 load(1, XDATA, add(CFA_XSP16, literal(-8)))
+        CFI (cfiCond72) V1 load(1, XDATA, add(CFA_XSP16, literal(-7)))
+        CFI (cfiCond72) R7 load(1, XDATA, add(CFA_XSP16, literal(-6)))
+        CFI (cfiCond72) ?RET_LOW load(1, XDATA, add(CFA_XSP16, literal(-5)))
+        CFI (cfiCond72) ?RET_HIGH load(1, XDATA, add(CFA_XSP16, literal(-4)))
+        CFI (cfiCond72) ?BRET_EXT load(1, XDATA, add(CFA_XSP16, literal(-3)))
+        CFI (cfiCond72) DPL0 load(1, XDATA, add(CFA_XSP16, literal(-2)))
+        CFI (cfiCond72) DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
+        CFI (cfiCond72) CFA_SP SP+0
+        CFI (cfiCond72) CFA_XSP16 add(XSP16, 10)
+        CFI Block cfiPicker73 Using cfiCommon1
+        CFI (cfiPicker73) NoFunction
+        CFI (cfiPicker73) Picker
+        LCALL   ??Subroutine18_0 & 0xFFFF
+??CrossCallReturnLabel_31:
         MOV     DPL,R2
         MOV     DPH,R3
         INC     DPTR
         INC     DPTR
         RET
-        CFI EndBlock cfiCond66
-        CFI EndBlock cfiCond67
-        CFI EndBlock cfiPicker68
+        CFI EndBlock cfiCond71
+        CFI EndBlock cfiCond72
+        CFI EndBlock cfiPicker73
 //  899 
 //  900 /*********************************************************************
 //  901  * @fn          ZDNwkMgr_EDScanConfirmCB
@@ -4388,7 +4356,7 @@ ZDNwkMgr_ReportChannelInterference:
         RSEG BANKED_CODE:CODE:NOROOT(0)
 //  910 void ZDNwkMgr_EDScanConfirmCB( NLME_EDScanConfirm_t *EDScanConfirm )
 ZDNwkMgr_EDScanConfirmCB:
-        CFI Block cfiBlock69 Using cfiCommon0
+        CFI Block cfiBlock74 Using cfiCommon0
         CFI Function ZDNwkMgr_EDScanConfirmCB
         CODE
 //  911 {
@@ -4534,7 +4502,7 @@ ZDNwkMgr_EDScanConfirmCB:
 //  927 }
 ??ZDNwkMgr_EDScanConfirmCB_0:
         LJMP    ?Subroutine1 & 0xFFFF
-        CFI EndBlock cfiBlock69
+        CFI EndBlock cfiBlock74
 //  928 
 //  929 /*********************************************************************
 //  930  * @fn      ZDNwkMgr_ProcessDataConfirm
@@ -4549,7 +4517,7 @@ ZDNwkMgr_EDScanConfirmCB:
         RSEG BANKED_CODE:CODE:NOROOT(0)
 //  938 void ZDNwkMgr_ProcessDataConfirm( afDataConfirm_t *afDataConfirm )
 ZDNwkMgr_ProcessDataConfirm:
-        CFI Block cfiBlock70 Using cfiCommon0
+        CFI Block cfiBlock75 Using cfiCommon0
         CFI Function ZDNwkMgr_ProcessDataConfirm
         CODE
 //  939 {
@@ -4607,11 +4575,11 @@ ZDNwkMgr_ProcessDataConfirm:
 //  952 }
 ??ZDNwkMgr_ProcessDataConfirm_0:
         LJMP    ?Subroutine2 & 0xFFFF
-        CFI EndBlock cfiBlock70
+        CFI EndBlock cfiBlock75
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
 ?Subroutine4:
-        CFI Block cfiCond71 Using cfiCommon0
+        CFI Block cfiCond76 Using cfiCommon0
         CFI NoFunction
         CFI Conditional ??CrossCallReturnLabel_0
         CFI R6 load(1, XDATA, add(CFA_XSP16, literal(-14)))
@@ -4630,15 +4598,15 @@ ZDNwkMgr_ProcessDataConfirm:
         CFI DPH0 load(1, XDATA, add(CFA_XSP16, literal(-1)))
         CFI CFA_SP SP+0
         CFI CFA_XSP16 add(XSP16, 14)
-        CFI Block cfiCond72 Using cfiCommon0
-        CFI (cfiCond72) NoFunction
-        CFI (cfiCond72) Conditional ??CrossCallReturnLabel_1
-        CFI (cfiCond72) DPL0 Frame(CFA_SP, 4)
-        CFI (cfiCond72) DPH0 Frame(CFA_SP, 5)
-        CFI (cfiCond72) CFA_SP SP+-5
-        CFI Block cfiPicker73 Using cfiCommon1
-        CFI (cfiPicker73) NoFunction
-        CFI (cfiPicker73) Picker
+        CFI Block cfiCond77 Using cfiCommon0
+        CFI (cfiCond77) NoFunction
+        CFI (cfiCond77) Conditional ??CrossCallReturnLabel_1
+        CFI (cfiCond77) DPL0 Frame(CFA_SP, 4)
+        CFI (cfiCond77) DPH0 Frame(CFA_SP, 5)
+        CFI (cfiCond77) CFA_SP SP+-5
+        CFI Block cfiPicker78 Using cfiCommon1
+        CFI (cfiPicker78) NoFunction
+        CFI (cfiPicker78) Picker
         MOV     DPTR,#_NIB + 108
         CLR     A
         MOVX    @DPTR,A
@@ -4649,9 +4617,19 @@ ZDNwkMgr_ProcessDataConfirm:
         MOV     R1,#0x1
         LCALL   ??nwkTransmissionFailures?relay
         RET
-        CFI EndBlock cfiCond71
-        CFI EndBlock cfiCond72
-        CFI EndBlock cfiPicker73
+        CFI EndBlock cfiCond76
+        CFI EndBlock cfiCond77
+        CFI EndBlock cfiPicker78
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA32
+__Constant_7fff800:
+        DD 134215680
+
+        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
+        DATA32
+__Constant_0:
+        DD 0
 
         RSEG BANK_RELAYS:CODE:REORDER:NOROOT(0)
 ??ZDNwkMgr_Init?relay:
@@ -4712,21 +4690,6 @@ ZDNwkMgr_ProcessDataConfirm:
         LCALL   ?BDISPATCH
         DATA
         DC24    ZDNwkMgr_ProcessDataConfirm
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA8
-`?<Constant ": ">`:
-        DB ": "
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA32
-__Constant_7fff800:
-        DD 134215680
-
-        RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
-        DATA32
-__Constant_0:
-        DD 0
 
         END
 //  953 
@@ -4841,13 +4804,13 @@ __Constant_0:
 // 1062 /*********************************************************************
 // 1063 *********************************************************************/
 // 
-// 1 956 bytes in segment BANKED_CODE
+// 1 883 bytes in segment BANKED_CODE
 //    60 bytes in segment BANK_RELAYS
-//    77 bytes in segment XDATA_ROM_C
+//     8 bytes in segment XDATA_ROM_C
 //    39 bytes in segment XDATA_Z
 // 
-// 2 016 bytes of CODE  memory
-//    69 bytes of CONST memory (+ 8 bytes shared)
+// 1 943 bytes of CODE  memory
+//     0 bytes of CONST memory (+ 8 bytes shared)
 //    39 bytes of XDATA memory
 //
 //Errors: none

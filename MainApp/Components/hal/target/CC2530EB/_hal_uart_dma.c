@@ -158,7 +158,7 @@
 #define HAL_UART_DMA_IDLE         (MT_UART_DEFAULT_IDLE_TIMEOUT * HAL_UART_MSECS_TO_TICKS)
 #else
 #if !defined HAL_UART_DMA_RX_MAX
-#define HAL_UART_DMA_RX_MAX        128
+#define HAL_UART_DMA_RX_MAX        256
 #endif
 #if !defined HAL_UART_DMA_TX_MAX
 #define HAL_UART_DMA_TX_MAX        HAL_UART_DMA_RX_MAX

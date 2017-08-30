@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/Aug/2017  15:57:07 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        21/Aug/2017  12:10:14 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -42,12 +42,12 @@
 //                          "-DCONST=const __code" -DGENERIC=__generic        /
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100   /
-//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE)           /
-//                          -DHAL_DMA=TRUE C:\Users\Administrator\Desktop\Git /
-//                          -Local-Repositories\vehicle_positioning_system\Ma /
-//                          inApp\Components\hal\common\hal_drivers.c -D      /
-//                          ZIGBEEPRO -D xMT_TASK -D xMT_SYS_FUNC -D          /
-//                          xMT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC           /
+//                          -DREJOIN_POLL_RATE=440 -DHAL_UART=TRUE            /
+//                          -DHAL_DMA=TRUE) -DHAL_LCD=FALSE                   /
+//                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
+//                          ries\vehicle_positioning_system\MainApp\Component /
+//                          s\hal\common\hal_drivers.c -D ZIGBEEPRO -D        /
+//                          xMT_TASK -D xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC      /
 //                          C:\Users\Administrator\Desktop\Git-Local-Reposito /
 //                          ries\vehicle_positioning_system\MainApp\Projects\ /
 //                          zstack\Samples\SampleApp\CC2530DB\CoordinatorEB-P /
@@ -299,7 +299,6 @@ HalAdcInit          SYMBOL "HalAdcInit"
 HalDmaInit          SYMBOL "HalDmaInit"
 HalFlashInit        SYMBOL "HalFlashInit"
 HalAesInit          SYMBOL "HalAesInit"
-HalLcdInit          SYMBOL "HalLcdInit"
 HalLedInit          SYMBOL "HalLedInit"
 HalUARTInit         SYMBOL "HalUARTInit"
 HalKeyInit          SYMBOL "HalKeyInit"
@@ -315,7 +314,6 @@ HalUARTPoll         SYMBOL "HalUARTPoll"
 ??HalFlashInit?relay SYMBOL "?relay", HalFlashInit
 ??HalKeyInit?relay  SYMBOL "?relay", HalKeyInit
 ??HalKeyPoll?relay  SYMBOL "?relay", HalKeyPoll
-??HalLcdInit?relay  SYMBOL "?relay", HalLcdInit
 ??HalLedInit?relay  SYMBOL "?relay", HalLedInit
 ??HalLedUpdate?relay SYMBOL "?relay", HalLedUpdate
 ??HalUARTInit?relay SYMBOL "?relay", HalUARTInit
@@ -355,13 +353,6 @@ Hal_ProcessPoll     SYMBOL "Hal_ProcessPoll"
         ARGFRAME DOVERLAY, 0, STATIC
         EXTERN HalAesInit
         FUNCTION HalAesInit,0202H
-        ARGFRAME ISTACK, 2, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 0, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
-        EXTERN HalLcdInit
-        FUNCTION HalLcdInit,0202H
         ARGFRAME ISTACK, 2, STACK
         ARGFRAME PSTACK, 0, STACK
         ARGFRAME XSTACK, 0, STACK
@@ -442,8 +433,6 @@ Hal_ProcessPoll     SYMBOL "Hal_ProcessPoll"
         FUNCTION ??HalKeyInit?relay,00H
         EXTERN ??HalKeyPoll?relay
         FUNCTION ??HalKeyPoll?relay,00H
-        EXTERN ??HalLcdInit?relay
-        FUNCTION ??HalLcdInit?relay,00H
         EXTERN ??HalLedInit?relay
         FUNCTION ??HalLedInit?relay,00H
         EXTERN ??HalLedUpdate?relay
@@ -674,17 +663,6 @@ HalDriverInit:
         ARGFRAME XSTACK, 0, STACK
         ARGFRAME IOVERLAY, 0, STATIC
         ARGFRAME DOVERLAY, 0, STATIC
-        FUNCALL HalDriverInit, HalLcdInit
-        LOCFRAME ISTACK, 2, STACK
-        LOCFRAME PSTACK, 0, STACK
-        LOCFRAME XSTACK, 0, STACK
-        LOCFRAME IOVERLAY, 0, STATIC
-        LOCFRAME DOVERLAY, 0, STATIC
-        ARGFRAME ISTACK, 2, STACK
-        ARGFRAME PSTACK, 0, STACK
-        ARGFRAME XSTACK, 0, STACK
-        ARGFRAME IOVERLAY, 0, STATIC
-        ARGFRAME DOVERLAY, 0, STATIC
         FUNCALL HalDriverInit, HalLedInit
         LOCFRAME ISTACK, 2, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -764,8 +742,6 @@ HalDriverInit:
 //  149   /* LCD */
 //  150 #if (defined HAL_LCD) && (HAL_LCD == TRUE)
 //  151   HalLcdInit();
-        ; Setup parameters for call to function HalLcdInit
-        LCALL   ??HalLcdInit?relay
 //  152 #endif
 //  153 
 //  154   /* LED */
@@ -1123,11 +1099,11 @@ Hal_ProcessPoll:
 //  287 **************************************************************************************************/
 //  288 
 // 
-// 153 bytes in segment BANKED_CODE
+// 150 bytes in segment BANKED_CODE
 //  24 bytes in segment BANK_RELAYS
 //   1 byte  in segment XDATA_Z
 // 
-// 177 bytes of CODE  memory
+// 174 bytes of CODE  memory
 //   1 byte  of XDATA memory
 //
 //Errors: none

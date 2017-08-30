@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  16:05:14 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         23/Aug/2017  19:12:23 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -40,20 +40,19 @@
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
 #                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
-#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          -DHAL_UART=TRUE -DHAL_DMA=TRUE) -DHAL_LCD=FALSE    #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Components\ #
 #                          stack\nwk\nwk_globals.c -D ZIGBEEPRO -D            #
 #                          NWK_AUTO_POLL -D ZTOOL_P1 -D xMT_TASK -D           #
-#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                    #
-#                          LCD_SUPPORTED=DEBUG -lC C:\Users\Administrator\Des #
-#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
-#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
-#                          530DB\EndDeviceEB-Pro\List\ -lA                    #
+#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                   #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Li #
-#                          st\ --diag_suppress Pe001,Pa010 -o                 #
+#                          st\ -lA C:\Users\Administrator\Desktop\Git-Local-R #
+#                          epositories\vehicle_positioning_system\MainApp\Pro #
+#                          jects\zstack\Samples\SampleApp\CC2530DB\EndDeviceE #
+#                          B-Pro\List\ --diag_suppress Pe001,Pa010 -o         #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\EndDeviceEB-Pro\Ob #
@@ -619,119 +618,22 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     255           * STATUS STRINGS
     256           */
     257          #if defined ( LCD_SUPPORTED )
-
-   \                                 In  segment XDATA_ROM_C, align 1
     258            const char PingStr[]         = "Ping Rcvd from";
-   \                     PingStr:
-   \   000000   50696E67     DB "Ping Rcvd from"
-   \            20526376
-   \            64206672
-   \            6F6D00  
-
-   \                                 In  segment XDATA_ROM_C, align 1
     259            const char AssocCnfStr[]     = "Assoc Cnf";
-   \                     AssocCnfStr:
-   \   000000   4173736F     DB "Assoc Cnf"
-   \            6320436E
-   \            6600    
-
-   \                                 In  segment XDATA_ROM_C, align 1
     260            const char SuccessStr[]      = "Success";
-   \                     SuccessStr:
-   \   000000   53756363     DB "Success"
-   \            65737300
-
-   \                                 In  segment XDATA_ROM_C, align 1
     261            const char EndDeviceStr[]    = "EndDevice:";
-   \                     EndDeviceStr:
-   \   000000   456E6444     DB "EndDevice:"
-   \            65766963
-   \            653A00  
-
-   \                                 In  segment XDATA_ROM_C, align 1
     262            const char ParentStr[]       = "Parent:";
-   \                     ParentStr:
-   \   000000   50617265     DB "Parent:"
-   \            6E743A00
-
-   \                                 In  segment XDATA_ROM_C, align 1
     263            const char ZigbeeCoordStr[]  = "ZigBee Coord";
-   \                     ZigbeeCoordStr:
-   \   000000   5A696742     DB "ZigBee Coord"
-   \            65652043
-   \            6F6F7264
-   \            00      
-
-   \                                 In  segment XDATA_ROM_C, align 1
     264            const char NetworkIDStr[]    = "Network ID:";
-   \                     NetworkIDStr:
-   \   000000   4E657477     DB "Network ID:"
-   \            6F726B20
-   \            49443A00
-
-   \                                 In  segment XDATA_ROM_C, align 1
     265            const char RouterStr[]       = "Router:";
-   \                     RouterStr:
-   \   000000   526F7574     DB "Router:"
-   \            65723A00
-
-   \                                 In  segment XDATA_ROM_C, align 1
     266            const char OrphanRspStr[]    = "Orphan Response";
-   \                     OrphanRspStr:
-   \   000000   4F727068     DB "Orphan Response"
-   \            616E2052
-   \            6573706F
-   \            6E736500
-
-   \                                 In  segment XDATA_ROM_C, align 1
     267            const char SentStr[]         = "Sent";
-   \                     SentStr:
-   \   000000   53656E74     DB "Sent"
-   \            00      
-
-   \                                 In  segment XDATA_ROM_C, align 1
     268            const char FailedStr[]       = "Failed";
-   \                     FailedStr:
-   \   000000   4661696C     DB "Failed"
-   \            656400  
-
-   \                                 In  segment XDATA_ROM_C, align 1
     269            const char AssocRspFailStr[] = "Assoc Rsp fail";
-   \                     AssocRspFailStr:
-   \   000000   4173736F     DB "Assoc Rsp fail"
-   \            63205273
-   \            70206661
-   \            696C00  
-
-   \                                 In  segment XDATA_ROM_C, align 1
     270            const char AssocIndStr[]     = "Assoc Ind";
-   \                     AssocIndStr:
-   \   000000   4173736F     DB "Assoc Ind"
-   \            6320496E
-   \            6400    
-
-   \                                 In  segment XDATA_ROM_C, align 1
     271            const char AssocCnfFailStr[] = "Assoc Cnf fail";
-   \                     AssocCnfFailStr:
-   \   000000   4173736F     DB "Assoc Cnf fail"
-   \            6320436E
-   \            66206661
-   \            696C00  
-
-   \                                 In  segment XDATA_ROM_C, align 1
     272            const char EnergyLevelStr[]  = "Energy Level";
-   \                     EnergyLevelStr:
-   \   000000   456E6572     DB "Energy Level"
-   \            6779204C
-   \            6576656C
-   \            00      
-
-   \                                 In  segment XDATA_ROM_C, align 1
     273            const char ScanFailedStr[]   = "Scan Failed";
-   \                     ScanFailedStr:
-   \   000000   5363616E     DB "Scan Failed"
-   \            20466169
-   \            6C656400
     274          #endif
     275          
     276          /*********************************************************************
@@ -1064,32 +966,10 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     434          void nwk_Status( uint16 statusCode, uint16 statusValue )
    \                     nwk_Status:
     435          {
-   \   000000   74F4         MOV     A,#-0xc
-   \   000002   12....       LCALL   ?BANKED_ENTER_XDATA
-   \   000005                ; Saved register size: 12
-   \   000005                ; Auto size: 0
-   \   000005   8C..         MOV     ?V0 + 2,R4
-   \   000007   8D..         MOV     ?V0 + 3,R5
+   \   000000                ; Saved register size: 0
+   \   000000                ; Auto size: 0
     436          #if defined ( LCD_SUPPORTED )
     437            switch ( statusCode )
-   \   000009   8A..         MOV     ?V0 + 0,R2
-   \   00000B   8B..         MOV     ?V0 + 1,R3
-   \   00000D   78..         MOV     R0,#?V0 + 0
-   \   00000F   12....       LCALL   ?US_SWITCH_SPARSE
-   \                     `?<Jumptable for nwk_Status>_0`:
-   \   000012   0000         DW        0
-   \   000014   0500         DW        5
-   \   000016   0200         DW        2
-   \   000018   ....         DW        ??nwk_Status_0
-   \   00001A   0300         DW        3
-   \   00001C   ....         DW        ??nwk_Status_1
-   \   00001E   0400         DW        4
-   \   000020   ....         DW        ??nwk_Status_2
-   \   000022   0310         DW        4099
-   \   000024   ....         DW        ??nwk_Status_3
-   \   000026   0410         DW        4100
-   \   000028   ....         DW        ??nwk_Status_4
-   \   00002A   ....         DW        ??nwk_Status_5
     438            {
     439              case NWK_STATUS_COORD_ADDR:
     440                if ( ZSTACK_ROUTER_BUILD )
@@ -1129,87 +1009,29 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     474                if ( ZSTACK_END_DEVICE_BUILD )
     475                {
     476                  HalLcdWriteStringValue( (char*)EndDeviceStr, statusValue, 16, HAL_LCD_LINE_1 );
-   \                     ??nwk_Status_1:
-   \   00002C                ; Setup parameters for call to function HalLcdWriteStringValue
-   \   00002C   75..01       MOV     ?V0 + 0,#0x1
-   \   00002F   78..         MOV     R0,#?V0 + 0
-   \   000031   12....       LCALL   ?PUSH_XSTACK_I_ONE
-   \   000034   7910         MOV     R1,#0x10
-   \   000036   7A..         MOV     R2,#EndDeviceStr & 0xff
-   \   000038   7B..         MOV     R3,#(EndDeviceStr >> 8) & 0xff
-   \                     ??nwk_Status_6:
-   \   00003A   12....       LCALL   ??HalLcdWriteStringValue?relay
-   \                     ??nwk_Status_7:
-   \   00003D   7401         MOV     A,#0x1
-   \   00003F   12....       LCALL   ?DEALLOC_XSTACK8
     477                }
     478                break;
-   \   000042   8044         SJMP    ??nwk_Status_5
     479          
     480              case NWK_STATUS_PARENT_ADDR:
     481                      HalLcdWriteStringValue( (char*)ParentStr, statusValue, 16, HAL_LCD_LINE_2 );
-   \                     ??nwk_Status_2:
-   \   000044                ; Setup parameters for call to function HalLcdWriteStringValue
-   \   000044   75..02       MOV     ?V0 + 0,#0x2
-   \   000047   78..         MOV     R0,#?V0 + 0
-   \   000049   12....       LCALL   ?PUSH_XSTACK_I_ONE
-   \   00004C   7910         MOV     R1,#0x10
-   \   00004E   7A..         MOV     R2,#ParentStr & 0xff
-   \   000050   7B..         MOV     R3,#(ParentStr >> 8) & 0xff
-   \   000052   80E6         SJMP    ??nwk_Status_6
     482                break;
     483          
     484              case NWK_STATUS_ASSOC_CNF:
     485                HalLcdWriteScreen( (char*)AssocCnfStr, (char*)SuccessStr );
-   \                     ??nwk_Status_0:
-   \   000054                ; Setup parameters for call to function HalLcdWriteScreen
-   \   000054   7C..         MOV     R4,#SuccessStr & 0xff
-   \   000056   7D..         MOV     R5,#(SuccessStr >> 8) & 0xff
-   \   000058   7A..         MOV     R2,#AssocCnfStr & 0xff
-   \   00005A   7B..         MOV     R3,#(AssocCnfStr >> 8) & 0xff
-   \   00005C   8027         SJMP    ??nwk_Status_8
     486                break;
     487          
     488              case NWK_ERROR_ASSOC_CNF_DENIED:
     489                HalLcdWriteString((char*)AssocCnfFailStr, HAL_LCD_LINE_1 );
-   \                     ??nwk_Status_3:
-   \   00005E                ; Setup parameters for call to function HalLcdWriteString
-   \   00005E   7901         MOV     R1,#0x1
-   \   000060   7A..         MOV     R2,#AssocCnfFailStr & 0xff
-   \   000062   7B..         MOV     R3,#(AssocCnfFailStr >> 8) & 0xff
-   \   000064   12....       LCALL   ??HalLcdWriteString?relay
     490                HalLcdWriteValue( (uint32)(statusValue), 16, HAL_LCD_LINE_2 );
-   \   000067                ; Setup parameters for call to function HalLcdWriteValue
-   \   000067   75..02       MOV     ?V0 + 0,#0x2
-   \   00006A   78..         MOV     R0,#?V0 + 0
-   \   00006C   12....       LCALL   ?PUSH_XSTACK_I_ONE
-   \   00006F   7910         MOV     R1,#0x10
-   \   000071   AA..         MOV     R2,?V0 + 2
-   \   000073   AB..         MOV     R3,?V0 + 3
-   \   000075   E4           CLR     A
-   \   000076   FC           MOV     R4,A
-   \   000077   FD           MOV     R5,A
-   \   000078   12....       LCALL   ??HalLcdWriteValue?relay
-   \   00007B   80C0         SJMP    ??nwk_Status_7
     491                break;
     492          
     493              case NWK_ERROR_ENERGY_SCAN_FAILED:
     494                HalLcdWriteScreen( (char*)EnergyLevelStr, (char*)ScanFailedStr );
-   \                     ??nwk_Status_4:
-   \   00007D                ; Setup parameters for call to function HalLcdWriteScreen
-   \   00007D   7C..         MOV     R4,#ScanFailedStr & 0xff
-   \   00007F   7D..         MOV     R5,#(ScanFailedStr >> 8) & 0xff
-   \   000081   7A..         MOV     R2,#EnergyLevelStr & 0xff
-   \   000083   7B..         MOV     R3,#(EnergyLevelStr >> 8) & 0xff
-   \                     ??nwk_Status_8:
-   \   000085   12....       LCALL   ??HalLcdWriteScreen?relay
     495                break;
     496            }
     497          #endif
     498          }
-   \                     ??nwk_Status_5:
-   \   000088   7F04         MOV     R7,#0x4
-   \   00008A   02....       LJMP    ?BANKED_LEAVE_XDATA
+   \   000000   02....       LJMP    ?BRET
 
    \                                 In  segment XDATA_ID, align 1, keep-with-next
    \                     `?<Initializer for gMIN_TREE_LINK_COST>`:
@@ -1239,21 +1061,15 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
 
    Maximum stack usage in bytes:
 
-     Function                    ISTACK PSTACK XSTACK
-     --------                    ------ ------ ------
-     NIB_init                        2      0      0
-       -> osal_rand                  4      0      0
-       -> osal_memset                4      0      0
-       -> sAddrExtCpy                4      0      0
-     nwk_Status                      0      0     13
-       -> HalLcdWriteStringValue     0      0     26
-       -> HalLcdWriteStringValue     0      0     26
-       -> HalLcdWriteScreen          0      0     24
-       -> HalLcdWriteString          0      0     24
-       -> HalLcdWriteValue           0      0     26
-       -> HalLcdWriteScreen          0      0     24
-     nwk_globals_init                2      0      0
-       -> AddrMgrInit                4      0      0
+     Function         ISTACK PSTACK XSTACK
+     --------         ------ ------ ------
+     NIB_init             2      0      0
+       -> osal_rand       4      0      0
+       -> osal_memset     4      0      0
+       -> sAddrExtCpy     4      0      0
+     nwk_Status           0      0      0
+     nwk_globals_init     2      0      0
+       -> AddrMgrInit     4      0      0
 
 
    Segment part sizes:
@@ -1303,27 +1119,11 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
                                                        1
      defaultKey                                       16
      defaultTCLinkKey                                 16
-     PingStr                                          15
-     AssocCnfStr                                      10
-     SuccessStr                                        8
-     EndDeviceStr                                     11
-     ParentStr                                         8
-     ZigbeeCoordStr                                   13
-     NetworkIDStr                                     12
-     RouterStr                                         8
-     OrphanRspStr                                     16
-     SentStr                                           5
-     FailedStr                                         7
-     AssocRspFailStr                                  15
-     AssocIndStr                                      10
-     AssocCnfFailStr                                  15
-     EnergyLevelStr                                   13
-     ScanFailedStr                                    12
      nwk_globals_init                                 11
      ?Subroutine0                                      7
      NIB_init                                        230
      ?Subroutine1                                      9
-     nwk_Status                                      141
+     nwk_Status                                        3
      ?<Initializer for gMIN_TREE_LINK_COST>            1
      ?<Initializer for gAPS_MAX_ENDDEVICE_BROADCAST    1
      ??nwk_globals_init?relay                          6
@@ -1331,16 +1131,14 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      ??nwk_Status?relay                                6
 
  
-   398 bytes in segment BANKED_CODE
+   260 bytes in segment BANKED_CODE
     18 bytes in segment BANK_RELAYS
     57 bytes in segment CODE_C
      2 bytes in segment XDATA_I
      2 bytes in segment XDATA_ID
-   178 bytes in segment XDATA_ROM_C
  1 177 bytes in segment XDATA_Z
  
-   475 bytes of CODE  memory
-   178 bytes of CONST memory
+   337 bytes of CODE  memory
  1 179 bytes of XDATA memory
 
 Errors: none

@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         17/Aug/2017  15:56:59 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         21/Aug/2017  12:10:07 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -42,19 +42,18 @@
 #                          -DGENERIC=__generic -DRFD_RCVC_ALWAYS_ON=FALSE     #
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
 #                          -DRESPONSE_POLL_RATE=100 -DREJOIN_POLL_RATE=440    #
-#                          -DHAL_UART=TRUE) -DHAL_DMA=TRUE                    #
+#                          -DHAL_UART=TRUE -DHAL_DMA=TRUE) -DHAL_LCD=FALSE    #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Components\ #
 #                          stack\zdo\ZDApp.c -D ZIGBEEPRO -D xMT_TASK -D      #
-#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -D                    #
-#                          LCD_SUPPORTED=DEBUG -lC C:\Users\Administrator\Des #
-#                          ktop\Git-Local-Repositories\vehicle_positioning_sy #
-#                          stem\MainApp\Projects\zstack\Samples\SampleApp\CC2 #
-#                          530DB\CoordinatorEB-Pro\List\ -lA                  #
+#                          xMT_SYS_FUNC -D xMT_ZDO_FUNC -lC                   #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\CoordinatorEB-Pro\ #
-#                          List\ --diag_suppress Pe001,Pa010 -o               #
+#                          List\ -lA C:\Users\Administrator\Desktop\Git-Local #
+#                          -Repositories\vehicle_positioning_system\MainApp\P #
+#                          rojects\zstack\Samples\SampleApp\CC2530DB\Coordina #
+#                          torEB-Pro\List\ --diag_suppress Pe001,Pa010 -o     #
 #                          C:\Users\Administrator\Desktop\Git-Local-Repositor #
 #                          ies\vehicle_positioning_system\MainApp\Projects\zs #
 #                          tack\Samples\SampleApp\CC2530DB\CoordinatorEB-Pro\ #
@@ -297,12 +296,7 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     130           */
     131          
     132          #if defined( LCD_SUPPORTED )
-
-   \                                 In  segment XDATA_Z, align 1, keep-with-next
     133            uint8 MatchRsps = 0;
-   \                     MatchRsps:
-   \   000000                DS 1
-   \   000001                REQUIRE __INIT_XDATA_Z
     134          #endif
     135          
 
@@ -6239,7 +6233,6 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
      --------------                              -----
      _A_IEN0                                        1
      WDCTL                                          1
-     MatchRsps                                      1
      zdoDiscCounter                                 1
      ZDAppNwkAddr                                   9
      zdappMgmtNwkDiscRspTransSeq                    1
@@ -6425,12 +6418,12 @@ C:\Users\Administrator\Desktop\Git-Local-Repositories\vehicle_positioning_system
     12 bytes in segment XDATA_I
     12 bytes in segment XDATA_ID
      8 bytes in segment XDATA_ROM_C
-    42 bytes in segment XDATA_Z
+    41 bytes in segment XDATA_Z
  
  4 283 bytes of CODE  memory
      0 bytes of CONST memory (+ 8 bytes shared)
      0 bytes of DATA  memory (+ 2 bytes shared)
-    54 bytes of XDATA memory
+    53 bytes of XDATA memory
 
 Errors: none
 Warnings: none

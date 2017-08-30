@@ -9,25 +9,11 @@
 
 #include "OnBoard.h"
 
+#include "hal_led.h"
+
 #include "SampleApp.h"
-#include "GPS_Data_Process.h"
-
-
-/* HAL */
-
-
-/*********************************************************************
- * MACROS
- */
-
-/*********************************************************************
- * CONSTANTS
- */
-
-
-/*********************************************************************
- * GLOBAL VARIABLES
- */
+#include "Data_Process.h"
+#include "Ethernet_Config.h"
 
 // 任务蔟号, 注册某一任务的某一功能
 const cId_t SampleApp_ClusterList[SAMPLEAPP_MAX_CLUSTERS] =
@@ -59,45 +45,43 @@ devStates_t SampleApp_NwkState;
 
 uint8 SampleApp_TransID;  // 消息标识码
 
-afAddrType_t SampleApp_Periodic_DstAddr;
+afAddrType_t SampleApp_Periodic_DstAddr;    //发送目标地址描述符
 
-uint8 SampleAppPeriodicCounter = 0;
-
-GeoBuf geoBuf;
-GeoInfo geoInfo;
-//uint8 geoInfoData[GEO_INFO_NUM][20];
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
 void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
 void SampleApp_SendPeriodicMessage( uint8 *data, uint16 len );
 
-void initUart(int port, void (*callBack)(uint8, uint8));
-void initGeoBuf(void);
-
-void recGPSData(uint8 port, uint8 event);
-//void fetchGPSInfo(void);
-
-/*********************************************************************
- * NETWORK LAYER CALLBACKS
- */
+void initLed(void);
+void initUart(uint8 port, void (*callBack)(uint8, uint8), uint16 baudRate);
 
 /*********************************************************************
  * 初始化函数
  */
+// LED初始化, 用于表示设备的网络状态
+void initLed(void)
+{
+    HalLedInit();
+    HalLedSet(HAL_LED_1, HAL_LED_MODE_ON);   //未入网前为关闭状态, 入网后长亮
+    HalLedSet(HAL_LED_2, HAL_LED_MODE_ON);   //发送信息时闪烁
+    HalLedSet(HAL_LED_3, HAL_LED_MODE_ON);   //接受信息时闪烁
+    
+}
+ 
 //串口初始化(DMA传送模式和ISR模式)
-void initUart(int port, void (*callBack)(uint8, uint8))
+void initUart(uint8 port, void (*callBack)(uint8, uint8), uint16 baudRate)
 {
     //UART设置
     halUARTCfg_t uartConfig;
     uartConfig.configured           = TRUE;             //设置有效标志
-    uartConfig.baudRate             = HAL_UART_BR_9600;//波特率设置
+    uartConfig.baudRate             = baudRate;         //波特率设置
     uartConfig.flowControl          = FALSE;           //关闭流控制(流控制需要四线传输,加上CTS,RTS)
-    uartConfig.rx.maxBufSize        = 512;            //rx缓冲区的长度
-    uartConfig.tx.maxBufSize        = 512;            //tx缓冲区的长度
+    uartConfig.rx.maxBufSize        = 256;            //rx缓冲区的长度
+    uartConfig.tx.maxBufSize        = 256;            //tx缓冲区的长度
     uartConfig.idleTimeout          = 6;              //RX为空的允许时间
     uartConfig.intEnable            = TRUE;           //中断允许
-    uartConfig.callBackFunc         = callBack;     //当出现回调事件时的回调函数
+    uartConfig.callBackFunc         = callBack;       //当出现回调事件时的回调函数
                                                       //回调事件列表:
                                                       //HAL_UART_RX_FULL        RX满
                                                       //HAL_UART_RX_ABOUT_FULL  RX超过流量控制阀值
@@ -105,118 +89,34 @@ void initUart(int port, void (*callBack)(uint8, uint8))
                                                       //HAL_UART_TX_FULL        TX满
     
     HalUARTOpen (port, &uartConfig);
-    HalUARTWrite(0,"Link Start!\n", sizeof("Link Start!\n")-1);//连接上位机成功提示信息
-}
-
-//GPS缓冲池初始化
-void initGeoBuf(void)
-{
-    geoBuf.head = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
-    osal_memset(geoBuf.head, 0, sizeof(DataFrame));
-    geoBuf.send = geoBuf.rec = geoBuf.head;
-    geoBuf.checkByte = geoBuf.AIM = "$GPGGA";               //目标提取信息前缀为$GPGGA
 }
 
 
-/*********************************************************************
- * 数据处理函数
- */
-//回调函数, 当RX缓冲区满后会调用, 将目标GPS数据粗提取并存入缓冲池中, 留待处理
-void recGPSData(uint8 port, uint8 event)
-{
-    uint8  ch;
-
-    while (Hal_UART_RxBufLen(port))
-    {
-        HalUARTRead (port, &ch, 1);
-        
-        if(geoBuf.mode == 0)
-        {
-            if(ch == *geoBuf.checkByte)
-            {
-                geoBuf.checkByte++;
-            }
-            else
-            {
-                geoBuf.checkByte = geoBuf.AIM;
-            }
-            
-            if(geoBuf.checkByte == geoBuf.AIM + 6)
-            {
-                geoBuf.mode = 1;
-            }
-        }
-        else
-        {
-            if(ch == '$')
-            {
-                if(geoBuf.rec->len >= 64)           //通过两个$符号之间的数据长度确定数据的有效性
-                {
-                    geoBuf.rec->next = (DataFrame*)osal_mem_alloc(sizeof(DataFrame));
-                    geoBuf.rec = geoBuf.rec->next;
-                    osal_memset(geoBuf.rec, 0, sizeof(DataFrame));
-                    geoBuf.num++;
-                }
-                else
-                {
-                    //SampleApp_SendPeriodicMessage("Connect Fail! ---- ", 19);          //无效GPS数据
-                    SampleApp_SendPeriodicMessage(geoBuf.rec->data, geoBuf.rec->len);
-                    geoBuf.rec->len = 0;
-                }
-                
-                geoBuf.mode = 0;
-            }
-            else
-            {
-                geoBuf.rec->data[geoBuf.rec->len++] = ch;        
-            }
-        }  
-    }
-} 
- 
-//从每一个有效数据帧中提取所需地理信息, 并且刷新geoInfoData对象, 同时将数据封装到一个包中用于发送
-// void fetchGPSInfo(void)
-// {
-    // uint16 i = 0, j = 0;
-    
-    // uint8* ptr = (void*)&geoInfo;        //将整个结构体视为一个由字节构成的整体处理
-    
-    // while(i <= sizeof(geoInfo))
-    // {
-        // if(geoBuf.send->data[j] == ',')
-        // {
-            // j++;
-            // continue;
-        // }
-        
-        // ptr[i++] = geoBuf.send->data[j++];
-    // }
-    
-// }
 /*********************************************************************
  * @fn      SampleApp_Init
  *
- * @brief   Initialization function for the Generic App Task.
- *          This is called during initialization and should contain
- *          any application specific initialization (ie. hardware
- *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ * @brief   初始化所有任务相关硬件和设备状态
  *
- * @param   task_id - the ID assigned by OSAL.  This ID should be
- *                    used to send messages and set timers.
+ * @param   task_id 消息发送的目标任务ID
  *
- * @return  none
+ * @return   无
  */
-void SampleApp_Init( uint8 task_id )
+void SampleApp_Init(uint8 task_id)
 { 
     SampleApp_TaskID = task_id;
-    SampleApp_NwkState = DEV_INIT;
+    SampleApp_NwkState = DEV_INIT;  //初始化设备网络状态
     SampleApp_TransID = 0;
-  
-    initUart(0, (void*)0);      //初始化与上位机相连的串口
-    initUart(1, recGPSData);    //初始化与GPS相连的串口
-    initGeoBuf();
-
+    
+    initLed();                  //初始化LED灯
+    initUart(0, NULL, HAL_UART_BR_115200);          //初始化与上位机相连的串口
+    
+    #ifdef ZDO_COORDINATOR
+        initESP();
+    #else
+        initUart(1, recGPSData, HAL_UART_BR_9600);    //初始化与GPS相连的串口
+        initGeoBuf();               //初始化GPS数据缓冲池
+    #endif
+    
     // 设置消息发送目标地址(广播模式)
     SampleApp_Periodic_DstAddr.addrMode = (afAddrMode_t)AddrBroadcast;
     SampleApp_Periodic_DstAddr.endPoint = SAMPLEAPP_ENDPOINT;
@@ -227,7 +127,7 @@ void SampleApp_Init( uint8 task_id )
     SampleApp_epDesc.task_id = &SampleApp_TaskID;
     SampleApp_epDesc.simpleDesc
             = (SimpleDescriptionFormat_t *)&SampleApp_SimpleDesc;
-    SampleApp_epDesc.latencyReq = noLatencyReqs;
+    SampleApp_epDesc.latencyReq = noLatencyReqs;        //必选项
     
     // 向应用层注册端点
     afRegister( &SampleApp_epDesc );
@@ -239,15 +139,12 @@ void SampleApp_Init( uint8 task_id )
 /*********************************************************************
  * @fn      SampleApp_ProcessEvent
  *
- * @brief   Generic Application Task event processor.  This function
- *          is called to process all events for the task.  Events
- *          include timers, messages and any other user defined events.
+ * @brief   处理所有任务相关的事件
  *
- * @param   task_id  - The OSAL assigned task ID.
- * @param   events - events to process.  This is a bit map and can
- *                   contain more than one event.
+ * @param   task_id 消息发送的目标任务ID
+ * @param   events 任务需要处理的事件, 可以同时包含多个任务, 每一位都可以表示任务信息
  *
- * @return  none
+ * @return  无
  */
 uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
 {
@@ -261,10 +158,16 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
         while ( MSGpkt )
         {
             switch ( MSGpkt->hdr.event )
-            {        
-                // Received when a messages is received (OTA) for this endpoint
+            {    
+                // 当收到别的结点发送过来的消息时, 触发这个事件
                 case AF_INCOMING_MSG_CMD:
-                    SampleApp_MessageMSGCB( MSGpkt );
+                    #ifdef ZDO_COORDINATOR
+                        uploadData(MSGpkt);
+                    #else
+                        SampleApp_MessageMSGCB(MSGpkt);
+                    #endif
+                    HalLedBlink(HAL_LED_3, 2, 50, 500); // LED3亮 2次, 暗的时间占闪烁周期的50%, 周期为500毫秒
+                    
                     break;
             
                 // 网络状态改变触发此事件, 也就意味着只有当建网成功后才会开始间隔发送消息
@@ -274,14 +177,22 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
                         (SampleApp_NwkState == DEV_ROUTER)
                         || (SampleApp_NwkState == DEV_END_DEVICE) )
                     {
-                    // 从现在开始计时, 到规定时间即向指定任务发送时间标志, 只执行一次
-                    osal_start_timerEx( SampleApp_TaskID,
-                                        SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
-                                        SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
+                        // 当网络建立成功时
+                        HalUARTWrite(0, "Link Start!\n", osal_strlen("Link Start!\n"));
+                        HalLedSet(HAL_LED_1, HAL_LED_MODE_OFF);  //LED长亮状态
+                        
+                        // 从现在开始计时, 到规定时间即向指定任务发送时间标志, 只执行一次
+                        osal_start_timerEx( SampleApp_TaskID,
+                                            SAMPLEAPP_SEND_PERIODIC_MSG_EVT,
+                                            SAMPLEAPP_SEND_PERIODIC_MSG_TIMEOUT );
                     }
                     else
                     {
-                    // Device is no longer in the network
+                        // 当设备脱离网络时
+                        #ifndef ZDO_COORDINATOR
+                            HalUARTWrite(0, "Lose Connection!\n", osal_strlen("Lose Connection!\n"));
+                            HalLedSet(HAL_LED_1, HAL_LED_MODE_ON);
+                        #endif
                     }
                     break;
             
@@ -304,23 +215,29 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
     if ( events & SAMPLEAPP_SEND_PERIODIC_MSG_EVT )
     {
  
-        //限制只有至少存在两个有效数据帧时再处理, 防止数据提取速率超过接收速率, 破坏链表结构
-        if(geoBuf.num >= 2)  
+        //当有可发送的数据时即发送
+        if(geoBuf.send != NULL)
         {
-
-            //fetchGPSInfo();
+            uint8 data[100];
+            uint8 len = 0;
             
-            HalUARTWrite(0, "LocalHost : ", sizeof("LocalHost : ")-1); //发送自机数据
-            HalUARTWrite(0, geoBuf.send->data, geoBuf.send->len); //发送自机数据
+            //填充IEEE64位地址
+            osal_memcpy(data, aExtendedAddress, Z_EXTADDR_LEN);
+            len += Z_EXTADDR_LEN;
             
-            SampleApp_SendPeriodicMessage(geoBuf.send->data, geoBuf.send->len);
-
-            geoBuf.num--;
+            //填充GPS数据
+            osal_memcpy(data + len, geoBuf.send->data, geoBuf.send->len);
+            len += geoBuf.send->len;
+            osal_mem_free(geoBuf.send);
+            geoBuf.send = NULL; 
             
-            geoBuf.send = geoBuf.send->next;
+            HalLedBlink(HAL_LED_2, 2, 50, 500); // LED2亮 2次, 暗的时间占闪烁周期的50%, 周期为500毫秒
             
-            osal_mem_free(geoBuf.head);
-            geoBuf.head = geoBuf.send;   
+            //发送自机数据
+            HalUARTWrite(0, "LocalHost : ", osal_strlen("LocalHost : "));
+            HalUARTWrite(0, data, len);       
+            
+            SampleApp_SendPeriodicMessage(data, len);
         }
         
         // 设置事件触发的时间间隔
@@ -336,25 +253,17 @@ uint16 SampleApp_ProcessEvent( uint8 task_id, uint16 events )
 }
 
 /*********************************************************************
- * Event Generation Functions
- */
-
-
-/*********************************************************************
- * LOCAL FUNCTIONS
- */
-
-/*********************************************************************
  * @fn      SampleApp_MessageMSGCB
  *
  * @brief   处理别的结点发来的数据
  *          
- * @param   none
+ * @param   无
  *
- * @return  none
+ * @return  无
  */
 void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
 {
+    
   uint8 num[20];
   switch ( pkt->clusterId )
   {
@@ -369,24 +278,15 @@ void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
         _ltoa((uint16)(pkt->srcAddr.addr.shortAddr), num, 16);   //数字转字符串
         HalUARTWrite(0, "->0x", 4);  
         HalUARTWrite(0, num, osal_strlen(num));                 //提示信息(消息来源端点号)
-        HalUARTWrite(0, " : ", 3);                              //提示信息
+        HalUARTWrite(0, "(", 1);                              //提示信息
         
-        // if(pkt->cmd.DataLength == sizeof(geoInfo))
-        // {
-            // uint16 i = 0;
-            // for(; i < 5; i++)
-            // {
-                // HalUARTWrite(0, "\n   ", 4);  
-                // HalUARTWrite(0, GeoInfoName[i], osal_strlen(GeoInfoName[i]));
-                // HalUARTWrite(0, pkt->cmd.Data + geoInfoLen[i], geoInfoLen[i+1] - geoInfoLen[i]);    //输出接收到的数据
-            // }
-            
-            // HalUARTWrite(0, "\n", 1);                               //回车换行
-        // }
-        // else
-        {
-            HalUARTWrite(0, pkt->cmd.Data, pkt->cmd.DataLength);    //输出接收到的数据
-        }
+        //输出设备的IEEE64位地址, 用以唯一确定每条信息所属车辆
+        uint8 IEEE64Addr[23];
+        IEEE64AddrToStr(pkt->cmd.Data, IEEE64Addr);
+        HalUARTWrite(0, IEEE64Addr, sizeof IEEE64Addr);
+        HalUARTWrite(0, ")", 1); 
+
+        HalUARTWrite(0, pkt->cmd.Data+8, pkt->cmd.DataLength-8);    //输出接收到的数据
         
         break;
 
@@ -398,9 +298,9 @@ void SampleApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
  *
  * @brief   定时广播自身结点数据
  *
- * @param   none
+ * @param   无
  *
- * @return  none
+ * @return  无
  */
 void SampleApp_SendPeriodicMessage(uint8 *data, uint16 len)
 {
@@ -415,9 +315,7 @@ void SampleApp_SendPeriodicMessage(uint8 *data, uint16 len)
   }
   else
   {
-    // Error occurred in request to send.
+        //消息发送失败
+        HalUARTWrite(0, "Send message fail!\n", osal_strlen("Send message fail!\n"));
   }
 }
-
-/*********************************************************************
-*********************************************************************/
